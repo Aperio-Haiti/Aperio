@@ -15,4 +15,7 @@
     <string name="hint_signup">Signup</string>
     <string name="hint_email">Email</string>
     <string name="hint_confirm_password">Confirm Password</string>
+    <string name="app_id">aperio-app_Id</string>
+    <string name="server_url">https://aperio-app.herokuapp.com/parse</string>
+    <string name="client_key"></string>
 </resources>
