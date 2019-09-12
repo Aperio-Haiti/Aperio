@@ -136,7 +136,8 @@ https://www.figma.com/file/dBvg7Cl4O4yo14Hh0Z2X0L/AperioProject
 
 ### Models
 
-Model:User
+Model: User
+
 | Property  | Type     | Description                           |
 | --------  | -------- | --------------------------            |
 | ObjectId  | String   | Unique id for User account            |
