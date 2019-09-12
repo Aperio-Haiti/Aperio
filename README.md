@@ -143,7 +143,7 @@ Model: User
 | ObjectId  | String   | Unique id for User account            |
 | createdAt | DateTime | date created user (default field)     |
 |updatedAt 	| DateTime | date last updated user (default field)|
-| Name | String   | name of the user                |
+| UserName | String   | name of the user                |
 | Email     | String   | Email account of the user             |
 | Password  | String   | Password of the user                  |
 | Phone     | number   | The phone number of the user          |
