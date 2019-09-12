@@ -12,9 +12,6 @@ import butterknife.BindView;
 
 public class Login extends AppCompatActivity {
 
-    @BindView(R.id.etEmailLogin) EditText email;
-    @BindView(R.id.etPasswordLogin)EditText password;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
