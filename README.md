@@ -25,24 +25,24 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 
 **Required Must-have Stories**
 
-* Nearby vendors can be found on a map
-* User can browse a vendor's products
-* User can message vendor to negociate
-* Vendor can add product(with product details)
-* Vendor can create an account
-* Vendor can login to account
-* Vendor can add account informations(Location, name, profession...) within account creation
+- [ ] Nearby vendors can be found on a map
+- [ ] User can browse a vendor's products
+- [ ] User can message vendor to negociate
+- [ ] Vendor can add product(with product details)
+- [ ] Vendor can create an account
+- [ ] Vendor can login to account
+- [ ] Vendor can add account informations(Location, name, profession...) within account creation
 
 **Optional Nice-to-have Stories**
 
-* User can search by category or region
-* User can search for a specific vendor
-* User can add product to cart
-* User can see cart contents
-* User can pay for product via external payment providers.
-* User can signup/login to app
-* User stay connect after leaving the app(session)
-* User can save favorited items
+- [ ] User can search by category or region
+- [ ] User can search for a specific vendor
+- [ ] User can add product to cart
+- [ ] User can see cart contents
+- [ ] User can pay for product via external payment providers.
+- [ ] User can signup/login to app
+- [ ] User stay connect after leaving the app(session)
+- [ ] User can save favorited items
 
 
 ### 2. Screen Archetypes
