@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class Login extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         //Session
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -42,11 +44,15 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
+
+                Log.d("APP_MESS","You clicked ! "+mEmail+" "+mPassword);
+
                 ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if(e!=null){
                             Toast.makeText(Login.this,"Erreur : "+e.getMessage(),Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
                             return;
                         }
                         //todo: Check the category of user
@@ -66,13 +72,14 @@ public class Login extends AppCompatActivity {
     }
 
     private void GoToSpecificPage(ParseUser user) {
-        Boolean userType = (Boolean) user.get("Category");
-        if(userType == true){
+        if(user.getBoolean("Category")){
             //Vendor
-            Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
+            Log.d("APP_MESS","I'm a vendor");
+            //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
         }else{
             //User
-            Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
+            Log.d("APP_MESS","I'm a user");
+            //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
         }
     }
 
