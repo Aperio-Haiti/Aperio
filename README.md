@@ -146,12 +146,12 @@ Model: User
 | UserName | String   | name of the user                |
 | Email     | String   | Email account of the user             |
 | Password  | String   | Password of the user                  |
-| Phone     | number   | The phone number of the user          |
+| Phone     | Number   | The phone number of the user          |
 | Category  | Boolean   | To determine the type of user                      |
 | ProfileImg   | File     | The Profile picture of the user       |
 | Address    | String   | Address of the user                  |
-|Longitude | Double | the current longitude of the current user |
-| Latitude | Double | The current latitude of the current user |
+|Longitude | Number | the current longitude of the current user |
+| Latitude | Number | The current latitude of the current user |
 
 Model: Product
 
