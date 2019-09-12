@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Apério</string>
+    <string name="forgot_pass">forgot password?</string>
+    <string name="new_to_aper">new to Apério?</string>
+    <string name="signup">sign_in</string>
+    <string name="signup_as_s">Signin as Seller</string>
+    <string name="let_s_disco">Let’s discover what talent is.</string>
+    <string name="login">Login</string>
+    <string name="already">Already have an account?</string>
+    <string name="aperio_titre">Apério</string>
+    <string name="login_text">Login</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_signup">Signup</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+</resources>

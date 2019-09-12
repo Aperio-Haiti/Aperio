@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#E44162</item>
+        <item name="colorPrimaryDark">#CE415E</item>
+        <item name="colorAccent">#403F4C</item>
+    </style>
+
+    <style name="e44162">Style</style>
+
+    <style name="forgotpass">passwordStyle</style>
+
+    <style name="new_to_aper">Apperance</style>
+
+    <style name="signup">sign_style</style>
+
+    <style name="signup_as_s">sign_appere</style>
+
+    <style name="let_s_disco">text_app</style>
+
+</resources>
