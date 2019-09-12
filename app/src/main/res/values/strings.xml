@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Apério</string>
     <string name="forgot_pass">forgot password?</string>
-    <string name="new_to_aper">new to Apério?</string>
-    <string name="signup">sign_in</string>
+    <string name="new_to_aper">New to Apério?</string>
+    <string name="signup">sign up</string>
     <string name="signup_as_s">Signin as Seller</string>
     <string name="let_s_disco">Let’s discover what talent is.</string>
     <string name="login">Login</string>

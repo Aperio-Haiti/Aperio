@@ -11,7 +11,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Signup_as_vendor"></activity>
         <activity android:name=".SignUser" />
-        <activity android:name=".Login" />
+        <activity android:name=".Login" android:theme="@style/LoginTheme" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

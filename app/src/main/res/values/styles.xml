@@ -8,16 +8,16 @@
         <item name="colorAccent">#403F4C</item>
     </style>
 
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="e44162">Style</style>
-
     <style name="forgotpass">passwordStyle</style>
-
-    <style name="new_to_aper">Apperance</style>
-
+    <style name="new_to_aper">Appearance</style>
     <style name="signup">sign_style</style>
-
-    <style name="signup_as_s">sign_appere</style>
-
+    <style name="signup_as_s">sign_appearence</style>
     <style name="let_s_disco">text_app</style>
 
 </resources>
