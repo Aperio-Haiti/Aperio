@@ -81,7 +81,7 @@
                         android:inputType="textPassword" />
 
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_gravity="center"
@@ -120,7 +120,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/signup"
+                            android:id="@+id/tvSignup"
                             android:layout_width="wrap_content"
                             android:layout_height="21dp"
                             android:layout_marginStart="8dp"
@@ -133,7 +133,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/sign_as_seller"
+                        android:id="@+id/tvSignupAsSeller"
                         android:layout_width="105dp"
                         android:layout_height="23dp"
                         android:layout_gravity="center"
