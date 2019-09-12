@@ -161,7 +161,7 @@ Model: Product
 | createdAt | DateTime | date created user (default field)     |
 | updatedAt | DateTime | date last updated user (default field)|
 | Product   | File     | Picture of the product                |
-| Descripton| String   | Description of the Product            |
+| Description| String   | Description of the Product            |
 | Category  | Pointer   | pointer to category product                      |
 | Vendor | Pointer | To determine who's selling
 
