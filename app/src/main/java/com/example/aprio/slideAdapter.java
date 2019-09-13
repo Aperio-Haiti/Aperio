@@ -42,7 +42,7 @@ public String [] number_page={
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         layoutInflater=(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view=layoutInflater.inflate(R.layout.slidelayout,container,false);
+        View view=layoutInflater.inflate(R.layout.signLayout1,container,false);
         TextView tv_inf=view.findViewById(R.id.tv_information);
         TextView tv_number=view.findViewById(R.id.tv_number);
 
