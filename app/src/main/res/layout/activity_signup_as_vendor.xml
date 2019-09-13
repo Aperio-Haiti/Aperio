@@ -7,7 +7,7 @@
     tools:context=".Signup_as_vendor"
     android:background="#403F4C">
 
-    <androidx.viewpager.widget.ViewPager
+    <FrameLayout
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

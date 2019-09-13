@@ -19,11 +19,12 @@
 
             <TextView
                 android:id="@+id/tv_information"
-                android:layout_width="246.57dp"
+                android:layout_width="236dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:fontFamily="roboto"
-                android:text="Personal informations"
+                android:text="Address Informations"
+                android:textColor="#fff"
                 android:textSize="25sp" />
 
             <TextView
@@ -33,7 +34,8 @@
                 android:layout_alignParentRight="true"
                 android:fontFamily="roboto"
                 android:gravity="end"
-                android:text="1 of 3"
+                android:textColor="#fff"
+                android:text="2 of 3"
                 android:textSize="25sp" />
 
         </RelativeLayout>
@@ -41,7 +43,7 @@
 
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/form"
         android:layout_width="378dp"
         android:layout_height="382dp"
@@ -62,46 +64,47 @@ android:layout_below="@+id/info"
             >
 
             <EditText
-                android:id="@+id/edt_name"
+                android:id="@+id/etAddressSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Name" />
+                android:hint="Street Address" />
 
             <EditText
-                android:id="@+id/edt_email"
+                android:id="@+id/etCitySignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Email" />
+                android:hint="City" />
 
             <EditText
-                android:id="@+id/edt_password"
+                android:id="@+id/etStateSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Password" />
+                android:hint="Province/State" />
 
             <EditText
-                android:id="@+id/edt_cfm_password"
+                android:id="@+id/etCodeSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Confirm Password" />
+                android:hint="Zip code" />
 
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/btnNextTwo"
                 android:layout_width="339dp"
                 android:layout_height="56dp"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="center"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="8dp"
+                android:onClick="Fragment2"
                 android:textAppearance="@style/e44162"
                 android:background="@drawable/boutonnext"
                 android:text="Next"
@@ -110,5 +113,5 @@ android:layout_below="@+id/info"
                 />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 </RelativeLayout>

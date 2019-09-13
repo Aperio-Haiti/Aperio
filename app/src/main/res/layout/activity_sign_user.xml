@@ -32,7 +32,7 @@
             android:layout_margin="8dp">
 
             <EditText
-                android:id="@+id/edt_name"
+                android:id="@+id/etNameSignup"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -41,7 +41,7 @@
                 android:importantForAutofill="no" />
 
             <EditText
-                android:id="@+id/edt_email"
+                android:id="@+id/etEmailSignup"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -50,7 +50,7 @@
                 android:importantForAutofill="no" />
 
             <EditText
-                android:id="@+id/edt_password"
+                android:id="@+id/etPasswordSignup"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -59,10 +59,11 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/edt_cfm_password"
+                android:id="@+id/etConfirmPasswordSignup"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
+
                 android:hint="@string/hint_confirm_password"
                 android:inputType="textPassword"
                 android:importantForAutofill="no" />
@@ -99,7 +100,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/signup"
+                    android:id="@+id/tvLoginSignup"
                     android:layout_width="wrap_content"
                     android:layout_height="21dp"
                     android:layout_marginStart="8dp"
