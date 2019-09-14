@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -31,8 +32,10 @@ public class SignUser extends AppCompatActivity {
     EditText edtCfmPassword;
     @BindView(R.id.btnLogin)
     Button btnLogin;
-    @BindView(R.id.tvSignup)
-    TextView tvSignup;
+    @BindView(R.id.tvLogin)
+    TextView tvLogin;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     static final  String TAG = "SignUser";
 
@@ -41,9 +44,12 @@ public class SignUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_user);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @OnClick({R.id.btnLogin, R.id.tvSignup})
+    @OnClick({R.id.btnLogin, R.id.tvLogin})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btnLogin:
@@ -57,7 +63,8 @@ public class SignUser extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(),"No Match Password", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.tvSignup:
+            case R.id.tvLogin:
+                finish();
                 break;
         }
     }
@@ -83,5 +90,11 @@ public class SignUser extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
