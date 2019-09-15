@@ -29,7 +29,7 @@ public class Signup_as_vendor extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.slideViewPager, fragment)
-                    .commit();
+                    .addToBackStack(null).commit();
             return true;
         }else {
             return false;
@@ -44,7 +44,7 @@ public class Signup_as_vendor extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.slideViewPager, fm)
-                    .commit();
+                    .addToBackStack(null).commit();
         }
 
         else if(view==findViewById(R.id.btnNextTwo)){
@@ -52,11 +52,15 @@ public class Signup_as_vendor extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.slideViewPager, fm)
-                    .commit();
+                    .addToBackStack(null).commit();
         }
 
         else if(view==findViewById(R.id.btnSignup)){
             startActivity(new Intent(this,HomeSeller.class));
         }
     }
+
+
+
+
 }
