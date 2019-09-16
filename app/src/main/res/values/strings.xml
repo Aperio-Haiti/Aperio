@@ -18,4 +18,5 @@
     <string name="app_id">aperio-app_Id</string>
     <string name="server_url">https://aperio-app.herokuapp.com/parse</string>
     <string name="client_key"></string>
+    <string name="title_activity_maps_user">Map</string>
 </resources>
