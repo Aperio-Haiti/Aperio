@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String mEmail = email.getText().toString();
+                /*String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
 
                 Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
@@ -66,7 +66,10 @@ public class Login extends AppCompatActivity {
                         GoToSpecificPage(user);
                         //todo: intent map distinct activity
                     }
-                });
+                });*/
+                //todo: field check
+                Intent intent = new Intent(Login.this,MapsUserActivity.class);
+                startActivity(intent);
             }
         });
 
