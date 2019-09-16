@@ -43,33 +43,38 @@ public class Login extends AppCompatActivity {
         if (currentUser != null) {
             //todo: Check the category of user
             GoToSpecificPage(currentUser);
-            //todo: intent map activity
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*String mEmail = email.getText().toString();
+                String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
 
                 Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
-
-                ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                            return;
+                if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
+                    ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            if (e != null) {
+                                Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                                return;
+                            }
+                            //todo: Check the category of user
+                            GoToSpecificPage(user);
+                            //todo: intent map distinct activity
                         }
-                        //todo: Check the category of user
-                        GoToSpecificPage(user);
-                        //todo: intent map distinct activity
-                    }
-                });*/
-                //todo: field check
-                Intent intent = new Intent(Login.this,MapsUserActivity.class);
-                startActivity(intent);
+                    });
+                }else {
+                    if(mEmail.contentEquals("") && !mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter email",Toast.LENGTH_LONG).show();
+                    if (!mEmail.contentEquals("") && mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter password",Toast.LENGTH_LONG).show();
+                    if (mEmail.contentEquals("") && mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter credentials",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -97,6 +102,9 @@ public class Login extends AppCompatActivity {
             //User
             Log.d("APP_MESS", "I'm a user");
             //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Login.this,MapsUserActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

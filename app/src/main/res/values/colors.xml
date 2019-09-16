@@ -5,4 +5,5 @@
     <color name="colorAccent">#403F4C</color>
     <color name="colorToolbarIcons">#FFF</color>
     <color name="colorAccent25">#41403F4C</color>
+    <color name="colorPrimary50">#80E44162</color>
 </resources>
