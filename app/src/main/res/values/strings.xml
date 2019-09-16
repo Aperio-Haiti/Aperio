@@ -12,7 +12,7 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Name</string>
-    <string name="hint_signup">Signup</string>
+    <string name="hint_signup">Sign Up</string>
     <string name="hint_email">Email</string>
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="title_activity_home">Map</string>

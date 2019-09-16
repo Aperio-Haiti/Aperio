@@ -1,35 +1,42 @@
 package com.example.aprio;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 public class Signup_as_vendor extends AppCompatActivity {
 
-
-
+    FragmentLayout1 f1;
+    FragmentLayout2 f2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_as_vendor);
+        Toolbar toolbar = findViewById(R.id.toolbarSignupVendor);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Sign Up");
 
+        f1 = new FragmentLayout1();
+        f2 = new FragmentLayout2();
 
-        LoadFragment(new FragmentLayout1());
-
+        LoadFragment(f1);
     }
 
     private Boolean LoadFragment(Fragment fragment) {
         if(fragment != null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.slideViewPager, fragment)
-                    .addToBackStack(null).commit();
+                    .add(R.id.slideViewPager, fragment,"Frag1")
+                    .addToBackStack("frag1").commit();
             return true;
         }else {
             return false;
@@ -43,24 +50,34 @@ public class Signup_as_vendor extends AppCompatActivity {
             fm=new FragmentLayout2();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.slideViewPager, fm)
-                    .addToBackStack(null).commit();
-        }
-
-        else if(view==findViewById(R.id.btnNextTwo)){
-            fm=new FragmentLayout3();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.slideViewPager, fm)
-                    .addToBackStack(null).commit();
-        }
-
-        else if(view==findViewById(R.id.btnSignup)){
-            startActivity(new Intent(this,HomeSeller.class));
+                    .add(R.id.slideViewPager, fm,"Frag2")
+                    .addToBackStack("frag2").hide(f1).commit();
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.d("CountF",String.valueOf(count));
+        if (count <= 1) {
+            finish();
+            return true;
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+            return true;
+        }
+    }
 
-
-
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        Log.d("CountF",String.valueOf(count));
+        if (count <= 1) {
+            finish();
+            //additional code
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
 }
