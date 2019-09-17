@@ -17,11 +17,15 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -58,13 +62,17 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     private GoogleMap mMap;
     List<ParseUser> list;
     FloatingActionButton fab;
-    
+    LatLng myCoordinates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_user);
+        Toolbar toolbar = findViewById(R.id.mapusertoolbar);
+        setActionBar(toolbar);
 
         fab = findViewById(R.id.fabLocateUser);
+        myCoordinates = new LatLng(18.534275,-72.324748);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -162,6 +170,14 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         Log.d("MAP_FETCH",msg);
         // You can now create a LatLng Object for use with maps
         //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        myCoordinates = new LatLng(location.getLatitude(),location.getLongitude());
+        //Option camera to focus in target
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(myCoordinates)      // Sets the center of the map to location user
+                .zoom(15)                   // Sets the zoom
+                .bearing(90)                // Sets the orientation of the camera to east// Sets the tilt of the camera to 30 degrees
+                .build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     /**
@@ -200,6 +216,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         //to remove the compass under the toolbar
         UiSettings settings = mMap.getUiSettings();
         settings.setCompassEnabled(false);
+        settings.setMapToolbarEnabled(false);
+        settings.setMyLocationButtonEnabled(false);
 
         /*Test coordinates on Parse
         * 18.534275,-72.323027
@@ -208,7 +226,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         * */
 
         //sydney marker
-        LatLng sydney = new LatLng(18.533817,-72.324272);
+        //LatLng sydney = new LatLng(18.533817,-72.324272);
 
         /*create marker
         MarkerOptions options = new MarkerOptions();
@@ -217,13 +235,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 .title("Marker in Sydney");
         mMap.addMarker(options);*/
 
-        //Option camera to focus in target
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(sydney)      // Sets the center of the map to location user
-                .zoom(17)                   // Sets the zoom
-                .bearing(90)                // Sets the orientation of the camera to east// Sets the tilt of the camera to 30 degrees
-                .build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
     @Override
@@ -245,5 +256,23 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_FINE_LOCATION);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.user_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.app_bar_search:
+                return true;
+            case R.id.app_bar_list:
+                return true;
+                default:
+                    return false;
+        }
     }
 }
