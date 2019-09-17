@@ -27,6 +27,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -39,7 +40,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MapsUserActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsUserActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     List<ParseUser> list;
@@ -118,7 +119,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
 
         MarkerOptions options = new MarkerOptions();
-        options.position(coordinates)
+        options.position(coordinates).snippet(user.getObjectId())
                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,user.getParseFile("ProfileImg"),user.getUsername())));
         mMap.addMarker(options);
 
@@ -130,6 +131,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         list = new ArrayList<>();
         getAllVendors();
+
+        mMap.setOnMarkerClickListener(this);
 
         //to remove the compass under the toolbar
         UiSettings settings = mMap.getUiSettings();
@@ -158,5 +161,11 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 .bearing(90)                // Sets the orientation of the camera to east// Sets the tilt of the camera to 30 degrees
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d("MAP_FETCH","Snippet "+marker.getSnippet());
+        return false;
     }
 }
