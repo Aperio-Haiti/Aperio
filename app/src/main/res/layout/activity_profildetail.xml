@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profildetail">
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+<RelativeLayout
+    android:id="@+id/profil"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:srcCompat="@android:color/black"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/imgProfileDetail"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/rond"
+            app:srcCompat="@android:color/background_light"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="160dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tvnameProfil"
+            android:layout_below="@id/imgProfileDetail"
+            android:text="@string/atelier_macaya"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_below="@id/tvnameProfil"
+            android:text="@string/_102_rue_louverture_port_au_prince"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+</RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvprofil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/profil"/>
+        </RelativeLayout>
+
+
+</ScrollView>
+</RelativeLayout>
