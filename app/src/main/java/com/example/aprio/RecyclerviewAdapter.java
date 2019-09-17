@@ -12,16 +12,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 
 public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.ViewHOlder> {
 
     private Context context;
+    private List<String> data;
 
 
 
 
-    public RecyclerviewAdapter(Context context) {
+    RecyclerviewAdapter(Context context, List<String> data) {
         this.context = context;
+        this.data=data;
     }
 
     @NonNull
@@ -33,19 +37,20 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHOlder holder, int position) {
+String title=data.get(position);
 
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return data.size();
     }
 
     //Define the viewholder
-    public class ViewHOlder extends RecyclerView.ViewHolder{
+    class ViewHOlder extends RecyclerView.ViewHolder{
 
-        public ImageView imgpost;
-        public TextView name,category;
+        ImageView imgpost;
+        TextView name,category;
 
 
         ViewHOlder(@NonNull View itemView) {

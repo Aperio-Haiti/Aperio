@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class FragmentProductsSeller  extends Fragment {
     private RecyclerviewAdapter rvAdapter;
     private RecyclerView recyclerView;
+    private ArrayList<String> item;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,9 +26,15 @@ public class FragmentProductsSeller  extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        item=new ArrayList<>();
+        item.add("1");
+        item.add("2");
+        item.add("4");
+        item.add("5");
+        item.add("7");
         recyclerView =view.findViewById(R.id.rvproduct);
 
-       //rvAdapter=new RecyclerviewAdapter(getActivity(),);
+       rvAdapter=new RecyclerviewAdapter(getActivity(),item);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
 
         recyclerView.setAdapter(rvAdapter);
