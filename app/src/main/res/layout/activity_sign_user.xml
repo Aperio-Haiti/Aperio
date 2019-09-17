@@ -5,52 +5,66 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/back">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme" />
+
     <View
         android:id="@+id/rectangle_5"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/rectangle"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="false"
+        android:background="@drawable/rectangle" />
+
     <RelativeLayout
         android:id="@+id/form"
         android:layout_width="378dp"
         android:layout_height="382dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="16dp"
         android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
         android:background="#FFFFFF"
-        android:elevation="4dp"
         tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="8dp">
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical">
 
             <EditText
-                android:id="@+id/etNameSignup"
+                android:id="@+id/edt_name"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="@string/hint_name"
-                android:inputType="textPersonName"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/etEmailSignup"
+                android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/etPasswordSignup"
+                android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -59,19 +73,18 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/etConfirmPasswordSignup"
+                android:id="@+id/edt_cfm_password"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
-
                 android:hint="@string/hint_confirm_password"
-                android:inputType="textPassword"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                android:inputType="textPassword" />
 
 
             <Button
-                android:id="@+id/sign"
-                android:layout_width="339dp"
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
@@ -84,35 +97,33 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                tools:ignore="UselessParent" >
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
                 <TextView
                     android:id="@+id/new_to_aper"
                     android:layout_width="wrap_content"
                     android:layout_height="21dp"
                     android:layout_marginTop="1dp"
+                    android:gravity="center"
                     android:text="@string/already"
                     android:textAppearance="@style/new_to_aper"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tvLoginSignup"
+                    android:id="@+id/tvLogin"
                     android:layout_width="wrap_content"
                     android:layout_height="21dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="1dp"
+                    android:gravity="center"
                     android:text="@string/login"
                     android:textAppearance="@style/signup"
-                    android:gravity="center"
-                    android:textSize="14sp"
                     android:textColor="#CE415E"
-                    />
+                    android:textSize="14sp" />
             </LinearLayout>
-
 
 
         </LinearLayout>
