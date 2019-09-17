@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -56,11 +57,14 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     private static final int REQUEST_FINE_LOCATION = 1234;
     private GoogleMap mMap;
     List<ParseUser> list;
+    FloatingActionButton fab;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_user);
+
+        fab = findViewById(R.id.fabLocateUser);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -154,7 +158,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Log.d("MAP_FETCH",msg);
         // You can now create a LatLng Object for use with maps
         //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
     }
@@ -176,6 +181,16 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
             googleMap.setMyLocationEnabled(true);
             getLastKnownLocation();
         }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkPermissions()) {
+                    googleMap.setMyLocationEnabled(true);
+                    getLastKnownLocation();
+                }
+            }
+        });
 
         list = new ArrayList<>();
         getAllVendors();
