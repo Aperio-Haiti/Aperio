@@ -20,4 +20,10 @@
 
 By accepting to share your your location with Aperio you agree our terms and conditions
 </string>
+    <string name="title_activity_myproductfragment">myproductfragment</string>
+    <string name="_2_of_2">2 of 2</string>
+    <string name="product_title">Product Title</string>
+    <string name="add_product">Add Product</string>
+    <string name="le_marche_a_port_au_prince">Le marche a Port-au-Prince</string>
+    <string name="painting">Painting</string>
 </resources>

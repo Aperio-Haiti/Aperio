@@ -18,19 +18,24 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_seller);
         LoadFragment(new FragmentMapSeller());
+
+        BottomNavigationView tabs = findViewById(R.id.tabs);
+        tabs.setOnNavigationItemSelectedListener(this);
+        tabs.setSelectedItemId(R.id.btnMapFragment);
     }
 
     private Boolean LoadFragment(Fragment fragment) {
         if(fragment != null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.FrameLayout, fragment)
+                    .add(R.id.FrameLayout, fragment)
                     .commit();
             return true;
         }else {
             return false;
         }
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -42,14 +47,14 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
                 break;
 
             case R.id.btnMyProductsFragment:
-                //for search
                 fragment = new FragmentProductsSeller();
                 break;
 
         }
         return LoadFragment(fragment);
-
     }
 
-
+    public void add(View view) {
+        startActivity(new Intent(this,addproduct.class));
+    }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="16dp"
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info"
-        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
         android:layout_centerVertical="false"
 
         android:background="@android:color/transparent">
@@ -23,7 +24,7 @@
             android:layout_margin="8dp"
             android:orientation="vertical"
 
-            >
+            tools:ignore="UselessParent">
 
             <EditText
                 android:id="@+id/etAddressSignupSeller"
@@ -31,7 +32,9 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="Street Address"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:ignore="HardcodedText,UnusedAttribute"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etCitySignupSeller"
@@ -39,7 +42,9 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="City"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+
+                tools:ignore="HardcodedText" />
 
             <EditText
                 android:id="@+id/etStateSignupSeller"
@@ -47,7 +52,8 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="Province/State"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                tools:ignore="HardcodedText,UnusedAttribute" />
 
             <EditText
                 android:id="@+id/etCodeSignupSeller"
@@ -55,23 +61,23 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="Zip code"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:importantForAutofill="no"
+                tools:ignore="HardcodedText,UnusedAttribute" />
 
 
             <Button
                 android:id="@+id/btnNextTwo"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_alignParentLeft="false"
-                android:layout_alignParentTop="false"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
-                android:onClick="Fragment2"
+                android:onClick="Log"
                 android:text="@string/hint_signup"
                 android:textAppearance="@style/e44162"
                 android:textColor="@android:color/white"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -80,33 +86,35 @@
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
         android:layout_marginTop="100dp"
         android:background="@android:color/transparent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:ignore="UselessParent">
 
             <TextView
                 android:id="@+id/tv_information"
                 android:layout_width="236dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/roboto"
                 android:text="Address Informations"
                 android:textColor="#fff"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/tv_number"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:fontFamily="@font/roboto"
                 android:gravity="end"
-                android:text="2 of 2"
+                android:text="@string/_2_of_2"
                 android:textColor="@android:color/white"
                 android:textSize="25sp" />
 

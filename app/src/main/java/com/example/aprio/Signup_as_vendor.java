@@ -80,4 +80,8 @@ public class Signup_as_vendor extends AppCompatActivity {
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    public void Log(View view) {
+        startActivity(new Intent(this,HomeSeller.class));
+    }
 }
