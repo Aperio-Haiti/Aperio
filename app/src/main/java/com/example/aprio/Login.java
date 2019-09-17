@@ -4,84 +4,38 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class Login extends AppCompatActivity {
-
-    @BindView(R.id.etEmailLogin) EditText email;
-    @BindView(R.id.etPasswordLogin)EditText password;
-    @BindView(R.id.btnLogin) Button btnLogin;
-    @BindView(R.id.tvSignupAsSeller)TextView tvSaS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        //Session
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            //todo: Check the category of user
-            GoToSpecificPage(currentUser);
-            //todo: intent map activity
-        }
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String mEmail = email.getText().toString();
-                String mPassword = password.getText().toString();
-
-                Log.d("APP_MESS","You clicked ! "+mEmail+" "+mPassword);
-
-                ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if(e!=null){
-                            Toast.makeText(Login.this,"Erreur : "+e.getMessage(),Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                            return;
-                        }
-                        //todo: Check the category of user
-                        GoToSpecificPage(user);
-                        //todo: intent map distinct activity
-                    }
-                });
-            }
-        });
-
-        tvSaS.setOnClickListener(new View.OnClickListener() {
+        TextView SaS=findViewById(R.id.tvSignSellerLogin);
+        TextView SaU=findViewById(R.id.tvSignupLogin);
+        Button log=findViewById(R.id.btnLoging);
+        SaS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Login.this,Signup_as_vendor.class));
             }
         });
+
+        SaU.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this,SignUser.class));
+            }
+        });
+
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Login.this,HomeUser.class));
+            }
+        });
     }
-
-    private void GoToSpecificPage(ParseUser user) {
-        if(user.getBoolean("Category")){
-            //Vendor
-            Log.d("APP_MESS","I'm a vendor");
-            //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
-        }else{
-            //User
-            Log.d("APP_MESS","I'm a user");
-            //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
-        }
-    }
-
-
 }
