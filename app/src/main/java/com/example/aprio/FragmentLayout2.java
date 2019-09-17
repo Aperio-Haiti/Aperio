@@ -1,6 +1,7 @@
 package com.example.aprio;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,10 @@ public class FragmentLayout2  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return  inflater.inflate(R.layout.signlayout2, container, false);
+    }
+
+    public void updateEditText(CharSequence username,CharSequence password,CharSequence email){
+        Log.d("username",username.toString());
     }
 
     @Override
