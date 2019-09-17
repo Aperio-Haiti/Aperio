@@ -52,6 +52,7 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
                     .beginTransaction()
                     .add(R.id.slideViewPager, fm,"Frag2")
                     .addToBackStack("frag2").hide(f1).commit();
+
         }
     }
 
@@ -87,6 +88,12 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
 
     @Override
     public void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email) {
+        f2=new FragmentLayout2();
         f2.updateEditText(username,password,email);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.slideViewPager, f2,"Frag2")
+                .addToBackStack("frag2").hide(f1).commit();
     }
 }
