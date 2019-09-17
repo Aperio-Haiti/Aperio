@@ -14,6 +14,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+     //  /*
         TextView SaS=findViewById(R.id.tvSignSellerLogin);
         TextView SaU=findViewById(R.id.tvSignupLogin);
         Button log=findViewById(R.id.btnLoging);
@@ -36,6 +39,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(Login.this,HomeUser.class));
             }
-        });
+        }); // */
     }
 }

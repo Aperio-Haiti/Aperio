@@ -38,7 +38,7 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 6;
     }
 
     //Define the viewholder
@@ -50,11 +50,9 @@ public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapte
 
         ViewHOlder(@NonNull View itemView) {
             super(itemView);
-
-
-
+            imgpost=itemView.findViewById(R.id.imgMyproduct);
+            name=itemView.findViewById(R.id.tvMyproductname);
+            category=itemView.findViewById(R.id.tvMyproductcategory);
         }
-
-
     }
 }

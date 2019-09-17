@@ -49,11 +49,11 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/etConfirmSignupSeller"
+                android:id="@+id/etPhoneSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
-                android:hint="Confirm Password"
+                android:hint="Phone"
                 android:inputType="textPersonName" />
 
 

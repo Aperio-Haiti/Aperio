@@ -27,7 +27,7 @@ public class FragmentProductsSeller  extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView =view.findViewById(R.id.rvproduct);
 
-        //rvAdapter=new RecyclerviewAdapter(getActivity(),list);
+       //rvAdapter=new RecyclerviewAdapter(getActivity(),);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
 
         recyclerView.setAdapter(rvAdapter);
