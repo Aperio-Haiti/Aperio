@@ -12,6 +12,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 public class FragmentLayout1 extends Fragment {
+
+    private FragmentLayout1Listener listener;
+
+    public interface FragmentLayout1Listener{
+        void onInputFragmentLayout1Sent(CharSequence username,CharSequence password,CharSequence email);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
