@@ -44,7 +44,8 @@
                 android:hint="City"
                 android:inputType="textPersonName"
 
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etStateSignupSeller"
@@ -53,7 +54,8 @@
                 android:ems="10"
                 android:hint="Province/State"
                 android:inputType="textPersonName"
-                tools:ignore="HardcodedText,UnusedAttribute" />
+                tools:ignore="HardcodedText,UnusedAttribute"
+                android:importantForAutofill="no" />
 
             <EditText
                 android:id="@+id/etCodeSignupSeller"
