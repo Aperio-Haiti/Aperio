@@ -226,16 +226,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         * 18.534899,-72.325964
         * */
 
-        //sydney marker
-        //LatLng sydney = new LatLng(18.533817,-72.324272);
-
-        /*create marker
-        MarkerOptions options = new MarkerOptions();
-        options.position(sydney)
-                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,R.drawable.avatar,"Sydney")))
-                .title("Marker in Sydney");
-        mMap.addMarker(options);*/
-
     }
 
     @Override
