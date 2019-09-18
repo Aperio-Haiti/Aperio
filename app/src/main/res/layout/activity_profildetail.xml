@@ -24,11 +24,10 @@
             app:srcCompat="@android:color/black"
             tools:ignore="ContentDescription" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfileDetail"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/rond"
             app:srcCompat="@android:color/background_light"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="160dp"
