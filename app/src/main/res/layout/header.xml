@@ -3,18 +3,23 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgprofil"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_margin="8dp"
-        />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_perm_identity_black_24dp" />
     <LinearLayout
+        android:id="@+id/infoprofil"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="8dp"
-       android:layout_toRightOf="@id/imgprofil"
+       android:layout_toEndOf="@id/imgprofil"
         >
         <TextView
             android:id="@+id/tvnameProfil"
@@ -26,10 +31,17 @@
 
         <TextView
             android:id="@+id/tvnameemail"
-            android:text="ateliermacaya@gmail.com"
-            android:textSize="15sp"
+            android:text="@string/ateliermacaya_gmail_com"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/imgprofil"
+        android:background="?android:attr/listDivider" />
 </RelativeLayout>
