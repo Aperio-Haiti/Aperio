@@ -2,14 +2,17 @@ package com.example.aprio;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.location.Geocoder;
@@ -64,6 +67,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     List<ParseUser> list;
     FloatingActionButton fab;
     LatLng myCoordinates;
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,15 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         setContentView(R.layout.activity_maps_user);
         Toolbar toolbar = findViewById(R.id.mapusertoolbar);
         setActionBar(toolbar);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(MapsUserActivity.this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
+
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         fab = findViewById(R.id.fabLocateUser);
         myCoordinates = new LatLng(18.534275,-72.324748);
@@ -79,6 +93,20 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
@@ -110,6 +138,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Category",true);
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
@@ -257,6 +286,9 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         switch (item.getItemId()){
             case R.id.app_bar_search:
                 return true;
@@ -266,4 +298,5 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                     return false;
         }
     }
+
 }
