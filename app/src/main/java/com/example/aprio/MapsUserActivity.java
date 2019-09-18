@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
