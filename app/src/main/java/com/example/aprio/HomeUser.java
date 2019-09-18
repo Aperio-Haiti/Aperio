@@ -13,7 +13,7 @@ public class HomeUser extends AppCompatActivity implements BottomNavigationView.
 @Override
 protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homeuser);
+        setContentView(R.layout.activity_home);
         }
 
 @Override
