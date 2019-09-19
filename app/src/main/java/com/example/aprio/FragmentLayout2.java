@@ -72,7 +72,7 @@ public class FragmentLayout2 extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Intent i = new Intent(getContext(), MainActivity.class);
+                    Intent i = new Intent(getContext(), HomeSeller.class);
                     startActivity(i);
                 } else {
                     ParseUser.logOut();
