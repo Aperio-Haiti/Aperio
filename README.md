@@ -30,8 +30,8 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 - [ ] User can message vendor to negociate
 - [ ] Vendor can add product(with product details)
 - [ ] Vendor can create an account
-- [ ] Vendor can login to account
-- [ ] Vendor can add account informations(Location, name, profession...) within account creation
+- [x] Vendor can login to account
+- [x] Vendor can add account informations(Location, name, profession...) within account creation
 
 **Optional Nice-to-have Stories**
 
@@ -40,8 +40,8 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 - [ ] User can add product to cart
 - [ ] User can see cart contents
 - [ ] User can pay for product via external payment providers.
-- [ ] User can signup/login to app
-- [ ] User stay connect after leaving the app(session)
+- [x] User can signup/login to app
+- [x] User stay connect after leaving the app(session)
 - [ ] User can save favorited items
 
 

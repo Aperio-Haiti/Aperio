@@ -16,6 +16,11 @@
     <string name="hint_email">Email</string>
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="title_activity_home">Map</string>
+
+
+    <string name="app_id">aperio-app_Id</string>
+    <string name="server_url">https://aperio-app.herokuapp.com/parse</string>
+    <string name="client_key"></string>
     <string name="by_acceptin">
 
 By accepting to share your  location with Aperio you agree our terms and conditions
@@ -32,4 +37,8 @@ By accepting to share your  location with Aperio you agree our terms and conditi
     <string name="Open">Open</string>
     <string name="Close">Close</string>
     <string name="ateliermacaya_gmail_com">ateliermacaya@gmail.com</string>
+    <string name="next">Next</string>
+    <string name="personal_informations">Personal Informations</string>
+    <string name="_1_of_2">1 of 2</string>
+    <string name="hint_phone">Phone</string>
 </resources>
