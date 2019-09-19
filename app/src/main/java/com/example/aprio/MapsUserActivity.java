@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
@@ -20,6 +21,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +49,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -69,6 +73,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     LatLng myCoordinates;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    ParseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,17 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         setContentView(R.layout.activity_maps_user);
         Toolbar toolbar = findViewById(R.id.mapusertoolbar);
         setActionBar(toolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowTitleEnabled(false);
+
+        user = ParseUser.getCurrentUser();
+
+
+        Log.d("MAP_FETCH",String.valueOf(user.has("ProfileImg")));
+
+        CircleImageView imageView = findViewById(R.id.ivUserAvatar);
+        Glide.with(this).load(user.getParseFile("ProfileImg"))
+                .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
+                .into(imageView);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         actionBarDrawerToggle = new ActionBarDrawerToggle(MapsUserActivity.this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
@@ -85,6 +100,34 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         actionBarDrawerToggle.syncState();
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        //img on click to open drawer
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        //navigationview
+        NavigationView navigationView = findViewById(R.id.user_navigation_view);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+
+        CircleImageView ivHeaderPhoto = (CircleImageView) headerLayout.findViewById(R.id.ivUser);
+        ivHeaderPhoto.setBorderColor(getResources().getColor(R.color.colorPrimary));
+        ivHeaderPhoto.setBorderWidth(5);
+
+        Glide.with(this).load(user.getParseFile("ProfileImg"))
+                .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
+                .into(ivHeaderPhoto);
+
+        TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
+        tvHeaderName.setText(user.getUsername());
+
+        TextView tvHeaderEmail = headerLayout.findViewById(R.id.tvUserEmail);
+        tvHeaderEmail.setText(user.getEmail());
+
+
 
         fab = findViewById(R.id.fabLocateUser);
         myCoordinates = new LatLng(18.534275,-72.324748);
@@ -299,4 +342,12 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        super.onBackPressed();
+    }
 }
