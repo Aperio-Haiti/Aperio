@@ -36,6 +36,7 @@ public class FragmentLayout2 extends Fragment {
     private String username;
     private String password;
     private String email;
+    private String phone;
 
 
     @Nullable
@@ -46,21 +47,23 @@ public class FragmentLayout2 extends Fragment {
         return view;
     }
 
-    public void updateEditText(CharSequence username, CharSequence password, CharSequence email) {
+    public void updateEditText(CharSequence username, CharSequence password, CharSequence email, CharSequence phone) {
         Log.d("username", username.toString());
         this.username = username.toString();
         this.password = password.toString();
         this.email = email.toString();
+        this.phone = phone.toString();
     }
 
-    public void Sign_vendor(String username, String password, String email, String address) {
+    public void Sign_vendor(String username, String password, String email, String phone) {
         ParseUser user = new ParseUser();
-
+        String address = etAddressSignupSeller.getText().toString().trim();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
         user.put("Address", address);
         user.put("Category", true);
+        user.put("Phone",phone);
 
 
         user.signUpInBackground(new SignUpCallback() {
@@ -93,7 +96,7 @@ public class FragmentLayout2 extends Fragment {
 
     @OnClick(R.id.btnNextTwo)
     public void onViewClicked() {
-        String address = etAddressSignupSeller.getText().toString().trim();
-        Sign_vendor(username,password,email,address);
+//        String address = etAddressSignupSeller.getText().toString().trim();
+        Sign_vendor(username,password,email,phone);
     }
 }

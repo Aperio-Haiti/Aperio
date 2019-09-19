@@ -25,7 +25,7 @@ public class FragmentLayout1 extends Fragment {
     @BindView(R.id.etPasswordSignupSeller)
     EditText etPasswordSignupSeller;
     @BindView(R.id.etPhoneSignupSeller)
-    EditText etConfirmSignupSeller;
+    EditText etPhoneSignupSeller;
     @BindView(R.id.btnNextOne)
     Button btnNextOne;
     private FragmentLayout1Listener listener;
@@ -35,13 +35,14 @@ public class FragmentLayout1 extends Fragment {
         String username = etNameSignupSeller.getText().toString().trim();
         String password = etPasswordSignupSeller.getText().toString().trim();
         String email = etEmailSignupSeller.getText().toString().trim();
+        String phone = etPhoneSignupSeller.getText().toString().trim();
 
-        listener.onInputFragmentLayout1Sent(username,password,email);
+        listener.onInputFragmentLayout1Sent(username,password,email,phone);
 
     }
 
     public interface FragmentLayout1Listener {
-        void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email);
+        void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email, CharSequence phone);
     }
 
     @Nullable
