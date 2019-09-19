@@ -12,10 +12,12 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.parse.FindCallback;
+import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -59,6 +62,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -73,7 +77,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     LatLng myCoordinates;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    ParseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +86,9 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         setActionBar(toolbar);
         getActionBar().setDisplayShowTitleEnabled(false);
 
-        user = ParseUser.getCurrentUser();
-
-
-        Log.d("MAP_FETCH",String.valueOf(user.has("ProfileImg")));
 
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
-        Glide.with(this).load(user.getParseFile("ProfileImg"))
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(imageView);
 
@@ -111,21 +110,40 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         //navigationview
         NavigationView navigationView = findViewById(R.id.user_navigation_view);
-        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+        View headerLayout = navigationView.getHeaderView(0);
 
         CircleImageView ivHeaderPhoto = (CircleImageView) headerLayout.findViewById(R.id.ivUser);
-        ivHeaderPhoto.setBorderColor(getResources().getColor(R.color.colorPrimary));
-        ivHeaderPhoto.setBorderWidth(5);
+        ivHeaderPhoto.setBorderColor(Color.WHITE);
+        ivHeaderPhoto.setBorderWidth(10);
 
-        Glide.with(this).load(user.getParseFile("ProfileImg"))
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(ivHeaderPhoto);
 
         TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
-        tvHeaderName.setText(user.getUsername());
+        tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
 
         TextView tvHeaderEmail = headerLayout.findViewById(R.id.tvUserEmail);
-        tvHeaderEmail.setText(user.getEmail());
+        tvHeaderEmail.setText(ParseUser.getCurrentUser().getEmail());
+
+        TextView tvLogout = headerLayout.findViewById(R.id.tvLogout);
+        tvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e!=null){
+                            e.printStackTrace();
+                            return;
+                        }
+                        Intent intent = new Intent(MapsUserActivity.this,Login.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        });
 
 
 
