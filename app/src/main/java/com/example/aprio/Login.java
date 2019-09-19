@@ -89,6 +89,8 @@ public class Login extends AppCompatActivity {
         if (user.getBoolean("Category")) {
             //Vendor
             Log.d("APP_MESS", "I'm a vendor");
+            Intent i = new Intent(getApplicationContext(), HomeSeller.class);
+            startActivity(i);
             //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
         } else {
             //User
