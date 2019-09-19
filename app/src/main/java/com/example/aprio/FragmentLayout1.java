@@ -24,7 +24,7 @@ public class FragmentLayout1 extends Fragment {
     EditText etEmailSignupSeller;
     @BindView(R.id.etPasswordSignupSeller)
     EditText etPasswordSignupSeller;
-    @BindView(R.id.etConfirmSignupSeller)
+    @BindView(R.id.etPhoneSignupSeller)
     EditText etConfirmSignupSeller;
     @BindView(R.id.btnNextOne)
     Button btnNextOne;

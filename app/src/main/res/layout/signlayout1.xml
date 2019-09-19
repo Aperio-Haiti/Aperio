@@ -52,13 +52,13 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/etConfirmSignupSeller"
+                android:id="@+id/etPhoneSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
-                android:hint="@string/hint_confirm_password"
-                android:inputType="textPersonName"
-                android:importantForAutofill="no" />
+                android:hint="@string/hint_phone"
+                android:importantForAutofill="no"
+                android:inputType="textPersonName" />
 
 
             <Button
