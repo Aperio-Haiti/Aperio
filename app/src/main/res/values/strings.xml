@@ -1,4 +1,6 @@
 <resources>
+    <string name="google_maps_key">AIzaSyCqAXJEIHoRqkcTXmim0y8VXFnRR8qPPpQ</string>
+
     <string name="app_name">Apério</string>
     <string name="forgot_pass">forgot password?</string>
     <string name="new_to_aper">new to Apério?</string>
