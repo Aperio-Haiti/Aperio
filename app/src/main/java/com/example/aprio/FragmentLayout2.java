@@ -33,6 +33,8 @@ public class FragmentLayout2 extends Fragment {
     @BindView(R.id.btnNextTwo)
     Button btnNextTwo;
 
+    private static final String TAG = "FragmentLayout2";
+
     private String username;
     private String password;
     private String email;
@@ -43,7 +45,7 @@ public class FragmentLayout2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.signlayout2, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -63,7 +65,7 @@ public class FragmentLayout2 extends Fragment {
         user.setEmail(email);
         user.put("Address", address);
         user.put("Category", true);
-        user.put("Phone",phone);
+        user.put("Phone",Integer.valueOf(phone));
 
 
         user.signUpInBackground(new SignUpCallback() {
@@ -74,7 +76,7 @@ public class FragmentLayout2 extends Fragment {
                     startActivity(i);
                 } else {
                     ParseUser.logOut();
-//                    Log.e(TAG,e.getMessage());
+                    Log.e(TAG,e.getMessage());
                 }
             }
         });
@@ -97,6 +99,6 @@ public class FragmentLayout2 extends Fragment {
     @OnClick(R.id.btnNextTwo)
     public void onViewClicked() {
 //        String address = etAddressSignupSeller.getText().toString().trim();
-        Sign_vendor(username,password,email,phone);
+        Sign_vendor(username, password, email, phone);
     }
 }

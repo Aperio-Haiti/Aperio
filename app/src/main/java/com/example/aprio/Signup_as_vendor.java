@@ -87,9 +87,9 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
     }
 
     @Override
-    public void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email) {
+    public void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email, CharSequence phone) {
         f2=new FragmentLayout2();
-        f2.updateEditText(username,password,email);
+        f2.updateEditText(username,password,email,phone);
 
         getSupportFragmentManager()
                 .beginTransaction()
