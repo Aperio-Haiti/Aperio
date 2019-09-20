@@ -1,6 +1,7 @@
 package com.example.aprio;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ public class FragmentMapSeller  extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
+    private static final String TAG = "FragmentMapSeller";
+//    private FusedLocationProviderClient
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,6 +40,10 @@ public class FragmentMapSeller  extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+    }
+
+    private void getLocationDevice(){
+        Log.d(TAG,"getDeviceLocation: getting the devices current location");
     }
 
     @Override
