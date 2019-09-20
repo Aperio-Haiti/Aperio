@@ -1,5 +1,6 @@
 <resources>
-    <string name="google_maps_key">AIzaSyCqAXJEIHoRqkcTXmim0y8VXFnRR8qPPpQ</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCqAXJEIHoRqkcTXmim0y8VXFnRR8qPPpQ</string>
 
     <string name="app_name">Apério</string>
     <string name="forgot_pass">forgot password?</string>
@@ -43,4 +44,5 @@ By accepting to share your  location with Aperio you agree our terms and conditi
     <string name="personal_informations">Personal Informations</string>
     <string name="_1_of_2">1 of 2</string>
     <string name="hint_phone">Phone</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

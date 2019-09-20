@@ -50,5 +50,7 @@ dependencies {
     //Android Async Http Client
     implementation 'com.loopj.android:android-async-http:1.4.9'
 
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
 
 }
