@@ -93,7 +93,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         map = googleMap;
 
         if(mLocationPermissionGranted){
-            getDeviceLocation();
+//            getDeviceLocation();
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
@@ -178,10 +178,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         }
     }
 
-//    private void moveCameraToMyLocationDevice(LatLng latLng, float zoom){
-//        Log.d(TAG, "moveCameraToMyLocationDevice: moving the camera to: Lat: "+latLng.latitude+" Long: "+latLng.longitude);
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
-//    }
 
     private void moveCameraToMyLocationDevice(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera : move the camera to : lat: " + latLng.latitude + ",lng: " + latLng.longitude);
