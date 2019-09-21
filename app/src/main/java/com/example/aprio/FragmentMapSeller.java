@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.ParseUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     @BindView(R.id.ic_gps)
     ImageView icGps;
     private GoogleMap mMap;
+
+    List<ParseUser> list;
 
     private static final String TAG = "FragmentMapSeller";
     private FusedLocationProviderClient fusedLocationProviderClient;
