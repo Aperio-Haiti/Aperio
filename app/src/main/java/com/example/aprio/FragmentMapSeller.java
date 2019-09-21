@@ -3,6 +3,8 @@ package com.example.aprio;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +36,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -188,5 +196,30 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     }
 
     private void geoLocate() {
+        Log.d(TAG, "geoLocate: geoLocating");
+
+        String searchString = inputSearch.getText().toString();
+
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            Log.d(TAG, "geoLocate: IOException " + e.getMessage());
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location " + address.toString());
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        Window window = getActivity().getWindow();
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
