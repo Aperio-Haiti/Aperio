@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
@@ -65,16 +67,23 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final static float DEFAULT_ZOOM = 8;
+
+    Unbinder unbinder;
     
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mapfragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         getLocationPermission();
-//        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -88,6 +97,8 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
+
+            init();
         }
     }
 
@@ -152,7 +163,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                             Log.d(TAG, "onComplete: found location");
                             Location currentLocation = (Location) task.getResult();
 
-                            moveCameraToMyLocationDevice(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()), DEFAULT_ZOOM);
+                            moveCameraToMyLocationDevice(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()), DEFAULT_ZOOM,"my Location");
                         }
                         else {
                             Log.d(TAG, "onComplete: current location is null");
@@ -172,7 +183,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 //        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
 //    }
 
-    private void moveCamera(LatLng latLng, float zoom, String title) {
+    private void moveCameraToMyLocationDevice(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera : move the camera to : lat: " + latLng.latitude + ",lng: " + latLng.longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
@@ -201,10 +212,10 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: click gps icon");
-//                getLocationDevice();
+                getDeviceLocation();
             }
         });
-//        hideSoftKeyboard();
+        hideSoftKeyboard();
     }
 
     private void geoLocate() {
@@ -226,7 +237,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
             Log.d(TAG, "geoLocate: found a location " + address.toString());
 
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+            moveCameraToMyLocationDevice(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
         }
     }
 
