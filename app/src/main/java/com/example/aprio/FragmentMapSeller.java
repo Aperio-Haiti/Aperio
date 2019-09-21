@@ -189,26 +189,37 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
         Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
-        File profileImg = null;
+        if(user.getParseFile("ProfileImg")!=null) {
+            File profileImg = null;
 
-        try {
-            profileImg = user.getParseFile("ProfileImg").getFile();
-        } catch (ParseException e) {
-            e.printStackTrace();
+            try {
+                profileImg = user.getParseFile("ProfileImg").getFile();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
+
+            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
+
+            if (!user.getUsername().equals("my Location")) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
+
+
+                mMap.addMarker(markerOptions);
+            }
         }
-
-        Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
-
-        profileImgBitmap = scaleBitmap(profileImgBitmap,100,100);
-
-        if (!user.getUsername().equals("my Location")) {
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(coordinates)
-                    .title(user.getUsername())
-                    .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
-
-
-            mMap.addMarker(markerOptions);
+        else {
+            if (!user.getUsername().equals("my Location")) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
+                mMap.addMarker(markerOptions);
+            }
         }
 
         hideSoftKeyboard();
@@ -252,7 +263,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                 Log.d(TAG,String.valueOf(list.size()));
 
                 for (int i=0; i <list.size(); i++){
-                    Log.d("MAP_FETCH",list.get(i).getUsername());
+                    Log.d(TAG,list.get(i).getUsername());
 //                    moveCamera(new LatLng(list.get(i).));
                     moveCameraVendor(list.get(i));
                 }
