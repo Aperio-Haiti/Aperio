@@ -43,7 +43,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.File;
@@ -108,6 +110,8 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             map.getUiSettings().setZoomControlsEnabled(true);
 
             init();
+
+            getAllVendors();
         }
     }
 
@@ -296,6 +300,35 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         canvas.drawBitmap(bitmap, m, new Paint());
 
         return output;
+    }
+
+//    init();
+//        // Add a marker in Sydney, Australia, and move the camera.
+//        getAllVendors();
+//    }
+//
+    public void getAllVendors(){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Category",true);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if(e!=null){
+                    Log.d(TAG,e.toString());
+                    e.printStackTrace();
+                    return;
+                }
+                list.clear();
+                list.addAll(objects);
+                Log.d(TAG,String.valueOf(list.size()));
+
+                for (int i=0; i <list.size(); i++){
+                    Log.d(TAG,list.get(i).getUsername());
+//                    moveCamera(new LatLng(list.get(i).));
+                    moveCameraVendor(list.get(i));
+                }
+            }
+        });
     }
 
 }
