@@ -60,6 +60,8 @@ import butterknife.Unbinder;
 
 public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
+    List<ParseUser> list;
+
     private static final String TAG = "FragmentMapSeller";
     @BindView(R.id.ic_magnify)
     ImageView icMagnify;
@@ -89,6 +91,11 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         unbinder = ButterKnife.bind(this, view);
         getLocationPermission();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        list = new ArrayList<>();
     }
 
     @Override
