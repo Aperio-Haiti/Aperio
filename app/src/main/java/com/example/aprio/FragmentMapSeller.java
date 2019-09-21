@@ -3,6 +3,11 @@ package com.example.aprio;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,11 +38,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +102,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         map = googleMap;
 
         if(mLocationPermissionGranted){
-//            getDeviceLocation();
+            getDeviceLocation();
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(false);
             map.getUiSettings().setZoomControlsEnabled(true);
@@ -178,7 +187,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     private void moveCameraToMyLocationDevice(LatLng latLng, float zoom, String title) {
         Log.d(TAG, "moveCamera : move the camera to : lat: " + latLng.latitude + ",lng: " + latLng.longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -241,4 +249,53 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         Window window = getActivity().getWindow();
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
+    private void moveCameraVendor(ParseUser user) {
+        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
+        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
+        if(user.getParseFile("ProfileImg")!=null) {
+            File profileImg = null;
+
+            try {
+                profileImg = user.getParseFile("ProfileImg").getFile();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
+
+            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
+
+            if (!user.getUsername().equals("my Location")) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
+                map.addMarker(markerOptions);
+            }
+        }
+        else {
+            if (!user.getUsername().equals("my Location")) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
+                map.addMarker(markerOptions);
+            }
+        }
+
+        hideSoftKeyboard();
+    }
+
+    public static Bitmap scaleBitmap(Bitmap bitmap, int wantedWidth, int wantedHeight) {
+        Bitmap output = Bitmap.createBitmap(wantedWidth, wantedHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        Matrix m = new Matrix();
+        m.setScale((float) wantedWidth / bitmap.getWidth(), (float) wantedHeight / bitmap.getHeight());
+        canvas.drawBitmap(bitmap, m, new Paint());
+
+        return output;
+    }
+
 }
