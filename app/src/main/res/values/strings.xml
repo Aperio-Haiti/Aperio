@@ -46,4 +46,6 @@ By accepting to share your  location with Aperio you agree our terms and conditi
     <string name="_1_of_2">1 of 2</string>
     <string name="hint_phone">Phone</string>
     <string name="title_activity_maps">Map</string>
+    <string name="todo">TODO</string>
+    <string name="enter_address_city_or_zip_code">Enter Address, City or Zip Code</string>
 </resources>
