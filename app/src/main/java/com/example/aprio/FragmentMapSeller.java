@@ -177,6 +177,20 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         hideSoftKeyboard();
     }
 
+    private void moveCameraVendor(ParseUser user) {
+        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
+        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
+
+        if (!user.getUsername().equals("my Location")) {
+            MarkerOptions markerOptions = new MarkerOptions().position(coordinates).title(user.getUsername()).icon();
+
+            mMap.addMarker(markerOptions);
+        }
+
+        hideSoftKeyboard();
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
