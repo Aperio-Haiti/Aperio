@@ -6,12 +6,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -158,5 +161,32 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     private void moveCameraToMyLocationDevice(LatLng latLng, float zoom){
         Log.d(TAG, "moveCameraToMyLocationDevice: moving the camera to: Lat: "+latLng.latitude+" Long: "+latLng.longitude);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoom));
+    }
+
+    private void init() {
+        Log.d(TAG, "init: initializing");
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+        icGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: click gps icon");
+//                getLocationDevice();
+            }
+        });
+//        hideSoftKeyboard();
+    }
+
+    private void geoLocate() {
     }
 }
