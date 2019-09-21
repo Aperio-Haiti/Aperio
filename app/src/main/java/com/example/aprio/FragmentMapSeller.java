@@ -183,7 +183,9 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
 
         if (!user.getUsername().equals("my Location")) {
-            MarkerOptions markerOptions = new MarkerOptions().position(coordinates).title(user.getUsername()).icon();
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(coordinates)
+                    .title(user.getUsername()).icon()
 
             mMap.addMarker(markerOptions);
         }
