@@ -29,7 +29,7 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 - [ ] User can browse a vendor's products
 - [ ] User can message vendor to negociate
 - [ ] Vendor can add product(with product details)
-- [ ] Vendor can create an account
+- [x] Vendor can create an account
 - [x] Vendor can login to account
 - [x] Vendor can add account informations(Location, name, profession...) within account creation
 
