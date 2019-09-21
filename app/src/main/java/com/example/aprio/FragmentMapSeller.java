@@ -66,7 +66,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
     private static final String TAG = "FragmentMapSeller";
     private FusedLocationProviderClient fusedLocationProviderClient;
-    public static final float DEFAULT_ZOOM = 15f;
+    public static final float DEFAULT_ZOOM = 8;
 
     Unbinder unbinder;
 
@@ -258,15 +258,5 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-    }
-
-    public void putAllMarkersOnMap(ParseUser user){
-        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
-        moveCamera(coordinates,DEFAULT_ZOOM,user.getUsername());
-//        MarkerOptions options = new MarkerOptions();
-//        options.position(coordinates).snippet(user.getObjectId())
-//                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,user.getParseFile("ProfileImg"),user.getUsername())));
-//        mMap.addMarker(options);
-
     }
 }
