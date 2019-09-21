@@ -132,7 +132,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        list = new ArrayList<>();
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
@@ -182,23 +182,11 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         getLocationDevice();
         mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         init();
-//        mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//        mMap.getUiSettings().isZoomControlsEnabled();
-
         // Add a marker in Sydney, Australia, and move the camera.
-        LatLng Depot_Christ_Roi = new LatLng(18.546174, -72.322111);
-        mMap.addMarker(new MarkerOptions().position(Depot_Christ_Roi).title("Christ-Roi Dépôt"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Depot_Christ_Roi));
-
-        LatLng Union_Baptiste = new LatLng(18.548707, -72.320770);
-        mMap.addMarker(new MarkerOptions().position(Union_Baptiste).title("Union Baptiste"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Union_Baptiste));
-
-        LatLng CentreSportifdeCarrefour = new LatLng(18.536234, -72.406154);
-        mMap.addMarker(new MarkerOptions().position(CentreSportifdeCarrefour).title("Centre Sportif de Carrefour"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(CentreSportifdeCarrefour));
+        getAllVendors();
     }
 
     public void getAllVendors(){
@@ -208,20 +196,30 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
                 if(e!=null){
-                    Log.d("MAP_FETCH",e.toString());
+                    Log.d(TAG,e.toString());
                     e.printStackTrace();
                     return;
                 }
                 list.clear();
                 list.addAll(objects);
-                Log.d("MAP_FETCH",String.valueOf(list.size()));
-                Log.d("MAP_FETCH","I'm "+list.get(0).getUsername());
+                Log.d(TAG,String.valueOf(list.size()));
+
                 for (int i=0; i <list.size(); i++){
                     Log.d("MAP_FETCH",list.get(i).getUsername());
 //                    moveCamera(new LatLng(list.get(i).));
-//                    putAllMarkersOnMap(list.get(i));
+                    putAllMarkersOnMap(list.get(i));
                 }
             }
         });
+    }
+
+    public void putAllMarkersOnMap(ParseUser user){
+        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
+        moveCamera(coordinates,DEFAULT_ZOOM,user.getUsername());
+//        MarkerOptions options = new MarkerOptions();
+//        options.position(coordinates).snippet(user.getObjectId())
+//                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,user.getParseFile("ProfileImg"),user.getUsername())));
+//        mMap.addMarker(options);
+
     }
 }
