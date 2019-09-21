@@ -1,7 +1,10 @@
 package com.example.aprio;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -18,11 +21,20 @@ protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-    drawerLayout=(DrawerLayout)findViewById(R.id.drawer);
+    drawerLayout= findViewById(R.id.drawer);
     actionBarDrawerToggle=new ActionBarDrawerToggle(HomeUser.this,drawerLayout,R.string.Open,R.string.Close);
     drawerLayout.addDrawerListener(actionBarDrawerToggle);
     actionBarDrawerToggle.syncState();
    // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    ImageView imgprofil=findViewById(R.id.imgprofildrawer);
+   /* imgprofil.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            startActivity(new Intent(HomeUser.this,profildetail.class));
+        }
+    }); */
         }
 
     @Override

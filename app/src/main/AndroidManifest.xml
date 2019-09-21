@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".Negociation"></activity>
         <activity android:name=".profildetail" />
         <activity android:name=".addproduct" />
         <activity android:name=".HomeSeller" />
