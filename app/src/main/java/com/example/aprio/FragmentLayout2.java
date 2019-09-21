@@ -1,6 +1,8 @@
 package com.example.aprio;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +47,9 @@ public class FragmentLayout2 extends Fragment {
     private String email;
     private String phone;
 
+    private Double Lng;
+    private Double Lat;
+
 
     @Nullable
     @Override
@@ -57,15 +67,44 @@ public class FragmentLayout2 extends Fragment {
         this.phone = phone.toString();
     }
 
+    private void geoLocate() {
+        Log.d(TAG, "geoLocate: geoLocating");
+
+        String searchString = etAddressSignupSeller.getText().toString()+","
+                +etCitySignupSeller.getText().toString()+","
+                +etStateSignupSeller.getText().toString();
+
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            Log.d(TAG, "geoLocate: IOException " + e.getMessage());
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location " + address.toString());
+
+            Lat = address.getLatitude();
+            Lng = address.getLongitude();
+        }
+    }
+
     public void Sign_vendor(String username, String password, String email, String phone) {
         ParseUser user = new ParseUser();
         String address = etAddressSignupSeller.getText().toString().trim();
+        geoLocate();
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
         user.put("Address", address);
         user.put("Category", true);
         user.put("Phone",Integer.valueOf(phone));
+        user.put("Latitude", Lat);
+        user.put("Longitude",Lng);
 
 
         user.signUpInBackground(new SignUpCallback() {
