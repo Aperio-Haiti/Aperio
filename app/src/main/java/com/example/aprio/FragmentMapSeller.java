@@ -119,7 +119,8 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
             init();
 
-            getAllVendors();
+//            getAllVendors();
+            getAllNearbyVendors();
         }
     }
 
@@ -280,6 +281,46 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
 
             if (!user.getUsername().equals("my Location")) {
+
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
+                map.addMarker(markerOptions);
+            }
+        }
+        else {
+            if (!user.getUsername().equals("my Location")) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(coordinates)
+                        .title(user.getUsername())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
+                map.addMarker(markerOptions);
+            }
+        }
+
+        hideSoftKeyboard();
+    }
+
+    private void moveCameraNearbyVendor(ParseUser user) {
+        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
+        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
+        if(user.getParseFile("ProfileImg")!=null) {
+            File profileImg = null;
+
+            try {
+                profileImg = user.getParseFile("ProfileImg").getFile();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
+
+            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
+
+            if (!user.getUsername().equals("my Location")) {
+
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(coordinates)
                         .title(user.getUsername())
@@ -334,6 +375,61 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                     Log.d(TAG,list.get(i).getUsername());
 //                    moveCamera(new LatLng(list.get(i).));
                     moveCameraVendor(list.get(i));
+                }
+            }
+        });
+    }
+
+    public void getAllNearbyVendors(){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Category",true);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if(e!=null){
+                    Log.d(TAG,e.toString());
+                    e.printStackTrace();
+                    return;
+                }
+                list.clear();
+                list.addAll(objects);
+                Log.d(TAG,String.valueOf(list.size()));
+
+                Geocoder geocoder = new Geocoder(getContext());
+                List<Address> addresses = null;
+                List<Address> addressescurrentuser = null;
+                String city_currentuser= null;
+
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
+                try {
+                    addressescurrentuser = geocoder.getFromLocation(currentUser.getDouble("Latitude"), currentUser.getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//
+                    city_currentuser = addressescurrentuser.get(0).getLocality();
+                }
+                catch (IOException ex) {
+                    e.printStackTrace();
+                }
+
+
+                for (int i=0; i <list.size(); i++){
+                    Log.d(TAG,list.get(i).getUsername());
+                    try {
+                        Log.d(TAG, "done: Lat:"+list.get(i).getDouble("Latitude"));
+                        addresses = geocoder.getFromLocation(list.get(i).getDouble("Latitude"), list.get(i).getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+//                        addresses = geocoder.getFromLocation(user.getDouble("Latitude"), user.getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                       if(city_currentuser.equals(addresses.get(0).getLocality())){
+                           Log.d(TAG, "done: current : "+addresses.get(0).getLocality()+" user : "+city_currentuser);
+                           moveCameraNearbyVendor(list.get(i));
+                       }
+
+//                    if(currentUser.)
+
+                    } catch (IOException ex) {
+                        e.printStackTrace();
+                    }
+//                    moveCamera(new LatLng(list.get(i).));
+
                 }
             }
         });
