@@ -31,6 +31,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.IOException;
@@ -198,7 +201,27 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(CentreSportifdeCarrefour));
     }
 
-    private void getAllVendors(){
-
+    public void getAllVendors(){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("Category",true);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if(e!=null){
+                    Log.d("MAP_FETCH",e.toString());
+                    e.printStackTrace();
+                    return;
+                }
+                list.clear();
+                list.addAll(objects);
+                Log.d("MAP_FETCH",String.valueOf(list.size()));
+                Log.d("MAP_FETCH","I'm "+list.get(0).getUsername());
+                for (int i=0; i <list.size(); i++){
+                    Log.d("MAP_FETCH",list.get(i).getUsername());
+//                    moveCamera(new LatLng(list.get(i).));
+//                    putAllMarkersOnMap(list.get(i));
+                }
+            }
+        });
     }
 }
