@@ -42,6 +42,7 @@ public class Login extends AppCompatActivity {
         if (currentUser != null) {
             //todo: Check the category of user
             GoToSpecificPage(currentUser);
+            //todo: intent map activity
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +105,9 @@ public class Login extends AppCompatActivity {
             //User
             Log.d("APP_MESS", "I'm a user");
             //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
-
+            Intent intent = new Intent(Login.this,MapsUserActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
