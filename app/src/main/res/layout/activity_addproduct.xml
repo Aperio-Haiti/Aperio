@@ -12,14 +12,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/post"
+            android:id="@+id/Imgpost"
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:src="@color/colorAccent"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/imagePost"
+            android:id="@+id/imgTakeImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/addpic"
