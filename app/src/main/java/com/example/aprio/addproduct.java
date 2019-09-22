@@ -77,8 +77,6 @@ public class addproduct extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void launchCamera() {
@@ -133,7 +131,6 @@ public class addproduct extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     private void saveProduct(String description, ParseUser user,String category, File photoFile) {
