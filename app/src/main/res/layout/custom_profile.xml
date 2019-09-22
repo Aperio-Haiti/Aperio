@@ -24,12 +24,12 @@
         android:id="@+id/tvMyproductname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contact_seller"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:textColor="#CE415E"
+        android:layout_below="@id/imgMyproduct"
         android:layout_marginStart="8dp"
-        android:layout_below="@id/imgMyproduct"/>
+        android:text="@string/contact_seller"
+        android:textColor="#CE415E"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView3"

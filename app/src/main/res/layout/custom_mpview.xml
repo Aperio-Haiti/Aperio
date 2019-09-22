@@ -34,11 +34,11 @@
         android:id="@+id/tvMyproductcategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/painting"
-        android:textSize="15sp"
-        android:textColor="#E44162"
+        android:layout_below="@id/tvMyproductname"
         android:layout_marginStart="8dp"
-        android:layout_below="@id/tvMyproductname"/>
+        android:text="@string/painting"
+        android:textColor="#E44162"
+        android:textSize="15sp" />
 </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
