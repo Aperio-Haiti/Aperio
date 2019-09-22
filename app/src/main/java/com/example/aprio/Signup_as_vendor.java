@@ -3,14 +3,11 @@ package com.example.aprio;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewParent;
-import android.widget.FrameLayout;
 
 public class Signup_as_vendor extends AppCompatActivity implements FragmentLayout1.FragmentLayout1Listener {
 
@@ -45,7 +42,7 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
 
     public void Fragment2(View view) {
         Fragment fm;
-        if(view==findViewById(R.id.btnNextOne))
+        if(view==findViewById(R.id.btnPost))
         {
             fm=new FragmentLayout2();
             getSupportFragmentManager()

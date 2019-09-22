@@ -12,14 +12,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/post"
+            android:id="@+id/Imgpost"
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:src="@color/colorAccent"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imgTakeImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/addpic"
@@ -39,7 +39,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/etNameSignupSeller"
+                    android:id="@+id/etProductTitle"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:ems="10"
@@ -49,7 +49,7 @@
                     tools:ignore="Autofill" />
 
                 <EditText
-                    android:id="@+id/etEmailSignupSeller"
+                    android:id="@+id/etCategory"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:ems="10"
@@ -60,7 +60,7 @@
 
 
                 <Button
-                    android:id="@+id/btnNextOne"
+                    android:id="@+id/btnPost"
                     android:layout_width="350dp"
                     android:layout_height="56dp"
                     android:layout_alignParentStart="false"
@@ -73,6 +73,16 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     tools:ignore="ObsoleteLayoutParam" />
+
+                <ProgressBar
+                    android:id="@+id/pbLoading"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 

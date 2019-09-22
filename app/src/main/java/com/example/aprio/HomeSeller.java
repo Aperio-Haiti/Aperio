@@ -63,9 +63,9 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
         return LoadFragment(fragment);
     }
 
-    public void add(View view) {
-        startActivity(new Intent(this,addproduct.class));
-    }
+//    public void add(View view) {
+//        startActivity(new Intent(this,addproduct.class));
+//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
