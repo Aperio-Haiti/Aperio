@@ -48,16 +48,6 @@
                 android:importantForAutofill="no" />
 
             <EditText
-                android:id="@+id/etStateSignupSeller"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:ems="10"
-                android:hint="Province/State"
-                android:inputType="textPersonName"
-                tools:ignore="HardcodedText,UnusedAttribute"
-                android:importantForAutofill="no" />
-
-            <EditText
                 android:id="@+id/etCodeSignupSeller"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
