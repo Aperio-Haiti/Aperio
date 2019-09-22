@@ -73,6 +73,7 @@ public class addproduct extends AppCompatActivity {
                 else{
                     Log.e(TAG, "onClick: no photo submit");
                     Toast.makeText(getApplicationContext(),"there is no photo please take a photo",Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
         });
