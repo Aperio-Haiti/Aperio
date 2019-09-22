@@ -7,8 +7,17 @@
     tools:context=".Signup_as_vendor"
     android:background="#403F4C">
 
-    <androidx.viewpager.widget.ViewPager
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSignupVendor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <FrameLayout
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarSignupVendor" />
 </RelativeLayout>
