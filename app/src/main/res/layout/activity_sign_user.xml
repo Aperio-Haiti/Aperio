@@ -70,7 +70,7 @@
 
 
             <Button
-                android:id="@+id/sign"
+                android:id="@+id/btnsignUser"
                 android:layout_width="339dp"
                 android:layout_height="56dp"
                 android:layout_gravity="center"
