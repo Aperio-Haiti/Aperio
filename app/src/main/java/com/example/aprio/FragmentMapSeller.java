@@ -79,7 +79,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     private  boolean mLocationPermissionGranted = false;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private final static float DEFAULT_ZOOM = 8;
+    private final static float DEFAULT_ZOOM = 15f;
 
     Unbinder unbinder;
     
