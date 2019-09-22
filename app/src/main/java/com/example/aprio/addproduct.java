@@ -66,8 +66,14 @@ public class addproduct extends AppCompatActivity {
                 ParseUser user = ParseUser.getCurrentUser();
                 String description = etProductTitle.getText().toString().trim();
                 String category = etCategory.getText().toString().trim();
-
-                saveProduct(description,user,category,photoFile);
+                
+                if(photoFile != null) {
+                    saveProduct(description, user, category, photoFile);
+                }
+                else{
+                    Log.e(TAG, "onClick: no photo submit");
+                    Toast.makeText(getApplicationContext(),"there is no photo please take a photo",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
