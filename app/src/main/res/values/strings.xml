@@ -18,4 +18,8 @@
     <string name="app_id">aperio-app_Id</string>
     <string name="server_url">https://aperio-app.herokuapp.com/parse</string>
     <string name="client_key"></string>
+    <string name="what_s_on_your_mind">what\'s on your mind</string>
+    <string name="atelier_macaya">atelier macaya</string>
+    <string name="atelier_macaya">atelier macaya</string>
+    <string name="atelier_macaya">atelier macaya</string>
 </resources>

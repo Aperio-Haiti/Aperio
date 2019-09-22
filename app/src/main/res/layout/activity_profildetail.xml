@@ -33,14 +33,14 @@
         android:src="@drawable/thumb_2502_paysage_big"
         tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/tvnameProfil"
-            android:layout_below="@id/imgProfileDetail"
-            android:text="@string/atelier_macaya"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvnameProfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgProfileDetail"
+        android:text="@string/atelier_macaya"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
         <TextView
             android:layout_below="@id/tvnameProfil"

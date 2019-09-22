@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Negociation">
+
     <EditText
         android:id="@+id/etMessage"
         android:layout_width="330dp"
@@ -13,12 +14,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:hint="@string/what_s_on_your_mind"
+        android:inputType="textAutoCorrect"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.988"
-        tools:ignore="Autofill"
-        android:inputType="textAutoCorrect" />
+        tools:ignore="Autofill" />
 
     <ImageButton
         android:id="@+id/btSend"
