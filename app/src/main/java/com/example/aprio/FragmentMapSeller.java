@@ -82,7 +82,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     private final static float DEFAULT_ZOOM = 15;
 
     Unbinder unbinder;
-    
 
     @Nullable
     @Override
