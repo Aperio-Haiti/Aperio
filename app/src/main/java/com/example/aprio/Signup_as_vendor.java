@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
-public class Signup_as_vendor extends AppCompatActivity {
+public class Signup_as_vendor extends AppCompatActivity implements FragmentLayout1.FragmentLayout1Listener {
 
     FragmentLayout1 f1;
     FragmentLayout2 f2;
@@ -52,6 +52,7 @@ public class Signup_as_vendor extends AppCompatActivity {
                     .beginTransaction()
                     .add(R.id.slideViewPager, fm,"Frag2")
                     .addToBackStack("frag2").hide(f1).commit();
+
         }
     }
 
@@ -83,5 +84,16 @@ public class Signup_as_vendor extends AppCompatActivity {
 
     public void Log(View view) {
         startActivity(new Intent(this,HomeSeller.class));
+    }
+
+    @Override
+    public void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email, CharSequence phone) {
+        f2=new FragmentLayout2();
+        f2.updateEditText(username,password,email,phone);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.slideViewPager, f2,"Frag2")
+                .addToBackStack("frag2").hide(f1).commit();
     }
 }
