@@ -90,7 +90,7 @@ public class addproduct extends AppCompatActivity {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(getApplicationContext(), "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getApplicationContext(), "com.example.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -151,15 +151,16 @@ public class addproduct extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if(e!=null){
-                    Log.e(TAG, "done: failed");                   
+                    Log.e(TAG, "done: failed"+e.getMessage());
                     e.printStackTrace();
                     return;
                 }
                 Log.d(TAG, "done: Success");
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
 //                pb.setVisibility(ProgressBar.INVISIBLE);
-//                et_description.setText("");
-//                iv_post.setImageResource(0);
+                etProductTitle.setText("");
+                etCategory.setText("");
+                Imgpost.setImageResource(0);
             }
         });
     }
