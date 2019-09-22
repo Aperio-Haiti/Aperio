@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/etNameSignupSeller"
+                android:id="@+id/etProductTitle"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -34,7 +34,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/etEmailSignupSeller"
+                android:id="@+id/etCategory"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -64,7 +64,7 @@
 
 
             <Button
-                android:id="@+id/btnNextOne"
+                android:id="@+id/btnPost"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_gravity="center"

@@ -19,7 +19,7 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imagePost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/addpic"
@@ -39,7 +39,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/etNameSignupSeller"
+                    android:id="@+id/etProductTitle"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:ems="10"
@@ -49,7 +49,7 @@
                     tools:ignore="Autofill" />
 
                 <EditText
-                    android:id="@+id/etEmailSignupSeller"
+                    android:id="@+id/etCategory"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:ems="10"
@@ -60,7 +60,7 @@
 
 
                 <Button
-                    android:id="@+id/btnNextOne"
+                    android:id="@+id/btnPost"
                     android:layout_width="350dp"
                     android:layout_height="56dp"
                     android:layout_alignParentStart="false"

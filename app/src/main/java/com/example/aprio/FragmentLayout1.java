@@ -18,19 +18,19 @@ import butterknife.OnClick;
 
 public class FragmentLayout1 extends Fragment {
 
-    @BindView(R.id.etNameSignupSeller)
+    @BindView(R.id.etProductTitle)
     EditText etNameSignupSeller;
-    @BindView(R.id.etEmailSignupSeller)
+    @BindView(R.id.etCategory)
     EditText etEmailSignupSeller;
     @BindView(R.id.etPasswordSignupSeller)
     EditText etPasswordSignupSeller;
     @BindView(R.id.etPhoneSignupSeller)
     EditText etPhoneSignupSeller;
-    @BindView(R.id.btnNextOne)
+    @BindView(R.id.btnPost)
     Button btnNextOne;
     private FragmentLayout1Listener listener;
 
-    @OnClick(R.id.btnNextOne)
+    @OnClick(R.id.btnPost)
     public void onViewClicked() {
         String username = etNameSignupSeller.getText().toString().trim();
         String password = etPasswordSignupSeller.getText().toString().trim();
