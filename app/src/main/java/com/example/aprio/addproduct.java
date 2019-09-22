@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -141,8 +142,8 @@ public class addproduct extends AppCompatActivity {
         product.set_User(user);
         product.set_Image_Product(new ParseFile(photoFile));
 
-//        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
-//        pb.setVisibility(ProgressBar.VISIBLE);
+        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+        pb.setVisibility(ProgressBar.VISIBLE);
 
         product.saveInBackground(new SaveCallback() {
             @Override
@@ -154,10 +155,11 @@ public class addproduct extends AppCompatActivity {
                 }
                 Log.d(TAG, "done: Success");
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-//                pb.setVisibility(ProgressBar.INVISIBLE);
+                pb.setVisibility(ProgressBar.INVISIBLE);
                 etProductTitle.setText("");
                 etCategory.setText("");
                 Imgpost.setImageResource(0);
+                Imgpost.setColorFilter(R.color.colorAccent);
             }
         });
     }
