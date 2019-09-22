@@ -37,7 +37,7 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
         if(fragment != null){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.FrameLayout, fragment)
+                    .replace(R.id.FrameLayout, fragment)
                     .commit();
             return true;
         }else {

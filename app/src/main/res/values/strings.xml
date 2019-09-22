@@ -1,8 +1,12 @@
 <resources>
+
+<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBGmVwzZhlWbPBfWfk_WOjcY8XwuxdjSUE</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCqAXJEIHoRqkcTXmim0y8VXFnRR8qPPpQ</string>
+
     <string name="app_name">Apério</string>
     <string name="forgot_pass">forgot password?</string>
-    <string name="new_to_aper">New to Apério?</string>
-
+    <string name="new_to_aper">new to Apério?</string>
+    <string name="signup">sign_in</string>
     <string name="signup_as_s">Signin as Seller</string>
     <string name="let_s_disco">Let’s discover what talent is.</string>
     <string name="login">Login</string>
@@ -15,6 +19,9 @@
     <string name="hint_signup">Sign Up</string>
     <string name="hint_email">Email</string>
     <string name="hint_confirm_password">Confirm Password</string>
+    <string name="title_activity_home">Map</string>
+
+
     <string name="app_id">aperio-app_Id</string>
     <string name="server_url">https://aperio-app.herokuapp.com/parse</string>
     <string name="client_key"></string>
@@ -28,16 +35,20 @@ By accepting to share your your location with Aperio you agree our terms and con
     <string name="add_product">Add Product</string>
     <string name="le_marche_a_port_au_prince">Le marche a Port-au-Prince</string>
     <string name="painting">Painting</string>
+    <string name="atelier_macaya">Atelier Macaya</string>
+    <string name="contact_seller">Contact Seller</string>
+    <string name="_102_rue_louverture_port_au_prince">102, Rue Louverture Port-au-Prince</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+    <string name="ateliermacaya_gmail_com">ateliermacaya@gmail.com</string>
     <string name="next">Next</string>
     <string name="personal_informations">Personal Informations</string>
     <string name="_1_of_2">1 of 2</string>
     <string name="hint_phone">Phone</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="todo">TODO</string>
+    <string name="enter_address_city_or_zip_code">Enter Address, City or Zip Code</string>
     <string name="what_s_on_your_mind">what\'s on your mind</string>
-    <string name="atelier_macaya">atelier macaya</string>
-    <string name="_102_rue_louverture_port_au_prince">102 rue louverture port-au-prince</string>
-    <string name="ateliermacaya_gmail_com">ateliermacaya@gmail.com</string>
-    <string name="contact_seller">contact seller</string>
     <string name="send">send</string>
-    <string name="Open">Opne</string>
-    <string name="Close">Close</string>
+
 </resources>

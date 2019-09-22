@@ -59,6 +59,8 @@
                 android:hint="@string/hint_phone"
                 android:importantForAutofill="no"
                 android:inputType="phone" />
+                android:hint="Phone"
+                android:inputType="textPersonName" />
 
 
             <Button

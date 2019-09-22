@@ -31,7 +31,6 @@ public class Login extends AppCompatActivity {
     @BindView(R.id.tvSignup)
     TextView tvSignup;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,6 @@ public class Login extends AppCompatActivity {
         if (currentUser != null) {
             //todo: Check the category of user
             GoToSpecificPage(currentUser);
-            //todo: intent map activity
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +51,29 @@ public class Login extends AppCompatActivity {
                 String mPassword = password.getText().toString();
 
                 Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
-
-                ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                            return;
+                if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
+                    ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
+                        @Override
+                        public void done(ParseUser user, ParseException e) {
+                            if (e != null) {
+                                Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                                return;
+                            }
+                            //todo: Check the category of user
+                            GoToSpecificPage(user);
+                            //todo: intent map distinct activity
                         }
-                        //todo: Check the category of user
-                        GoToSpecificPage(user);
-                        //todo: intent map distinct activity
-                    }
-                });
+                    });
+                }else {
+                    if(mEmail.contentEquals("") && !mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter email",Toast.LENGTH_LONG).show();
+                    if (!mEmail.contentEquals("") && mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter password",Toast.LENGTH_LONG).show();
+                    if (mEmail.contentEquals("") && mPassword.contentEquals(""))
+                        Toast.makeText(Login.this,"Please enter credentials",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -89,15 +96,16 @@ public class Login extends AppCompatActivity {
         if (user.getBoolean("Category")) {
             //Vendor
             Log.d("APP_MESS", "I'm a vendor");
-            Intent i = new Intent(getApplicationContext(), HomeSeller.class);
-            startActivity(i);
+            Intent intent = new Intent(Login.this,HomeSeller.class);
+            startActivity(intent);
+            finish();
             //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
         } else {
             //User
             Log.d("APP_MESS", "I'm a user");
             //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
+
         }
     }
-
 
 }
