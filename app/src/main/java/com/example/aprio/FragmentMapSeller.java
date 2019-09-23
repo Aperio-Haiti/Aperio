@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -63,12 +64,15 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     List<ParseUser> list;
 
     private static final String TAG = "FragmentMapSeller";
-    @BindView(R.id.ic_magnify)
-    ImageView icMagnify;
-    @BindView(R.id.input_search)
-    EditText inputSearch;
-    @BindView(R.id.ic_gps)
-    ImageView icGps;
+//    @BindView(R.id.ic_magnify)
+//    ImageView icMagnify;
+//    @BindView(R.id.input_search)
+//    EditText inputSearch;
+//    @BindView(R.id.ic_gps)
+//    ImageView icGps;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     GoogleMap map;
 
@@ -212,19 +216,19 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 
     private void init() {
         Log.d(TAG, "init: initializing");
-        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-        icGps.setOnClickListener(new View.OnClickListener() {
+//        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || actionId == EditorInfo.IME_ACTION_DONE
+//                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+//                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+//                    geoLocate();
+//                }
+//                return false;
+//            }
+//        });
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: click gps icon");
@@ -234,28 +238,28 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         hideSoftKeyboard();
     }
 
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geoLocating");
-
-        String searchString = inputSearch.getText().toString();
-
-        Geocoder geocoder = new Geocoder(getContext());
-        List<Address> list = new ArrayList<>();
-
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.d(TAG, "geoLocate: IOException " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-            Address address = list.get(0);
-
-            Log.d(TAG, "geoLocate: found a location " + address.toString());
-
-            moveCameraToMyLocationDevice(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-        }
-    }
+//    private void geoLocate() {
+//        Log.d(TAG, "geoLocate: geoLocating");
+//
+//        String searchString = inputSearch.getText().toString();
+//
+//        Geocoder geocoder = new Geocoder(getContext());
+//        List<Address> list = new ArrayList<>();
+//
+//        try {
+//            list = geocoder.getFromLocationName(searchString, 1);
+//        } catch (IOException e) {
+//            Log.d(TAG, "geoLocate: IOException " + e.getMessage());
+//        }
+//
+//        if (list.size() > 0) {
+//            Address address = list.get(0);
+//
+//            Log.d(TAG, "geoLocate: found a location " + address.toString());
+//
+//            moveCameraToMyLocationDevice(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+//        }
+//    }
 
     private void hideSoftKeyboard() {
         Window window = getActivity().getWindow();
