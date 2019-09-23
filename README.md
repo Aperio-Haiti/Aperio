@@ -25,10 +25,10 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 
 **Required Must-have Stories**
 
-- [ ] Nearby vendors can be found on a map
+- [x] Nearby vendors can be found on a map
 - [ ] User can browse a vendor's products
 - [ ] User can message vendor to negociate
-- [ ] Vendor can add product(with product details)
+- [x] Vendor can add product(with product details)
 - [x] Vendor can create an account
 - [x] Vendor can login to account
 - [x] Vendor can add account informations(Location, name, profession...) within account creation
