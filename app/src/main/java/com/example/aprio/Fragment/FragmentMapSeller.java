@@ -3,6 +3,8 @@ package com.example.aprio.Fragment;
 //ok
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,6 +36,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -48,6 +53,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -59,6 +65,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
@@ -117,11 +124,12 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
             getDeviceLocation();
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(false);
-            map.getUiSettings().setZoomControlsEnabled(true);
+            map.getUiSettings().setZoomControlsEnabled(false);
+            map.getUiSettings().setMapToolbarEnabled(false);
 
             init();
 
-//            getAllVendors();
+            //getAllVendors();
             getAllNearbyVendors();
         }
     }
@@ -260,6 +268,33 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
 //        }
 //    }
 
+    public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
+
+        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+
+        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        Glide.with(context).load(img).apply(new RequestOptions().placeholder(R.drawable.avatar).error(R.drawable.avatar)).into(markerImage);
+        markerImage.setBorderWidth(3);
+        markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+
+
+        TextView txt_name = (TextView)marker.findViewById(R.id.name);
+        txt_name.setText(_name);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        marker.draw(canvas);
+
+        return bitmap;
+    }
+
     private void hideSoftKeyboard() {
         Window window = getActivity().getWindow();
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -309,24 +344,22 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
         if(user.getParseFile("ProfileImg")!=null) {
-            File profileImg = null;
 
+            /*File profileImg = null;
             try {
                 profileImg = user.getParseFile("ProfileImg").getFile();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
             Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
+            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);*/
 
-            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
-
+            ParseFile profileImgBitmap = user.getParseFile("ProfileImg");
             if (!user.getUsername().equals("my Location")) {
-
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(coordinates)
                         .title(user.getUsername())
-                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
+                        .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,user.getUsername())));
                 map.addMarker(markerOptions);
             }
         }
@@ -424,6 +457,16 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                            Log.d(TAG, "done: current : "+addresses.get(0).getLocality()+" user : "+city_currentuser);
                            moveCameraNearbyVendor(list.get(i));
                        }
+                        ParseUser mUser = list.get(i);
+
+                        LatLng coordinates = new LatLng(mUser.getDouble("Latitude"),mUser.getDouble("Longitude"));
+                        ParseFile profileImgBitmap = mUser.getParseFile("ProfileImg");
+
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(coordinates)
+                                .title(mUser.getUsername())
+                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,mUser.getUsername())));
+                        map.addMarker(markerOptions);
 
 //                    if(currentUser.)
 

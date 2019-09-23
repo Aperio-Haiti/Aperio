@@ -52,6 +52,7 @@
             android:value="@string/google_maps_key"/>
 
         <activity android:name=".Signup_as_vendor" />
+        <activity android:name=".ProfileDetail" />
         <activity android:name=".MapSellerActivity" android:theme="@style/MapTheme" />
         <activity android:name=".AddProduct" />
         <activity android:name="MapsUserActivity"  android:theme="@style/MapTheme"/>

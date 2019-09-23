@@ -226,7 +226,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
 
         MarkerOptions options = new MarkerOptions();
-        options.position(coordinates).snippet(user.getObjectId())
+        options.position(coordinates).title(user.getUsername())
                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,user.getParseFile("ProfileImg"),user.getUsername())));
         mMap.addMarker(options);
 
@@ -322,7 +322,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Log.d("MAP_FETCH","Snippet "+marker.getSnippet());
+        Log.d("MAP_FETCH","Title "+marker.getTitle());
+        Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
+        intent.putExtra("Title",marker.getTitle());
+        startActivity(intent);
         return false;
     }
 
