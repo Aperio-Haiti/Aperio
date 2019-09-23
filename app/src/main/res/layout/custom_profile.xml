@@ -2,46 +2,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="5dp"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="310dp"
-        android:layout_margin="16dp">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:elevation="2dp">
 
-    <ImageView
-        android:id="@+id/imgMyproduct"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:srcCompat="@drawable/thumb_2502_paysage_big"
-        tools:ignore="ContentDescription" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvMyproductname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imgMyproduct"
-        android:layout_marginStart="8dp"
-        android:text="@string/contact_seller"
-        android:textColor="#CE415E"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imgMyproduct"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:srcCompat="@drawable/thumb_2502_paysage_big"
+                tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/ic_bookmark_black_24dp"
-        android:layout_below="@id/imgMyproduct"
-        android:layout_alignParentEnd="true"
-        tools:ignore="ContentDescription" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_below="@id/imgMyproduct"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_bookmark_black_24dp"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvMyproductname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgMyproduct"
+                android:layout_marginStart="8dp"
+                android:text="@string/contact_seller"
+                android:textColor="#CE415E"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
-</RelativeLayout>
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
