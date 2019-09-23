@@ -1,6 +1,9 @@
 package com.example.aprio.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +98,14 @@ public class FragmentLayout2 extends Fragment {
         }
     }
 
+    private byte[] DrawableToByteArray(int avatar) {
+        Drawable d = getResources().getDrawable(avatar);
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
+    }
+
     public void Sign_vendor(String username, String password, String email, String phone) {
         ParseUser user = new ParseUser();
         String address = etAddressSignupSeller.getText().toString().trim();
@@ -106,6 +118,7 @@ public class FragmentLayout2 extends Fragment {
         user.put("Phone",Integer.valueOf(phone));
         user.put("Latitude", Lat);
         user.put("Longitude",Lng);
+        user.put("ProfileImg",DrawableToByteArray(R.drawable.avatar));
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
