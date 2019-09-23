@@ -22,12 +22,12 @@ public class Product extends ParseObject {
         put(KEY_DESCRIPTION,description);
     }
 
-    public String get_Category()
+    public ParseObject get_Category()
     {
-        return getString(KEY_CATEGORY);
+        return getParseObject(KEY_CATEGORY);
     }
 
-    public void set_Category(String category){
+    public void set_Category(ParseObject category){
         put(KEY_CATEGORY,category);
     }
 

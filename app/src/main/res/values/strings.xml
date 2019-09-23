@@ -59,5 +59,6 @@ By accepting to share your your location with Aperio you agree our terms and con
     <string name="drawer_close">Close navigation drawer</string>
     <string name="list_view">list_view</string>
     <string name="logout">Logout</string>
+    <string name="category">Category</string>
 
 </resources>

@@ -47,20 +47,23 @@
                 android:background="@android:color/transparent"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/etCategory"
-                    android:layout_width="350dp"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category"
+                    android:textColor="@color/colorAccent" />
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:ems="10"
-                    android:hint="Category"
-                    android:inputType="textPersonName"
-                    tools:ignore="Autofill,HardcodedText,TextFields" />
+                    android:spinnerMode="dropdown" />
 
 
                 <EditText
                     android:id="@+id/etProductTitle"
-                    android:layout_width="350dp"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:ems="10"
@@ -70,7 +73,7 @@
 
                 <Button
                     android:id="@+id/btnSaveProduct"
-                    android:layout_width="350dp"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_alignParentStart="false"
                     android:layout_alignParentTop="false"

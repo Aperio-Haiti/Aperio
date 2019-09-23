@@ -10,10 +10,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +28,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aprio.Adapters.CategorySpinnerAdapter;
+import com.example.aprio.Models.Category;
 import com.example.aprio.Models.Product;
 import com.google.android.material.navigation.NavigationView;
+import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -39,6 +45,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,25 +56,28 @@ public class AddProduct extends AppCompatActivity {
 
     @BindView(R.id.Imgpost)
     ImageView Imgpost;
+
     @BindView(R.id.imgTakeImg)
     ImageView imgTakeImg;
+
     @BindView(R.id.etProductTitle)
     EditText etProductTitle;
-    @BindView(R.id.etCategory)
-    EditText etCategory;
+
     @BindView(R.id.btnSaveProduct)
     Button btnPost;
 
-    private static final String TAG = "AddProduct";
+    @BindView(R.id.spinnerCategory)
+    Spinner spnCategory;
 
+    private static final String TAG = "AddProduct";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     File photoFile;
-
     DrawerLayout drawerLayout;
-
     ActionBarDrawerToggle actionBarDrawerToggle;
-
+    CategorySpinnerAdapter adapter;
+    ArrayList<Category> arrayList = new ArrayList<>();
+    Category category = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +85,63 @@ public class AddProduct extends AppCompatActivity {
         setContentView(R.layout.activity_addproduct);
         ButterKnife.bind(this);
 
+        NavigationInit();
+
+        imgTakeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCamera();
+            }
+        });
+
+        ParseQuery<Category> query = new ParseQuery<Category>(Category.class);
+        query.findInBackground(new FindCallback<Category>() {
+            @Override
+            public void done(List<Category> objects, ParseException e) {
+                if(e!=null){
+                    Log.d("AddProduct","Erreur : "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                arrayList.clear();
+                arrayList.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        adapter = new CategorySpinnerAdapter(AddProduct.this,android.R.layout.simple_spinner_dropdown_item,arrayList);
+        spnCategory.setAdapter(adapter);
+        spnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                category = adapter.getItem(i);
+                Log.d("AddProduct","You selected : "+category.getCategory()+" , ID : "+category.getObjectId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser user = ParseUser.getCurrentUser();
+                String description = etProductTitle.getText().toString().trim();
+                
+                if(photoFile != null) {
+                    saveProduct(description, user, category, photoFile);
+                }
+                else{
+                    Log.e(TAG, "onClick: no photo submit");
+                    Toast.makeText(getApplicationContext(),"there is no photo please take a photo",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+    }
+
+    private void NavigationInit(){
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
         Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
@@ -128,31 +196,6 @@ public class AddProduct extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-
-        imgTakeImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchCamera();
-            }
-        });
-
-        btnPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser user = ParseUser.getCurrentUser();
-                String description = etProductTitle.getText().toString().trim();
-                String category = etCategory.getText().toString().trim();
-                
-                if(photoFile != null) {
-                    saveProduct(description, user, category, photoFile);
-                }
-                else{
-                    Log.e(TAG, "onClick: no photo submit");
-                    Toast.makeText(getApplicationContext(),"there is no photo please take a photo",Toast.LENGTH_SHORT).show();
-                    return;
-                }
             }
         });
     }
@@ -241,7 +284,7 @@ public class AddProduct extends AppCompatActivity {
         }
     }
 
-    private void saveProduct(String description, ParseUser user,String category, File photoFile) {
+    private void saveProduct(String description, ParseUser user,Category category, File photoFile) {
         Product product = new Product();
 
         product.set_Description(description);
@@ -264,7 +307,6 @@ public class AddProduct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 pb.setVisibility(ProgressBar.INVISIBLE);
                 etProductTitle.setText("");
-                etCategory.setText("");
                 Imgpost.setImageResource(0);
                 Imgpost.setColorFilter(R.color.colorAccent);
             }
