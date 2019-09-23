@@ -3,6 +3,7 @@ package com.example.aprio;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,12 +14,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.navigation.NavigationView;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -32,6 +41,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class addproduct extends AppCompatActivity {
 
@@ -52,11 +62,73 @@ public class addproduct extends AppCompatActivity {
     public String photoFileName = "photo.jpg";
     File photoFile;
 
+    DrawerLayout drawerLayout;
+
+    ActionBarDrawerToggle actionBarDrawerToggle;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addproduct);
         ButterKnife.bind(this);
+
+        CircleImageView imageView = findViewById(R.id.ivUserAvatar);
+        GlideApp.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+                .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
+                .into(imageView);
+
+        //navigationview
+        NavigationView navigationView = findViewById(R.id.vendor_navigation_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        CircleImageView ivHeaderPhoto = (CircleImageView) headerLayout.findViewById(R.id.ivUser);
+        ivHeaderPhoto.setBorderColor(Color.WHITE);
+        ivHeaderPhoto.setBorderWidth(10);
+
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+                .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
+                .into(ivHeaderPhoto);
+
+        TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
+        tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
+
+        TextView tvHeaderEmail = headerLayout.findViewById(R.id.tvUserEmail);
+        tvHeaderEmail.setText(ParseUser.getCurrentUser().getEmail());
+
+        TextView tvLogout = headerLayout.findViewById(R.id.tvLogout);
+        tvLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e!=null){
+                            e.printStackTrace();
+                            return;
+                        }
+                        Intent intent = new Intent(getApplicationContext(),Login.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        });
+
+        drawerLayout= findViewById(R.id.drawer1);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(addproduct.this,drawerLayout,R.string.Open,R.string.Close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        //img on click to open drawer
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 
         imgTakeImg.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,63 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    tools:context=".addproduct">
+    android:id="@+id/drawer1"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:id="@+id/image_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent"
+        tools:context=".addproduct">
 
-        <ImageView
-            android:id="@+id/Imgpost"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mapvendortoolbar"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:src="@color/colorAccent"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/imgTakeImg"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/addpic"
-            android:layout_marginTop="190dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            tools:ignore="ContentDescription" />
-    </RelativeLayout>
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorAccent25"
+            android:elevation="5dp">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivUserAvatar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/avatar"
+                app:civ_border_color="@color/colorPrimary"
+                app:civ_border_width="2dp" />
+
+        </androidx.appcompat.widget.Toolbar>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@id/mapvendortoolbar"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:layout_below="@id/image_layout"
+
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/etProductTitle"
-                    android:layout_width="350dp"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:layout_gravity="center"
-                    android:hint="@string/product_title"
-                    android:inputType="textPersonName"
-                    tools:ignore="Autofill" />
-
-                <EditText
-                    android:id="@+id/etCategory"
-                    android:layout_width="350dp"
-                    android:layout_height="60dp"
-                    android:ems="10"
-                    android:layout_gravity="center"
-                    android:hint="Category"
-                    android:inputType="textPersonName"
-                    tools:ignore="Autofill,HardcodedText,TextFields" />
-
 
                 <Button
                     android:id="@+id/btnPost"
@@ -74,6 +62,27 @@
                     android:textSize="20sp"
                     tools:ignore="ObsoleteLayoutParam" />
 
+                <EditText
+                    android:id="@+id/etCategory"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="Category"
+                    android:inputType="textPersonName"
+                    tools:ignore="Autofill,HardcodedText,TextFields" />
+
+
+                <EditText
+                    android:id="@+id/etProductTitle"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/product_title"
+                    android:inputType="textPersonName"
+                    tools:ignore="Autofill" />
+
                 <ProgressBar
                     android:id="@+id/pbLoading"
 
@@ -87,4 +96,40 @@
             </LinearLayout>
 
 
+            <RelativeLayout
+                android:id="@+id/image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/Imgpost"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:src="@color/colorAccent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/imgTakeImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="190dp"
+                    android:layout_marginEnd="16dp"
+                    app:srcCompat="@drawable/addpic"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+        </RelativeLayout>
+
 </RelativeLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/vendor_navigation_view"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer">
+
+
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
