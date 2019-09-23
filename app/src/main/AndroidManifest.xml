@@ -58,6 +58,7 @@
         <activity android:name=".Signup_as_vendor" />
         <activity android:name=".HomeSeller" />
         <activity android:name=".addproduct" />
+        <activity android:name="MapsUserActivity"/>
         <activity
             android:name=".SignUser"
             android:theme="@style/SignupUserTheme" />
