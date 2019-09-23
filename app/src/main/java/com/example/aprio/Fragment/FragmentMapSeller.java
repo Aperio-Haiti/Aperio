@@ -45,6 +45,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -65,12 +66,12 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
     List<ParseUser> list;
 
     private static final String TAG = "FragmentMapSeller";
-    @BindView(R.id.ic_magnify)
+    /*@BindView(R.id.ic_magnify)
     ImageView icMagnify;
     @BindView(R.id.input_search)
-    EditText inputSearch;
-    @BindView(R.id.ic_gps)
-    ImageView icGps;
+    EditText inputSearch;*/
+    @BindView(R.id.fabLocateSeller)
+    FloatingActionButton icGps;
 
     GoogleMap map;
 
