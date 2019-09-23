@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent"
-        tools:context=".addproduct">
+        tools:context=".AddProduct">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/mapvendortoolbar"
@@ -47,21 +47,6 @@
                 android:background="@android:color/transparent"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnPost"
-                    android:layout_width="350dp"
-                    android:layout_height="56dp"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentTop="false"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:background="#FFFFFF"
-                    android:text="@string/add_product"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    tools:ignore="ObsoleteLayoutParam" />
-
                 <EditText
                     android:id="@+id/etCategory"
                     android:layout_width="350dp"
@@ -83,12 +68,28 @@
                     android:inputType="textPersonName"
                     tools:ignore="Autofill" />
 
+                <Button
+                    android:id="@+id/btnSaveProduct"
+                    android:layout_width="350dp"
+                    android:layout_height="56dp"
+                    android:layout_alignParentStart="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF"
+                    android:text="@string/add_product"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    tools:ignore="ObsoleteLayoutParam" />
+
                 <ProgressBar
                     android:id="@+id/pbLoading"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="5dp"
                     android:foregroundGravity="center_horizontal"
                     android:visibility="invisible" />

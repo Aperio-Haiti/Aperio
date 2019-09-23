@@ -51,21 +51,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-
         <activity android:name=".Signup_as_vendor" />
-        <activity android:name=".HomeSeller" />
-        <activity android:name=".addproduct" />
+        <activity android:name=".MapSellerActivity" />
+        <activity android:name=".AddProduct" />
         <activity android:name="MapsUserActivity"/>
         <activity
             android:name=".SignUser"
             android:theme="@style/SignupUserTheme" />
         <activity
-            android:name=".Login"
-            android:theme="@style/LoginTheme" />
-        <activity android:name=".MainActivity">
+            android:name=".Login" android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

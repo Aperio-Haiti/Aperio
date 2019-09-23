@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Fragment;
 
 import android.content.Intent;
 import android.location.Address;
@@ -15,7 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.example.aprio.MapSellerActivity;
+import com.example.aprio.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -106,12 +107,11 @@ public class FragmentLayout2 extends Fragment {
         user.put("Latitude", Lat);
         user.put("Longitude",Lng);
 
-
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Intent i = new Intent(getContext(), HomeSeller.class);
+                    Intent i = new Intent(getContext(), MapSellerActivity.class);
                     startActivity(i);
                 } else {
                     ParseUser.logOut();

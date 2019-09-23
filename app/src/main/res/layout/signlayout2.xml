@@ -75,7 +75,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
-                android:onClick="Log"
+
                 android:text="@string/hint_signup"
                 android:textAppearance="@style/e44162"
                 android:textColor="@android:color/white"

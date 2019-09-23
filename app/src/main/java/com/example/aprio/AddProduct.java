@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aprio.Models.Product;
 import com.google.android.material.navigation.NavigationView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -43,7 +44,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class addproduct extends AppCompatActivity {
+public class AddProduct extends AppCompatActivity {
 
     @BindView(R.id.Imgpost)
     ImageView Imgpost;
@@ -53,10 +54,10 @@ public class addproduct extends AppCompatActivity {
     EditText etProductTitle;
     @BindView(R.id.etCategory)
     EditText etCategory;
-    @BindView(R.id.btnPost)
+    @BindView(R.id.btnSaveProduct)
     Button btnPost;
 
-    private static final String TAG = "addproduct";
+    private static final String TAG = "AddProduct";
 
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -74,7 +75,7 @@ public class addproduct extends AppCompatActivity {
         ButterKnife.bind(this);
 
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
-        GlideApp.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(imageView);
 
@@ -116,7 +117,7 @@ public class addproduct extends AppCompatActivity {
         });
 
         drawerLayout= findViewById(R.id.drawer1);
-        actionBarDrawerToggle=new ActionBarDrawerToggle(addproduct.this,drawerLayout,R.string.Open,R.string.Close);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(AddProduct.this,drawerLayout,R.string.Open,R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 

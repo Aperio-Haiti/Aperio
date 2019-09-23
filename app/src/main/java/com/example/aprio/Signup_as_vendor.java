@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.example.aprio.Fragment.FragmentLayout1;
+import com.example.aprio.Fragment.FragmentLayout2;
 
 public class Signup_as_vendor extends AppCompatActivity implements FragmentLayout1.FragmentLayout1Listener {
 
@@ -42,9 +44,9 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
 
     public void Fragment2(View view) {
         Fragment fm;
-        if(view==findViewById(R.id.btnPost))
+        if(view == findViewById(R.id.btnPost))
         {
-            fm=new FragmentLayout2();
+            fm = new FragmentLayout2();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.slideViewPager, fm,"Frag2")
@@ -79,9 +81,9 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
         }
     }
 
-    public void Log(View view) {
-        startActivity(new Intent(this,HomeSeller.class));
-    }
+    /*public void Log(View view) {
+        startActivity(new Intent(this,MapSellerActivity.class));
+    }*/
 
     @Override
     public void onInputFragmentLayout1Sent(CharSequence username, CharSequence password, CharSequence email, CharSequence phone) {

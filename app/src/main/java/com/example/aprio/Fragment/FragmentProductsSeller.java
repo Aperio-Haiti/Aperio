@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aprio.R;
+import com.example.aprio.AddProduct;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +23,7 @@ public class FragmentProductsSeller extends Fragment {
     RecyclerView rvproduct;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    //ok
 //    private RecyclerviewAdapter rvAdapter;
 //    private RecyclerView recyclerView;
 //    private ArrayList<String> item;
@@ -44,7 +44,7 @@ public class FragmentProductsSeller extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),addproduct.class));
+                startActivity(new Intent(getContext(), AddProduct.class));
             }
         });
 //        item = new ArrayList<>();

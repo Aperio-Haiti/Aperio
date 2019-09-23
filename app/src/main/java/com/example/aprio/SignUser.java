@@ -58,10 +58,10 @@ public class SignUser extends AppCompatActivity {
                 String password_confirm = edtCfmPassword.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
 
-                if(password.equals(password_confirm))
+                if(password.contentEquals(password_confirm))
                     Sign_user(username, password, email);
                 else
-                    Toast.makeText(getApplicationContext(),"No Match Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"No Matched Password", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLogin:
                 finish();
@@ -81,7 +81,7 @@ public class SignUser extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if(e == null){
-                    Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent i = new Intent(getApplicationContext(),MapsUserActivity.class);
                     startActivity(i);
                 }
                 else{

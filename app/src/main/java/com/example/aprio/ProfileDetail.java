@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.example.aprio.Adapters.RecyclerviewAdapterProfile;
+
 import java.util.ArrayList;
 
-public class profildetail extends AppCompatActivity {
+public class ProfileDetail extends AppCompatActivity {
     private RecyclerviewAdapterProfile rvAdapter;
     private RecyclerView recyclerView;
     private ArrayList<String> item;

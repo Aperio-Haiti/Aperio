@@ -2,6 +2,7 @@ package com.example.aprio;
 
 import android.app.Application;
 
+import com.example.aprio.Models.Product;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

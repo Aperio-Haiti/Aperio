@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;

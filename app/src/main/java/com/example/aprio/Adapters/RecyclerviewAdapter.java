@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,10 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aprio.R;
+
 import java.util.List;
 
 
-public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.ViewHOlder> {
+public class RecyclerviewAdapter extends RecyclerView.Adapter<RecyclerviewAdapter.ViewHOlder> {
 
     private Context context;
     private List<String> data;
@@ -21,7 +23,7 @@ public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervie
 
 
 
-    RecyclerviewAdapterProfile(Context context, List<String> data) {
+    RecyclerviewAdapter(Context context, List<String> data) {
         this.context = context;
         this.data=data;
     }
@@ -29,7 +31,7 @@ public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervie
     @NonNull
     @Override
     public ViewHOlder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.custom_profile,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.custom_mpview,parent,false);
         return new ViewHOlder(view);
     }
 

@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,15 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.aprio.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FragmentLayout1 extends Fragment {
 
-    @BindView(R.id.etProductTitle)
+    @BindView(R.id.etSignupName)
     EditText etNameSignupSeller;
-    @BindView(R.id.etCategory)
+    @BindView(R.id.etSignupEmail)
     EditText etEmailSignupSeller;
     @BindView(R.id.etPasswordSignupSeller)
     EditText etPasswordSignupSeller;

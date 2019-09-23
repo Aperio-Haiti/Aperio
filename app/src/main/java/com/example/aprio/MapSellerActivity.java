@@ -13,10 +13,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aprio.Fragment.FragmentMapSeller;
+import com.example.aprio.Fragment.FragmentProductsSeller;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.parse.LogOutCallback;
@@ -25,7 +26,7 @@ import com.parse.ParseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HomeSeller extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MapSellerActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     @Override
@@ -34,7 +35,7 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
         setContentView(R.layout.activity_home_seller);
 
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
-        GlideApp.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(imageView);
 
@@ -76,7 +77,7 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
         });
 
         drawerLayout= findViewById(R.id.drawer1);
-        actionBarDrawerToggle=new ActionBarDrawerToggle(HomeSeller.this,drawerLayout,R.string.Open,R.string.Close);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(MapSellerActivity.this,drawerLayout,R.string.Open,R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
@@ -129,7 +130,7 @@ public class HomeSeller extends AppCompatActivity implements BottomNavigationVie
     }
 
 //    public void add(View view) {
-//        startActivity(new Intent(this,addproduct.class));
+//        startActivity(new Intent(this,AddProduct.class));
 //    }
 
     @Override

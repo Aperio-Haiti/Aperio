@@ -25,16 +25,16 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/etProductTitle"
+                android:id="@+id/etSignupName"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
-                android:hint="@string/hint_username"
+                android:hint="@string/hint_name"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/etCategory"
+                android:id="@+id/etSignupEmail"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:ems="10"
@@ -59,9 +59,6 @@
                 android:hint="@string/hint_phone"
                 android:importantForAutofill="no"
                 android:inputType="phone" />
-                android:hint="Phone"
-                android:inputType="textPersonName" />
-
 
             <Button
                 android:id="@+id/btnPost"
@@ -74,8 +71,7 @@
                 android:text="@string/next"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20sp" />
-
+                android:textSize="20sp"/>
         </LinearLayout>
 
 
@@ -88,8 +84,8 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
         android:layout_marginTop="100dp"
-        tools:ignore="UselessParent"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        tools:ignore="UselessParent">
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import butterknife.BindView;
@@ -53,17 +55,30 @@ public class Login extends AppCompatActivity {
 
                 Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
                 if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
-                    ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
+                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    query.whereEqualTo("email",mEmail);
+                    query.getFirstInBackground(new GetCallback<ParseUser>() {
                         @Override
-                        public void done(ParseUser user, ParseException e) {
-                            if (e != null) {
-                                Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
+                        public void done(ParseUser object, ParseException e) {
+                            if(e!=null){
+                                Toast.makeText(getApplicationContext(),"Erreur :"+e.getMessage(),Toast.LENGTH_LONG).show();
                                 return;
                             }
-                            //todo: Check the category of user
-                            GoToSpecificPage(user);
-                            //todo: intent map distinct activity
+                            String username = object.getUsername();
+                            //maintenant on login
+                            ParseUser.logInInBackground(username, mPassword, new LogInCallback() {
+                                @Override
+                                public void done(ParseUser user, ParseException e) {
+                                    if (e != null) {
+                                        Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    //todo: Check the category of user
+                                    GoToSpecificPage(user);
+                                    //todo: intent map distinct activity
+                                }
+                            });
                         }
                     });
                 }else {
@@ -97,7 +112,7 @@ public class Login extends AppCompatActivity {
         if (user.getBoolean("Category")) {
             //Vendor
             Log.d("APP_MESS", "I'm a vendor");
-            Intent intent = new Intent(Login.this,HomeSeller.class);
+            Intent intent = new Intent(Login.this, MapSellerActivity.class);
             startActivity(intent);
             finish();
             //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
