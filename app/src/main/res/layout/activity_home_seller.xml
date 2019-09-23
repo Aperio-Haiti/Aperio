@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout android:layout_height="match_parent"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:id="@+id/drawer1"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeSeller">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/mapvendortoolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:background="@color/colorAccent25"
+        android:elevation="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivUserAvatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/avatar"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="2dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/FrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_marginBottom="56dp"/>
+        android:layout_below="@id/mapvendortoolbar"
+        android:layout_marginBottom="56dp" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -36,11 +48,12 @@
 </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/vendor_navigation_view"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        app:menu="@menu/menu_drawer"
-        app:headerLayout="@layout/header"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/menu_drawer">
 
 
     </com.google.android.material.navigation.NavigationView>

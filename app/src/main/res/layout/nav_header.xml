@@ -41,7 +41,7 @@
         android:layout_below="@id/ivUser"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="false"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textColor="@color/colorAccent"
         android:textSize="18sp" />
 

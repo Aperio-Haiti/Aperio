@@ -82,6 +82,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_user);
+
         Toolbar toolbar = findViewById(R.id.mapusertoolbar);
         setActionBar(toolbar);
         getActionBar().setDisplayShowTitleEnabled(false);
