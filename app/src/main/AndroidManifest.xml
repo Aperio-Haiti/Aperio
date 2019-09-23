@@ -52,9 +52,9 @@
             android:value="@string/google_maps_key"/>
 
         <activity android:name=".Signup_as_vendor" />
-        <activity android:name=".MapSellerActivity" />
+        <activity android:name=".MapSellerActivity" android:theme="@style/MapTheme" />
         <activity android:name=".AddProduct" />
-        <activity android:name="MapsUserActivity"/>
+        <activity android:name="MapsUserActivity"  android:theme="@style/MapTheme"/>
         <activity
             android:name=".SignUser"
             android:theme="@style/SignupUserTheme" />
