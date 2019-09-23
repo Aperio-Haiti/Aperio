@@ -1,61 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileDetail">
-    <ScrollView
 
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="UselessParent">
+        android:layout_height="wrap_content">
+
         <RelativeLayout
+            android:id="@+id/profil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-<RelativeLayout
-    android:id="@+id/profil"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:srcCompat="@android:color/black"
-            tools:ignore="ContentDescription" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgProfileDetail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
-        android:src="@drawable/thumb_2502_paysage_big"
-        tools:ignore="ContentDescription" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/transparent"
+                android:elevation="1dp"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ToolbarTheme" />
 
-    <TextView
-        android:id="@+id/tvnameProfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imgProfileDetail"
-        android:text="@string/atelier_macaya"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/bg_profile"
+                tools:ignore="ContentDescription" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvnameProfil"
-        android:text="@string/_102_rue_louverture_port_au_prince"
-        android:textSize="14sp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgProfileDetail"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:elevation="5dp"
+                android:src="@drawable/thumb_2502_paysage_big"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvnameProfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgProfileDetail"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/atelier_macaya"
+                android:textColor="@color/colorAccent"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/tvAddressProfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvnameProfil"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/_102_rue_louverture_port_au_prince"
+                android:textSize="14sp" />
 </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvprofil"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/profil"/>
-        </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvprofil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/profil"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp" />
+    </RelativeLayout>
 
 </ScrollView>
-</RelativeLayout>

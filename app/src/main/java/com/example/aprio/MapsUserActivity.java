@@ -147,8 +147,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-
-
         fab = findViewById(R.id.fabLocateUser);
         myCoordinates = new LatLng(18.534275,-72.324748);
 
