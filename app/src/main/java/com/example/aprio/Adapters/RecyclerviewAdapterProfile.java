@@ -20,7 +20,7 @@ import com.example.aprio.R;
 import java.util.List;
 
 
-public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.mViewHolder> {
+public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.mViewHolder> {
 
     Context context;
     List<Product> myProducts;
