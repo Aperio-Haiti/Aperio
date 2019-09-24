@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProductDetail">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarProductDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarProductDetail">
+
+        <ImageView
+            android:id="@+id/ivPosterProductDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[7]" />
+
+        <TextView
+            android:id="@+id/tvCategoryProductDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivPosterProductDetail"
+            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            tools:text="@string/painting" />
+
+        <RelativeLayout
+            android:id="@+id/ln"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvCategoryProductDetail"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
+            <ImageView
+                android:id="@+id/ivBookmarkProduct"
+                android:layout_width="36dp"
+                android:layout_height="38dp"
+                android:layout_alignParentEnd="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/ic_bookmark_black_24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/ivBookmarkProduct"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvDescriptionProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="26sp"
+                    tools:text="Le Marche a Port-au-Prince" />
+
+                <TextView
+                    android:id="@+id/tvSellerProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="@string/atelier_macaya"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnContactSeller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ln"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorAccent"
+            android:elevation="5dp"
+            android:text="@string/contact_seller"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.aprio.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Models.Product;
+import com.example.aprio.ProductDetail;
 import com.example.aprio.R;
 
 import java.util.List;
@@ -42,6 +44,14 @@ public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervie
         Glide.with(context).load(product.get_Image_Product().getUrl())
                 .apply(new RequestOptions().centerCrop().placeholder(R.drawable.error).placeholder(R.drawable.error))
                 .into(holder.imgPoster);
+        holder.imgPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProductDetail.class);
+                intent.putExtra("Product",product.getObjectId());
+                context.startActivity(intent);
+            }
+        });
         //Contact Seller
         holder.tvContact.setOnClickListener(new View.OnClickListener() {
             @Override
