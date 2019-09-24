@@ -13,13 +13,13 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_dp"
                 android:layout_width="42dp"
-                android:layout_height="46dp"
-                app:civ_border_color="#fff"
+                android:layout_height="42dp"
                 android:layout_alignParentTop="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="4dp"
                 android:contentDescription="@null"
-                android:src="@drawable/shape_circle" />
+                android:src="@drawable/shape_circle"
+                app:civ_border_color="#fff" />
 
             <TextView xmlns:tools="http://schemas.android.com/tools"
                 tools:text="janet John"

@@ -68,7 +68,7 @@ public class ProductDetail extends AppCompatActivity {
     }
     private void init() {
         Glide.with(getApplicationContext()).load(product.get_Image_Product().getUrl())
-                .apply(new RequestOptions().centerCrop().error(R.drawable.error))
+                .apply(new RequestOptions().error(R.drawable.error))
                 .into(ivPoster);
         tvCategory.setText(product.get_Category().getString(Category.KEY_CATEGORY));
         tvDescription.setText(product.get_Description());
