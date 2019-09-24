@@ -277,7 +277,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
 
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
-        Glide.with(context).load(img).apply(new RequestOptions().placeholder(R.drawable.avatar).error(R.drawable.avatar)).into(markerImage);
+        Glide.with(context).load(img.getUrl()).apply(new RequestOptions().placeholder(R.drawable.avatar).error(R.drawable.avatar)).into(markerImage);
         markerImage.setBorderWidth(3);
         markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
 

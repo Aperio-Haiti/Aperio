@@ -2,6 +2,7 @@ package com.example.aprio;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -37,7 +39,11 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -173,15 +179,17 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-
+        Log.d("MAP_FETCH","Marker : "+img.getUrl());
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
-        Glide.with(context).load(img).apply(new RequestOptions().placeholder(R.drawable.avatar).error(R.drawable.avatar)).into(markerImage);
         markerImage.setBorderWidth(3);
         markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
+        Glide.with(context).load(img.getUrl())
+                .apply(new RequestOptions().error(R.drawable.error))
+                .apply(new RequestOptions().override(42,42))
+                .into(markerImage);
 
-
-        TextView txt_name = (TextView)marker.findViewById(R.id.name);
+        TextView txt_name = (TextView) marker.findViewById(R.id.name);
         txt_name.setText(_name);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -212,6 +220,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 list.addAll(objects);
                 Log.d("MAP_FETCH",String.valueOf(list.size()));
                 Log.d("MAP_FETCH","I'm "+list.get(0).getUsername());
+
                 for (int i=0; i <list.size(); i++){
                     Log.d("MAP_FETCH",list.get(i).getUsername());
                     putAllMarkersOnMap(list.get(i));
@@ -222,12 +231,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
     public void putAllMarkersOnMap(ParseUser user){
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
-
         MarkerOptions options = new MarkerOptions();
         options.position(coordinates).title(user.getUsername())
-                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(MapsUserActivity.this,user.getParseFile("ProfileImg"),user.getUsername())));
+                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
         mMap.addMarker(options);
-
     }
 
     public void getLastKnownLocation(){
