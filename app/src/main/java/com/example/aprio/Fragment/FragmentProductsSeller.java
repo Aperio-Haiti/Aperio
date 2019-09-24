@@ -37,8 +37,8 @@ public class FragmentProductsSeller extends Fragment {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-//    @BindView(R.id.swipeContainer)
-//    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.swipeContainer)
+    SwipeRefreshLayout swipeContainer;
 
     //ok
     private RecyclerviewAdapter rvAdapter;
@@ -84,18 +84,18 @@ public class FragmentProductsSeller extends Fragment {
         rvproduct.setAdapter(rvAdapter);
             queryProduct();
 
-//            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light);
-//
-//            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    queryProduct();
-//
-//                }
-//            });
+            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    queryProduct();
+
+                }
+            });
         }
     }
 
@@ -131,7 +131,7 @@ public class FragmentProductsSeller extends Fragment {
 
                 rvAdapter.clear();
                 rvAdapter.addProduct(ProductToAdd);
-//                swipeContainer.setRefreshing(false);
+                swipeContainer.setRefreshing(false);
             }
         });
     }
