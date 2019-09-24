@@ -10,54 +10,43 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.aprio.Models.Product;
 import com.example.aprio.R;
 
 import java.util.List;
 
 
-public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.ViewHOlder> {
+public class RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.mViewHolder> {
 
-    private Context context;
-    private List<String> data;
+    Context context;
+    List<Product> myProducts;
 
-
-
-
-    public RecyclerviewAdapterProfile(Context context, List<String> data) {
+    public RecyclerviewAdapterProfile(Context context, List<Product> myProducts) {
         this.context = context;
-        this.data=data;
+        this.myProducts = myProducts;
     }
 
     @NonNull
     @Override
-    public ViewHOlder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.custom_profile,parent,false);
-        return new ViewHOlder(view);
+    public mViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.custom_profile,parent,false);
+        return new mViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHOlder holder, int position) {
-String title=data.get(position);
+    public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return myProducts.size();
     }
 
-    //Define the viewholder
-    class ViewHOlder extends RecyclerView.ViewHolder{
+    public class mViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView imgpost;
-        TextView name,category;
-
-
-        ViewHOlder(@NonNull View itemView) {
+        public mViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgpost=itemView.findViewById(R.id.imgMyproduct);
-            name=itemView.findViewById(R.id.tvMyproductname);
-            category=itemView.findViewById(R.id.tvMyproductcategory);
         }
     }
 }

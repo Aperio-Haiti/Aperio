@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileDetail extends AppCompatActivity {
-    private RecyclerviewAdapterProfile rvAdapter;
-    private RecyclerView recyclerView;
 
     @BindView(R.id.imgProfileDetail)
     CircleImageView imgProfile;
@@ -37,8 +35,12 @@ public class ProfileDetail extends AppCompatActivity {
     @BindView(R.id.tvAddressProfil)
     TextView tvAddressProfile;
 
-    private ArrayList<String> item;
+    @BindView(R.id.rvprofil)
+    RecyclerView rvProfile;
+
+    ArrayList<String> item;
     ParseUser selectedUser;
+    RecyclerviewAdapterProfile adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +54,12 @@ public class ProfileDetail extends AppCompatActivity {
         setTitle("");
         init();
 
-        item=new ArrayList<>();
-        item.add("1");
-        item.add("2");
-        item.add("4");
-        item.add("5");
-        item.add("7");
-        recyclerView =findViewById(R.id.rvprofil);
+        item = new ArrayList<>();
 
-        rvAdapter= new RecyclerviewAdapterProfile(this,item);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
+        adapter= new RecyclerviewAdapterProfile(this,item);
+        rvProfile.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
 
-        recyclerView.setAdapter(rvAdapter);
+        rvProfile.setAdapter(adapter);
     }
 
     private void init() {
