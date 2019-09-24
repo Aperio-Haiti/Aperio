@@ -121,8 +121,6 @@ public class FragmentProductsSeller extends Fragment {
                         Product p = objects.get(i);
                         ProductToAdd.add(p);
                     }
-//                    posts.addAll(objects);
-//                    adapter.notifyDataSetChanged();
                 } else {
                     Log.e("Error", "Error : " + e.getMessage());
                     e.printStackTrace();
