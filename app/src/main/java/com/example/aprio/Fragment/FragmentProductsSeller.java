@@ -31,8 +31,8 @@ public class FragmentProductsSeller extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.activitymyproductfragment, container, false);
-        View view = inflater.inflate(R.layout.activitymyproductfragment, container, false);
+//        return inflater.inflate(R.layout.activity_myproductfragment, container, false);
+        View view = inflater.inflate(R.layout.activity_myproductfragment, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
