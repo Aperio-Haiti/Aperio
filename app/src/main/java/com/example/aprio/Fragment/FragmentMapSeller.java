@@ -60,6 +60,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -360,11 +362,12 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
             ParseFile profileImgBitmap = user.getParseFile("ProfileImg");
             if (!user.getUsername().equals("my Location")) {
-                MarkerOptions markerOptions = new MarkerOptions()
+                /*MarkerOptions markerOptions = new MarkerOptions()
                         .position(coordinates)
                         .title(user.getUsername())
                         .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,user.getUsername())));
-                map.addMarker(markerOptions);
+                map.addMarker(markerOptions);*/
+                putAllMarkersOnMap(user,profileImgBitmap,coordinates);
             }
         }
         else {
@@ -466,11 +469,13 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                         LatLng coordinates = new LatLng(mUser.getDouble("Latitude"),mUser.getDouble("Longitude"));
                         ParseFile profileImgBitmap = mUser.getParseFile("ProfileImg");
 
-                        MarkerOptions markerOptions = new MarkerOptions()
+                        /*MarkerOptions markerOptions = new MarkerOptions()
                                 .position(coordinates)
                                 .title(mUser.getUsername())
                                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,mUser.getUsername())));
-                        map.addMarker(markerOptions);
+                        map.addMarker(markerOptions);*/
+
+                        putAllMarkersOnMap(mUser,profileImgBitmap,coordinates);
 
 //                    if(currentUser.)
 
@@ -482,6 +487,53 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                 }
             }
         });
+    }
+
+    public void putAllMarkersOnMap(ParseUser user,ParseFile img,LatLng coordinates){
+        Context context = (Context) getActivity();
+        String _name = "Lol";
+
+        /*MarkerOptions options = new MarkerOptions();
+        options.position(coordinates).title(user.getUsername())
+                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
+        mMap.addMarker(options);*/
+
+        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+        Log.d("MAP_FETCH","Marker : "+img.getUrl());
+        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        markerImage.setBorderWidth(3);
+        markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+        Picasso.get().load(img.getUrl())
+                .into(markerImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        TextView txt_name = (TextView) marker.findViewById(R.id.name);
+                        txt_name.setText(_name);
+
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.buildDrawingCache();
+                        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        marker.draw(canvas);
+
+                        MarkerOptions options = new MarkerOptions();
+                        options.position(coordinates).title(user.getUsername())
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+                        map.addMarker(options);
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.d("MapUser","Erreur marker img: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                });
     }
 
     @Override

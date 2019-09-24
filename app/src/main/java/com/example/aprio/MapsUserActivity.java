@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -41,9 +42,12 @@ import android.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -59,6 +63,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.loopj.android.http.AsyncHttpRequest;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.Parse;
@@ -66,7 +71,14 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -176,34 +188,40 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
+    /*public static Bitmap createCustomMarker(Context context, ParseFile img, String _name){
 
-        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+       /* View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
         Log.d("MAP_FETCH","Marker : "+img.getUrl());
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
         markerImage.setBorderWidth(3);
         markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
 
-        Glide.with(context).load(img.getUrl())
-                .apply(new RequestOptions().error(R.drawable.error))
-                .apply(new RequestOptions().override(42,42))
-                .into(markerImage);
+        Picasso.get().load(img.getUrl())
+                .into(markerImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        TextView txt_name = (TextView) marker.findViewById(R.id.name);
+                        txt_name.setText(_name);
 
-        TextView txt_name = (TextView) marker.findViewById(R.id.name);
-        txt_name.setText(_name);
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.buildDrawingCache();
+                        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        marker.draw(canvas);
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
-        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.buildDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        marker.draw(canvas);
+                        return bitmap;
+                    }
 
-        return bitmap;
-    }
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+    }*/
 
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -230,11 +248,53 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void putAllMarkersOnMap(ParseUser user){
+        Context context = (Context) MapsUserActivity.this;
+        ParseFile img = user.getParseFile("ProfileImg");
+        String _name = "Lol";
+
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
-        MarkerOptions options = new MarkerOptions();
+
+        /*MarkerOptions options = new MarkerOptions();
         options.position(coordinates).title(user.getUsername())
                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
-        mMap.addMarker(options);
+        mMap.addMarker(options);*/
+
+        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+        Log.d("MAP_FETCH","Marker : "+img.getUrl());
+        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        markerImage.setBorderWidth(3);
+        markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+
+        Picasso.get().load(img.getUrl())
+                .into(markerImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        TextView txt_name = (TextView) marker.findViewById(R.id.name);
+                        txt_name.setText(_name);
+
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+                        marker.buildDrawingCache();
+                        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        marker.draw(canvas);
+
+                        MarkerOptions options = new MarkerOptions();
+                        options.position(coordinates).title(user.getUsername())
+                                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+                        mMap.addMarker(options);
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Log.d("MapUser","Erreur marker img: "+e.getMessage());
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void getLastKnownLocation(){
@@ -287,6 +347,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
