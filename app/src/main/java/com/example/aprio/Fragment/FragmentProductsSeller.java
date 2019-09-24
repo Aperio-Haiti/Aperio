@@ -71,13 +71,7 @@ public class FragmentProductsSeller extends Fragment {
 
 //
         item = new ArrayList<>();
-//        item.add("1");
-//        item.add("2");
-//        item.add("4");
-//        item.add("5");
-//        item.add("7");
-//        recyclerView = view.findViewById(R.id.rvproduct);
-//
+
         rvAdapter = new RecyclerviewAdapter(getContext(), item);
         rvproduct.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 //
