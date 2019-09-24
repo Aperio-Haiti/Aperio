@@ -41,8 +41,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
                 android:elevation="5dp"
-                android:src="@drawable/thumb_2502_paysage_big"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                tools:src="@drawable/thumb_2502_paysage_big" />
 
             <TextView
                 android:id="@+id/tvnameProfil"
@@ -53,9 +53,9 @@
                 android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/atelier_macaya"
                 android:textColor="@color/colorAccent"
-                android:textSize="36sp" />
+                android:textSize="36sp"
+                tools:text="@string/atelier_macaya" />
 
             <TextView
                 android:id="@+id/tvAddressProfil"
@@ -66,8 +66,8 @@
                 android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="@string/_102_rue_louverture_port_au_prince"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="@string/_102_rue_louverture_port_au_prince" />
 </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView

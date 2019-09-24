@@ -5,6 +5,7 @@ package com.example.aprio.Fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +39,8 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.aprio.MapsUserActivity;
+import com.example.aprio.ProfileDetail;
 import com.example.aprio.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -47,6 +50,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -68,7 +72,7 @@ import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
+public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     List<ParseUser> list;
 
@@ -473,11 +477,19 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback {
                     } catch (IOException ex) {
                         e.printStackTrace();
                     }
-//                    moveCamera(new LatLng(list.get(i).));
+                    //moveCamera(new LatLng(list.get(i).));
 
                 }
             }
         });
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Log.d("MAP_FETCH","Title "+marker.getTitle());
+        Intent intent = new Intent(getActivity(), ProfileDetail.class);
+        intent.putExtra("Title",marker.getTitle());
+        startActivity(intent);
+        return false;
+    }
 }

@@ -12,13 +12,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Adapters.RecyclerviewAdapterProfile;
+import com.example.aprio.Models.Product;
 import com.google.android.material.circularreveal.cardview.CircularRevealCardView;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +41,7 @@ public class ProfileDetail extends AppCompatActivity {
     @BindView(R.id.rvprofil)
     RecyclerView rvProfile;
 
-    ArrayList<String> item;
+    ArrayList<Product> item;
     ParseUser selectedUser;
     RecyclerviewAdapterProfile adapter;
 
@@ -53,16 +56,9 @@ public class ProfileDetail extends AppCompatActivity {
 
         setTitle("");
         init();
-
-        item = new ArrayList<>();
-
-        adapter= new RecyclerviewAdapterProfile(this,item);
-        rvProfile.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
-
-        rvProfile.setAdapter(adapter);
     }
 
-    private void init() {
+    private void init()  {
         String name = getIntent().getStringExtra("Title");
 
         if(!name.contentEquals("")){
@@ -87,11 +83,37 @@ public class ProfileDetail extends AppCompatActivity {
                             .into(imgProfile);
                     tvNameProfile.setText(selectedUser.getUsername());
                     tvAddressProfile.setText(selectedUser.getString("Address"));
+                    BindRecyclerView();
                 }
             });
         }else{
             finish();
         }
+    }
+
+    private void BindRecyclerView() {
+        item = new ArrayList<>();
+
+        ParseQuery<Product> query = new ParseQuery<Product>(Product.class);
+        query.include("Vendor");
+        query.whereEqualTo("Vendor",selectedUser);
+        query.findInBackground(new FindCallback<Product>() {
+            @Override
+            public void done(List<Product> objects, ParseException e) {
+                if(e!=null){
+                    Log.d("ProfileDetail","Erreur : "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                item.clear();
+                item.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        adapter = new RecyclerviewAdapterProfile(this, item);
+        rvProfile.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
+        rvProfile.setAdapter(adapter);
     }
 
     @Override
