@@ -1,4 +1,4 @@
-package com.example.aprio;
+package com.example.aprio.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aprio.Models.Message;
+import com.example.aprio.R;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -40,10 +42,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         return new ViewHolder(contactView);
     }
 
-    @SuppressLint("RtlHardcoded")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Message message = mMessages.get(position);
+        /*Message message = mMessages.get(position);
         final boolean isMe = message.getUserId() != null && message.getUserId().equals(mUserId);
 
         if (isMe) {
@@ -58,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
         Glide.with(mContext).load(getProfileUrl(message.getUserId())).into(profileView);
-        holder.body.setText(message.getBody());
+        holder.body.setText(message.getBody());*/
     }
 
     // Create a gravatar image based on the hash value obtained from userId

@@ -73,6 +73,9 @@ public class ProductDetail extends AppCompatActivity {
         tvSeller.setText(product.get_User().getUsername());
         btnCantactSeller.setOnClickListener(view -> {
             //todo: Intent to message activity
+            Intent intent = new Intent(ProductDetail.this,Negociation.class);
+            intent.putExtra("Product",product.getObjectId());
+            startActivity(intent);
         });
     }
 
