@@ -18,7 +18,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -65,8 +67,9 @@ public class SignUser extends AppCompatActivity {
                 String password_confirm = edtCfmPassword.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
 
-                if(password.contentEquals(password_confirm))
+                if(password.contentEquals(password_confirm)){
                     Sign_user(username, password, email);
+                }
                 else
                     Toast.makeText(getApplicationContext(),"No Matched Password", Toast.LENGTH_SHORT).show();
                 break;
@@ -83,14 +86,25 @@ public class SignUser extends AppCompatActivity {
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
-        user.put("ProfileImg",new ParseFile(DrawableToByteArray(R.drawable.avatar)));
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null){
-                    Intent i = new Intent(getApplicationContext(),MapsUserActivity.class);
-                    startActivity(i);
+                    ParseUser user1 = ParseUser.getCurrentUser();
+                    user1.put("ProfileImg",new ParseFile("avatar.jpg",DrawableToByteArray(R.drawable.avatar)));
+                    user1.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e!=null){
+                                e.printStackTrace();
+                                return;
+                            }
+                            Intent i = new Intent(getApplicationContext(),MapsUserActivity.class);
+                            startActivity(i);
+                        }
+                    });
+
                 }
                 else{
                     ParseUser.logOut();
