@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -104,15 +105,15 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         Toolbar toolbar = findViewById(R.id.mapusertoolbar);
         setActionBar(toolbar);
-        getActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getActionBar()).setDisplayShowTitleEnabled(false);
 
 
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
-        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+/*        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
-                .into(imageView);
+                .into(imageView);*/
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerLayout = findViewById(R.id.drawer);
         actionBarDrawerToggle = new ActionBarDrawerToggle(MapsUserActivity.this,drawerLayout,R.string.Open,R.string.Close);
 
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -121,24 +122,19 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         //img on click to open drawer
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        imageView.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         //navigationview
         NavigationView navigationView = findViewById(R.id.user_navigation_view);
         View headerLayout = navigationView.getHeaderView(0);
 
-        CircleImageView ivHeaderPhoto = (CircleImageView) headerLayout.findViewById(R.id.ivUser);
+        CircleImageView ivHeaderPhoto = headerLayout.findViewById(R.id.ivUser);
         ivHeaderPhoto.setBorderColor(Color.WHITE);
         ivHeaderPhoto.setBorderWidth(10);
 
-        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+/*        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
-                .into(ivHeaderPhoto);
+                .into(ivHeaderPhoto); */
 
         TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
         tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
@@ -147,22 +143,19 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         tvHeaderEmail.setText(ParseUser.getCurrentUser().getEmail());
 
         TextView tvLogout = headerLayout.findViewById(R.id.tvLogout);
-        tvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e!=null){
-                            e.printStackTrace();
-                            return;
-                        }
-                        Intent intent = new Intent(MapsUserActivity.this,Login.class);
-                        startActivity(intent);
-                        finish();
+        tvLogout.setOnClickListener(view -> {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                        return;
                     }
-                });
-            }
+                    Intent intent = new Intent(MapsUserActivity.this, Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         });
 
         fab = findViewById(R.id.fabLocateUser);
@@ -226,29 +219,26 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Category",true);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(e!=null){
-                    Log.d("MAP_FETCH",e.toString());
-                    e.printStackTrace();
-                    return;
-                }
-                list.clear();
-                list.addAll(objects);
-                Log.d("MAP_FETCH",String.valueOf(list.size()));
-                Log.d("MAP_FETCH","I'm "+list.get(0).getUsername());
+        query.findInBackground((objects, e) -> {
+            if(e!=null){
+                Log.d("MAP_FETCH",e.toString());
+                e.printStackTrace();
+                return;
+            }
+            list.clear();
+            list.addAll(objects);
+            Log.d("MAP_FETCH",String.valueOf(list.size()));
+            Log.d("MAP_FETCH","I'm "+list.get(0).getUsername());
 
-                for (int i=0; i <list.size(); i++){
-                    Log.d("MAP_FETCH",list.get(i).getUsername());
-                    putAllMarkersOnMap(list.get(i));
-                }
+            for (int i=0; i <list.size(); i++){
+                Log.d("MAP_FETCH",list.get(i).getUsername());
+                putAllMarkersOnMap(list.get(i));
             }
         });
     }
 
     public void putAllMarkersOnMap(ParseUser user){
-        Context context = (Context) MapsUserActivity.this;
+        Context context = MapsUserActivity.this;
         ParseFile img = user.getParseFile("ProfileImg");
         String _name = "Lol";
 
@@ -259,7 +249,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
         mMap.addMarker(options);*/
 
-        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+        @SuppressLint("InflateParams") View marker = ((LayoutInflater) Objects.requireNonNull(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))).inflate(R.layout.custom_marker_layout, null);
         Log.d("MAP_FETCH","Marker : "+img.getUrl());
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
         markerImage.setBorderWidth(3);

@@ -3,6 +3,7 @@ package com.example.aprio;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,20 +50,17 @@ public class ProductDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         objectId = getIntent().getStringExtra("Product");
-        ParseQuery<Product> query = new ParseQuery<Product>(Product.class);
+        ParseQuery<Product> query = new ParseQuery<>(Product.class);
         query.include(Product.KEY_USER);
         query.include(Product.KEY_CATEGORY);
-        query.getInBackground(objectId, new GetCallback<Product>() {
-            @Override
-            public void done(Product object, ParseException e) {
-                if(e!=null){
-                    Log.d("ProductDetail","Erreur : "+e.getMessage());
-                    e.printStackTrace();
-                    return;
-                }
-                product = object;
-                init();
+        query.getInBackground(objectId, (object, e) -> {
+            if(e!=null){
+                Log.d("ProductDetail","Erreur : "+e.getMessage());
+                e.printStackTrace();
+                return;
             }
+            product = object;
+            init();
         });
 
     }
@@ -73,11 +71,8 @@ public class ProductDetail extends AppCompatActivity {
         tvCategory.setText(product.get_Category().getString(Category.KEY_CATEGORY));
         tvDescription.setText(product.get_Description());
         tvSeller.setText(product.get_User().getUsername());
-        btnCantactSeller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: Intent to message activity
-            }
+        btnCantactSeller.setOnClickListener(view -> {
+            //todo: Intent to message activity
         });
     }
 
@@ -85,5 +80,9 @@ public class ProductDetail extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    public void Contact(View view) {
+        startActivity(new Intent(ProductDetail.this,Negociation.class));
     }
 }

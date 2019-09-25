@@ -4,7 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 @ParseClassName("Message")
-class Message extends ParseObject {
+public class Message extends ParseObject {
     private static final String USER_ID_KEY = "userId";
     private static final String BODY_KEY = "body";
 

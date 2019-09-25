@@ -126,7 +126,7 @@ public class Negociation extends AppCompatActivity {
         // This is equivalent to a SELECT query with SQL
         query.findInBackground((messages, e) -> {
             if (e == null) {
-                //mMessages.clear();
+                mMessages.clear();
                 mMessages.addAll(messages);
                 mAdapter.notifyDataSetChanged(); // update adapter
                 // Scroll to the bottom of the list on initial load

@@ -19,12 +19,7 @@ public class App extends Application {
         ParseObject.registerSubclass(Category.class);
         ParseObject.registerSubclass(Message.class);
 
-        // Use for monitoring Parse network traffic
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        // Can be Level.BASIC, Level.HEADERS, or Level.BODY
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.networkInterceptors().add(httpLoggingInterceptor);
+
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.app_id))
