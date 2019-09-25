@@ -21,7 +21,9 @@ import androidx.fragment.app.Fragment;
 import com.example.aprio.MapSellerActivity;
 import com.example.aprio.R;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -118,14 +120,26 @@ public class FragmentLayout2 extends Fragment {
         user.put("Phone",Integer.valueOf(phone));
         user.put("Latitude", Lat);
         user.put("Longitude",Lng);
-        user.put("ProfileImg",DrawableToByteArray(R.drawable.avatar));
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    Intent i = new Intent(getContext(), MapSellerActivity.class);
-                    startActivity(i);
+                    ParseUser user1 = ParseUser.getCurrentUser();
+                    user1.put("ProfileImg",new ParseFile("avatar.jpg",DrawableToByteArray(R.drawable.avatar)));
+                    user1.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e!=null){
+                                e.printStackTrace();
+                                return;
+                            }
+                            Intent i = new Intent(getContext(), MapSellerActivity.class);
+                            startActivity(i);
+                            getActivity().finish();
+                        }
+                    });
+
                 } else {
                     ParseUser.logOut();
                     Log.e(TAG,e.getMessage());
