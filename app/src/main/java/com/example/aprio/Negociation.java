@@ -76,8 +76,12 @@ public class Negociation extends AppCompatActivity {
     EditText etMessage;
     @BindView(R.id.fabSend)
     FloatingActionButton fabSend;
+    @BindView(R.id.rvChat)
+    RecyclerView rvChat;
 
     Product product;
+    ChatAdapter adapter;
+    ArrayList<Message> messageArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,12 @@ public class Negociation extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
+
+        messageArrayList = new ArrayList<>();
+        adapter = new ChatAdapter(Negociation.this,messageArrayList);
+        rvChat.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
+        rvChat.setAdapter(adapter);
+
 
         /*// User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
