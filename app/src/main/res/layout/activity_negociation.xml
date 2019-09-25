@@ -4,21 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/artbgo"
     tools:context=".Negociation">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarNegociation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ToolbarTheme" />
 
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent50">
 
         <EditText
             android:id="@+id/etMessage"
@@ -28,7 +22,11 @@
             android:layout_marginStart="10dp"
             android:layout_toLeftOf="@id/fabSend"
             android:hint="@string/what_s_on_your_mind"
-            android:inputType="textAutoCorrect" />
+            android:inputType="textAutoCorrect"
+            android:textColor="@android:color/white"
+            android:textColorHighlight="@color/colorAccent"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/colorAccent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSend"
@@ -44,21 +42,12 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/rl"
-        android:layout_below="@id/rlk"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
-
     <RelativeLayout
         android:id="@+id/rlk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarNegociation"
-        android:background="#0D403F4C"
+        android:background="#EBEBEB"
         android:padding="6dp">
 
         <ImageView
@@ -102,5 +91,22 @@
             android:textColor="@color/colorAccent"
             tools:text="@string/atelier_macaya" />
     </RelativeLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarNegociation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/rl"
+        android:layout_below="@id/rlk"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
 </RelativeLayout>

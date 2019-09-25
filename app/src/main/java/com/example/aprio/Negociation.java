@@ -36,32 +36,11 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class Negociation extends AppCompatActivity {
 
-    /*private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
-    EditText etMessage;
-    ImageButton btSend;
-    RecyclerView rvChat;
-    ArrayList<Message> mMessages;
-    ChatAdapter mAdapter;*/
+    private static final int MAX_CHAT_MESSAGES_TO_SHOW = 50;
 
-    // Keep track of initial load to scroll to the bottom of the ListView
-    /*boolean mFirstLoad;
-    public final static String USER_ID_KEY="user";
-    public final static String BODY_KEY="body";*/
-
-    // Create a handler which can run code periodically
-    /*static final int POLL_INTERVAL = 1000; // milliseconds
-    Handler myHandler = new Handler();  // android.os.Handler
-    Runnable mRefreshMessagesRunnable = new Runnable() {
-        @Override
-        public void run() {
-            refreshMessages();
-            myHandler.postDelayed(this, POLL_INTERVAL);
-        }
-    };*/
     @BindView(R.id.toolbarNegociation)
     Toolbar toolbar;
     @BindView(R.id.imgSelectedProductImg)
@@ -93,27 +72,18 @@ public class Negociation extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         init();
-
         messageArrayList = new ArrayList<>();
-        adapter = new ChatAdapter(Negociation.this,messageArrayList);
-        rvChat.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
-        rvChat.setAdapter(adapter);
 
 
-        /*// User login
-        if (ParseUser.getCurrentUser() != null) { // start with existing user
-            startWithCurrentUser();
-        } else { // If not logged in, login as a new anonymous user
-            login();
-        }
-        myHandler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL);*/
+
+
     }
 
     private void init() {
         String objectId = getIntent().getStringExtra("Product");
         ParseQuery<Product> query = new ParseQuery<>(Product.class);
-        query.include("Vendor");
-        query.include("Category");
+        query.include(Product.KEY_USER);
+        query.include(Product.KEY_CATEGORY);
         query.getInBackground(objectId, new GetCallback<Product>() {
             @Override
             public void done(Product object, ParseException e) {
@@ -132,6 +102,12 @@ public class Negociation extends AppCompatActivity {
                 tvCategory.setText(category.getCategory());
                 tvDescription.setText(product.get_Description());
                 tvVendor.setText(vendor.getUsername());
+
+                adapter = new ChatAdapter(Negociation.this,messageArrayList);
+                rvChat.setLayoutManager(new LinearLayoutManager(Negociation.this,RecyclerView.VERTICAL,false));
+                rvChat.setAdapter(adapter);
+
+                refreshMessages();
             }
         });
 
@@ -158,87 +134,37 @@ public class Negociation extends AppCompatActivity {
                             return;
                         }
                         //todo:refresh RecyclerView
+                        refreshMessages();
                     }
                 });
             }
         });
     }
 
-    /*private void login() {
-        ParseAnonymousUtils.logIn((user, e) -> {
-            if (e != null) {
-                Log.e("Erreur", "Anonymous login failed: ", e);
-            } else {
-                startWithCurrentUser();
-            }
-        });
-    }*/
-
-
-    /*void startWithCurrentUser() {
-        setupMessagePosting();
-    }*/
-    // Setup message field and posting
-    /*void setupMessagePosting() {
-        // Find the text field and button
-        etMessage = findViewById(R.id.etMessage);
-        btSend = findViewById(R.id.btSend);
-        rvChat = findViewById(R.id.rvChat);
-        mMessages = new ArrayList<>();
-        mFirstLoad = true;
-        final String userId = ParseUser.getCurrentUser().getObjectId();
-        mAdapter = new ChatAdapter(Negociation.this, userId, mMessages);
-        rvChat.setAdapter(mAdapter);
-
-        // associate the LayoutManager with the RecylcerView
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(Negociation.this);
-        rvChat.setLayoutManager(linearLayoutManager);
-
-        // When send button is clicked, create message object on Parse
-        btSend.setOnClickListener(v -> {
-            String data = etMessage.getText().toString();
-            //ParseObject message = ParseObject.create("Message");
-            //message.put(Message.USER_ID_KEY, userId);
-            //message.put(Message.BODY_KEY, data);
-            // Using new `Message` Parse-backed model now
-            Message message = new Message();
-            message.setBody(data);
-            message.setUserId(ParseUser.getCurrentUser().getObjectId());
-            message.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    Toast.makeText(Negociation.this, "Successfully created message on Parse",
-                            Toast.LENGTH_SHORT).show();
-                    refreshMessages();
-                }
-            });
-            etMessage.setText(null);
-        });
-    }*/
-
-    /*private void refreshMessages() {
+    private void refreshMessages() {
         // Construct query to execute
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         // Configure limit and sort order
+        query.include(Message.KEY_PRODUCT);
+        query.include(Message.KEY_USER);
+        query.include(Message.KEY_VENDOR);
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
         // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByDescending("createdAt");
+        query.orderByAscending("createdAt");
+        query.whereEqualTo(Message.KEY_VENDOR,product.get_User());
+        query.whereEqualTo(Message.KEY_USER,ParseUser.getCurrentUser());
+        query.whereEqualTo(Message.KEY_PRODUCT,product);
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
         query.findInBackground((messages, e) -> {
             if (e == null) {
-                mMessages.clear();
-                mMessages.addAll(messages);
-                mAdapter.notifyDataSetChanged(); // update adapter
-                // Scroll to the bottom of the list on initial load
-                if (mFirstLoad) {
-                    rvChat.scrollToPosition(0);
-                    mFirstLoad = false;
-                }
+                messageArrayList.clear();
+                messageArrayList.addAll(messages);
+                adapter.notifyDataSetChanged(); // update adapter
             } else {
                 Log.e("message", "Error Loading Messages" + e);
             }
         });
-    }*/
+    }
 }
