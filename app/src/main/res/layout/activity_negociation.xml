@@ -17,10 +17,11 @@
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
-            android:layout_toLeftOf="@id/fabSend"
+            android:layout_toStartOf="@id/fabSend"
+            android:background="@android:color/transparent"
             android:hint="@string/what_s_on_your_mind"
             android:inputType="textAutoCorrect"
             android:textColor="@android:color/white"
@@ -37,8 +38,10 @@
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/colorPrimary"
             android:clickable="true"
+            app:elevation="0dp"
             app:fabSize="mini"
-            app:srcCompat="@drawable/ic_send_black_24dp" />
+            app:srcCompat="@drawable/ic_send_black_24dp"
+            android:focusable="true" />
 
     </RelativeLayout>
 
@@ -52,8 +55,8 @@
 
         <ImageView
             android:id="@+id/imgSelectedProductImg"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginEnd="8dp"
             tools:srcCompat="@tools:sample/avatars[0]" />
 
@@ -62,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_toRightOf="@id/imgSelectedProductImg"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
             android:fontFamily="@font/roboto"
             android:textColor="@color/colorPrimary"
             tools:text="@string/painting" />
@@ -72,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSelectedProductCategory"
-            android:layout_toRightOf="@id/imgSelectedProductImg"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
             android:ellipsize="end"
             android:fontFamily="@font/roboto"
             android:singleLine="true"
@@ -85,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSelectedProductDescription"
-            android:layout_toRightOf="@id/imgSelectedProductImg"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/colorAccent"

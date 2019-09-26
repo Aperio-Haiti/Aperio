@@ -73,10 +73,6 @@ public class Negociation extends AppCompatActivity {
 
         init();
         messageArrayList = new ArrayList<>();
-
-
-
-
     }
 
     private void init() {
@@ -92,6 +88,7 @@ public class Negociation extends AppCompatActivity {
                     e.printStackTrace();
                     return;
                 }
+
                 product = object;
                 Glide.with(Negociation.this)
                         .load(product.get_Image_Product().getUrl())

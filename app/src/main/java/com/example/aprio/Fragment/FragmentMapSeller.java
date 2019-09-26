@@ -398,6 +398,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 //        getAllVendors();
 //    }
 //
+
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Category",true);
@@ -450,7 +451,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                     city_currentuser = addressescurrentuser.get(0).getLocality();
                 }
                 catch (IOException ex) {
-                    e.printStackTrace();
+                    ex.printStackTrace();
                 }
 
 

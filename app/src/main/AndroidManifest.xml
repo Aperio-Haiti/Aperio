@@ -10,15 +10,8 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name=".App"
-
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -26,10 +19,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".ViewMessage"></activity>
         <activity
             android:name=".ProductDetail"
             android:theme="@style/PrimaryTheme" />
-
         <activity android:name=".Signup_as_vendor" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -42,7 +35,6 @@
         <activity
             android:name=".ProfileDetail"
             android:theme="@style/ProfileTheme" />
-
         <activity
             android:name=".MapSellerActivity"
             android:theme="@style/MapTheme" />
@@ -63,13 +55,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.parse.SERVER_URL"
             android:value="@string/server_url" />
@@ -79,6 +71,7 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/client_key" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.fileprovider"
@@ -89,5 +82,11 @@
                 android:resource="@xml/fileprovider" />
         </provider>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
