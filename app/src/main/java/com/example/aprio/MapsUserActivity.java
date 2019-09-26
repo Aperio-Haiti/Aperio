@@ -68,7 +68,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.loopj.android.http.AsyncHttpRequest;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -430,61 +429,34 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
         switch (item.getItemId()){
             case R.id.app_bar_search:
-                    Search();
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
+
+                TextView inputSearch = mView.findViewById(R.id.input_search);
+
+                inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH
+                                || actionId == EditorInfo.IME_ACTION_DONE
+                                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                                || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                            Toast.makeText(getApplicationContext(),"Goog",Toast.LENGTH_SHORT).show();
+//                            geoLocate();
+                        }
+                        return false;
+                    }
+                });
+                mBuilder.setView(mView);
+                AlertDialog dialog =mBuilder.create();
+                dialog.show();
                 return true;
             case R.id.app_bar_list:
                 return true;
                 default:
                     return false;
         }
-    }
-
-    public void Search(){
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
-
-        TextView inputSearch = mView.findViewById(R.id.input_search);
-
-        mBuilder.setView(mView);
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
-
-        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    String searchString = inputSearch.getText().toString();
-                    SearchVendor(searchString,dialog);
-                }
-                return false;
-            }
-        });
-
-    }
-
-    public void SearchVendor(String vendor_name, AlertDialog dialog){
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username",vendor_name);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if(object!=null){
-                    Toast.makeText(getApplicationContext(),vendor_name,Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
-                    intent.putExtra("Title",vendor_name);
-                    startActivity(intent);
-                    dialog.hide();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Vendor not found",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        });
     }
 
     @Override
