@@ -68,6 +68,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.loopj.android.http.AsyncHttpRequest;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -467,10 +468,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     public void SearchVendor(String vendor_name, AlertDialog dialog){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",vendor_name);
-        query.findInBackground(new FindCallback<ParseUser>() {
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(objects.size()!= 0){
+            public void done(ParseUser object, ParseException e) {
+                if(object!=null){
                     Toast.makeText(getApplicationContext(),vendor_name,Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
                     intent.putExtra("Title",vendor_name);
