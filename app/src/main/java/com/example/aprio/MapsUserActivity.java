@@ -463,7 +463,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 return false;
             }
         });
-
     }
 
     public void SearchVendor(String vendor_name, AlertDialog dialog){
