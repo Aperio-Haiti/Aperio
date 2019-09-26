@@ -28,12 +28,14 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -427,9 +429,25 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
         switch (item.getItemId()){
             case R.id.app_bar_search:
-                Toast.makeText(getApplicationContext(),"Goog",Toast.LENGTH_SHORT).show();
+
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
+
+                TextView inputSearch = mView.findViewById(R.id.input_search);
+
+                inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH
+                                || actionId == EditorInfo.IME_ACTION_DONE
+                                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                                || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                            Toast.makeText(getApplicationContext(),"Goog",Toast.LENGTH_SHORT).show();
+//                            geoLocate();
+                        }
+                        return false;
+                    }
+                });
                 mBuilder.setView(mView);
                 AlertDialog dialog =mBuilder.create();
                 dialog.show();
