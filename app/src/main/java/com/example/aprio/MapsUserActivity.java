@@ -431,6 +431,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         switch (item.getItemId()){
             case R.id.app_bar_search:
                     Search();
+
                 return true;
             case R.id.app_bar_list:
                 return true;
