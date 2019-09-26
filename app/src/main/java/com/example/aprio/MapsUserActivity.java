@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -187,6 +188,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         // Pass any configuration change to the drawer toggles
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+
 
     /*public static Bitmap createCustomMarker(Context context, ParseFile img, String _name){
 
@@ -424,6 +427,12 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
         switch (item.getItemId()){
             case R.id.app_bar_search:
+                Toast.makeText(getApplicationContext(),"Goog",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
+                mBuilder.setView(mView);
+                AlertDialog dialog =mBuilder.create();
+                dialog.show();
                 return true;
             case R.id.app_bar_list:
                 return true;
