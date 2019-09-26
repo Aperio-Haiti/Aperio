@@ -444,6 +444,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         TextView inputSearch = mView.findViewById(R.id.input_search);
 
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -452,17 +456,15 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
                     String searchString = inputSearch.getText().toString();
-                    SearchVendor(searchString);
+                    SearchVendor(searchString,dialog);
                 }
                 return false;
             }
         });
-        mBuilder.setView(mView);
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
+
     }
 
-    public void SearchVendor(String vendor_name){
+    public void SearchVendor(String vendor_name, AlertDialog dialog){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",vendor_name);
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -473,10 +475,11 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                     Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
                     intent.putExtra("Title",vendor_name);
                     startActivity(intent);
+                    dialog.hide();
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Vendor is not found",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Vendor not found",Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
