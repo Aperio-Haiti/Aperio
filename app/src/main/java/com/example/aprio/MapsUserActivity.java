@@ -429,34 +429,58 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
         switch (item.getItemId()){
             case R.id.app_bar_search:
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
-
-                TextView inputSearch = mView.findViewById(R.id.input_search);
-
-                inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH
-                                || actionId == EditorInfo.IME_ACTION_DONE
-                                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                                || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                            Toast.makeText(getApplicationContext(),"Goog",Toast.LENGTH_SHORT).show();
-//                            geoLocate();
-                        }
-                        return false;
-                    }
-                });
-                mBuilder.setView(mView);
-                AlertDialog dialog =mBuilder.create();
-                dialog.show();
+                    Search();
                 return true;
             case R.id.app_bar_list:
                 return true;
                 default:
                     return false;
         }
+    }
+
+    public void Search(){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
+
+        TextView inputSearch = mView.findViewById(R.id.input_search);
+
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    String searchString = inputSearch.getText().toString();
+                    SearchVendor(searchString);
+                }
+                return false;
+            }
+        });
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+    }
+
+    public void SearchVendor(String vendor_name){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",vendor_name);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if(objects.size()!= 0){
+                    Toast.makeText(getApplicationContext(),vendor_name,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
+                    intent.putExtra("Title",vendor_name);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Vendor is not found",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 
     @Override
