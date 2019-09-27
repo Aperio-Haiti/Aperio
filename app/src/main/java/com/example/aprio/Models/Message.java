@@ -1,6 +1,7 @@
 package com.example.aprio.Models;
 
 import com.example.aprio.Models.Product;
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -13,6 +14,7 @@ public class Message extends ParseObject {
     public static final String KEY_VENDOR = "vendor";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_PRODUCT = "product";
+    public static final String KEY_CONVERSATION = "conversation";
 
     public void setUser(ParseUser user){put(KEY_USER,user);}
     public ParseUser getUser(){return getParseUser(KEY_USER);}
@@ -22,4 +24,6 @@ public class Message extends ParseObject {
     public String getMessage(){return getString(KEY_MESSAGE);}
     public void setProduct(ParseObject product){put(KEY_PRODUCT,product);}
     public ParseObject getProduct(){return getParseObject(KEY_PRODUCT);}
+    public void setConversation(ParseObject conversation){put(KEY_CONVERSATION,conversation);}
+    public ParseObject getConversation(){return getParseObject(KEY_CONVERSATION);}
 }

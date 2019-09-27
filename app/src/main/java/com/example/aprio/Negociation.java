@@ -20,10 +20,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Adapters.ChatAdapter;
 import com.example.aprio.Models.Category;
+import com.example.aprio.Models.Conversation;
 import com.example.aprio.Models.Message;
 import com.example.aprio.Models.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.CountCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
@@ -33,6 +36,7 @@ import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +65,10 @@ public class Negociation extends AppCompatActivity {
     Product product;
     ChatAdapter adapter;
     ArrayList<Message> messageArrayList;
+    String convo;
+    ParseUser sender;
+    ParseUser reciever;
+    Conversation conversation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +79,47 @@ public class Negociation extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        convo = getIntent().getStringExtra("Convo");
+
         init();
         messageArrayList = new ArrayList<>();
+    }
+
+    private void checkConversationEntities(Product product){
+        if(!convo.contentEquals("")){
+            ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+            query.include(Conversation.KEY_USER);
+            query.include(Conversation.KEY_VENDOR);
+            query.whereEqualTo(Conversation.KEY_OBJECT_ID,convo);
+            query.getFirstInBackground(new GetCallback<Conversation>() {
+                @Override
+                public void done(Conversation object, ParseException e) {
+                    if(e!=null){
+                        Log.d("Negociation","Erreur :"+e.getMessage());
+                        e.printStackTrace();
+                        return;
+                    }
+                    conversation = object;
+                    if(ParseUser.getCurrentUser().getObjectId().contentEquals(object.getVendor().getObjectId())){
+                        sender = object.getVendor();
+                        reciever = object.getUser();
+                        refreshMessages();
+                    }else{
+                        sender = object.getUser();
+                        reciever = object.getVendor();
+                        refreshMessages();
+                    }
+                    Log.d("Negociation","Sender is: "+sender.getObjectId()+" "+", Reciever is: "+reciever.getObjectId());
+
+                }
+            });
+        }else{
+            conversation = null;
+            sender = ParseUser.getCurrentUser();
+            reciever = product.get_User();
+            Log.d("Negociation","Sender is: "+sender.getObjectId()+" "+", Reciever is: "+reciever.getObjectId());
+            //refreshMessages();
+        }
     }
 
     private void init() {
@@ -90,12 +137,17 @@ public class Negociation extends AppCompatActivity {
                 }
 
                 product = object;
+
+
+
                 Glide.with(Negociation.this)
                         .load(product.get_Image_Product().getUrl())
                         .apply(new RequestOptions().centerCrop().error(R.drawable.error))
                         .into(ivProductImg);
+
                 Category category = (Category) product.get_Category();
                 ParseUser vendor = product.get_User();
+
                 tvCategory.setText(category.getCategory());
                 tvDescription.setText(product.get_Description());
                 tvVendor.setText(vendor.getUsername());
@@ -104,7 +156,7 @@ public class Negociation extends AppCompatActivity {
                 rvChat.setLayoutManager(new LinearLayoutManager(Negociation.this,RecyclerView.VERTICAL,false));
                 rvChat.setAdapter(adapter);
 
-                refreshMessages();
+                checkConversationEntities(product);
             }
         });
 
@@ -112,56 +164,237 @@ public class Negociation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String etMess = etMessage.getText().toString();
-                if(etMess.isEmpty()){
+                if(etMess.contentEquals("")){
                     Snackbar.make(view,"Please write message.",Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                //todo:Send message
-                Message message = new Message();
-                message.setUser(ParseUser.getCurrentUser());
-                message.setVendor(product.get_User());
-                message.setProduct(product);
-                message.setMessage(etMess);
-                message.saveEventually(new SaveCallback() {
+                /*
+                ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
+                queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
+                queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
+                queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
+                queryCount.findInBackground(new FindCallback<Conversation>() {
                     @Override
-                    public void done(ParseException e) {
+                    public void done(List<Conversation> objects, ParseException e) {
                         if(e!=null){
                             Log.d("Negociation","Erreur :"+e.getMessage());
                             e.printStackTrace();
                             return;
                         }
-                        //todo:refresh RecyclerView
-                        refreshMessages();
+                        if(objects.size()!=0){
+                            //if the list is not empty, we fetch the convo id
+                            Conversation conversation = objects.get(0);
+                            //and we send the message with the id
+                            Message message = new Message();
+                            message.setUser(ParseUser.getCurrentUser());
+                            message.setVendor(product.get_User());
+                            message.setProduct(product);
+                            message.setMessage(etMess);
+                            message.setConversation(conversation);
+                            message.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e!=null){
+                                        Log.d("Negociation","Erreur :"+e.getMessage());
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    etMessage.setText("");
+                                    //todo:refresh RecyclerView
+                                    refreshMessages();
+                                }
+                            });
+                        }else{
+                            //there's no conversation, so we create one
+                            Conversation conversation = new Conversation();
+                            conversation.setProduct(product);
+                            conversation.setUser(ParseUser.getCurrentUser());
+                            conversation.setVendor(product.get_User());
+                            conversation.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e!=null){
+                                        Log.d("Negociation","Erreur :"+e.getMessage());
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
+                                    queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
+                                    queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
+                                    queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
+                                    queryCount.findInBackground(new FindCallback<Conversation>() {
+                                        @Override
+                                        public void done(List<Conversation> objects, ParseException e) {
+                                            if(e!=null){
+                                                Log.d("Negociation","Erreur :"+e.getMessage());
+                                                e.printStackTrace();
+                                                return;
+                                            }
+                                            if(objects.size()!=0){
+                                                //if the list is not empty, we fetch the convo id
+                                                //when creation is done we send message with the convo id
+                                                Conversation conversation = objects.get(0);
+                                                //and we send the message with the id
+                                                Message message = new Message();
+                                                message.setUser(ParseUser.getCurrentUser());
+                                                message.setVendor(product.get_User());
+                                                message.setProduct(product);
+                                                message.setMessage(etMess);
+                                                message.setConversation(conversation);
+                                                message.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if(e!=null){
+                                                            Log.d("Negociation","Erreur :"+e.getMessage());
+                                                            e.printStackTrace();
+                                                            return;
+                                                        }
+                                                        etMessage.setText("");
+                                                        //todo:refresh RecyclerView
+                                                        refreshMessages();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
-                });
+                });*/
+
+                if(conversation.isDataAvailable()){
+                    Message message = new Message();
+                    message.setUser(sender);
+                    message.setVendor(reciever);
+                    message.setProduct(product);
+                    message.setMessage(etMess);
+                    message.setConversation(conversation);
+                    message.saveEventually(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e!=null){
+                                Log.d("Negociation","Erreur :"+e.getMessage());
+                                e.printStackTrace();
+                                return;
+                            }
+                            etMessage.setText("");
+                            //todo:refresh RecyclerView
+                            refreshMessages();
+                        }
+                    });
+                }else{
+                    Conversation conversation = new Conversation();
+                    conversation.setProduct(product);
+                    conversation.setUser(sender);
+                    conversation.setVendor(reciever);
+                    conversation.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
+                            queryCount.whereEqualTo(Conversation.KEY_USER,sender);
+                            queryCount.whereEqualTo(Conversation.KEY_VENDOR,reciever);
+                            queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
+                            queryCount.getFirstInBackground(new GetCallback<Conversation>() {
+                                @Override
+                                public void done(Conversation object, ParseException e) {
+                                    if(e!=null){
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    Message message = new Message();
+                                    message.setUser(sender);
+                                    message.setVendor(reciever);
+                                    message.setProduct(product);
+                                    message.setMessage(etMess);
+                                    message.setConversation(object);
+                                    message.saveEventually(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if(e!=null){
+                                                Log.d("Negociation","Erreur :"+e.getMessage());
+                                                e.printStackTrace();
+                                                return;
+                                            }
+                                            refreshMessages();
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+
             }
         });
     }
 
-    private void refreshMessages() {
-        // Construct query to execute
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        // Configure limit and sort order
-        query.include(Message.KEY_PRODUCT);
-        query.include(Message.KEY_USER);
-        query.include(Message.KEY_VENDOR);
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+    private void refreshMessages(){
+        /*ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
+        queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
+        queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
+        queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
+        queryCount.findInBackground(new FindCallback<Conversation>() {
+            @Override
+            public void done(List<Conversation> objects, ParseException ex) {
+                if(ex!=null){
+                    Log.d("Negociation","Erreur : "+ex.getMessage());
+                    ex.printStackTrace();
+                    return;
+                }
 
-        // get the latest 50 messages, order will show up newest to oldest of this group
-        query.orderByAscending("createdAt");
-        query.whereEqualTo(Message.KEY_VENDOR,product.get_User());
-        query.whereEqualTo(Message.KEY_USER,ParseUser.getCurrentUser());
-        query.whereEqualTo(Message.KEY_PRODUCT,product);
-        // Execute query to fetch all messages from Parse asynchronously
-        // This is equivalent to a SELECT query with SQL
-        query.findInBackground((messages, e) -> {
-            if (e == null) {
-                messageArrayList.clear();
-                messageArrayList.addAll(messages);
-                adapter.notifyDataSetChanged(); // update adapter
-            } else {
-                Log.e("message", "Error Loading Messages" + e);
+                if(objects.size()!=0){
+                    // Construct query to execute
+                    ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+                    // Configure limit and sort order
+                    query.include(Message.KEY_PRODUCT);
+                    query.include(Message.KEY_USER);
+                    query.include(Message.KEY_VENDOR);
+                    query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+
+                    // get the latest 50 messages, order will show up newest to oldest of this group
+                    query.orderByAscending("createdAt");
+                    query.whereEqualTo(Message.KEY_VENDOR,product.get_User());
+                    query.whereEqualTo(Message.KEY_USER,ParseUser.getCurrentUser());
+                    query.whereEqualTo(Message.KEY_PRODUCT,product);
+                    query.whereEqualTo(Message.KEY_CONVERSATION,objects.get(0));
+                    // Execute query to fetch all messages from Parse asynchronously
+                    // This is equivalent to a SELECT query with SQL
+                    query.findInBackground((messages, e) -> {
+                        if (e == null) {
+                            messageArrayList.clear();
+                            messageArrayList.addAll(messages);
+                            adapter.notifyDataSetChanged(); // update adapter
+                        } else {
+                            Log.e("message", "Error Loading Messages" + e);
+                        }
+                    });
+                }
             }
-        });
+        });*/
+        if(conversation.isDataAvailable()){
+            ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+            query.include(Message.KEY_VENDOR);
+            query.include(Message.KEY_USER);
+            query.whereEqualTo(Message.KEY_CONVERSATION,conversation);
+            query.findInBackground(new FindCallback<Message>() {
+                @Override
+                public void done(List<Message> objects, ParseException e) {
+                    if(e!=null){
+                        Log.d("Negociation","Erreur: "+e.getMessage());
+                        e.printStackTrace();
+                        return;
+                    }
+                    adapter.AddAllToList(objects);
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }

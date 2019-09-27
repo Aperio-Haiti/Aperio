@@ -110,6 +110,8 @@
         android:layout_above="@id/rl"
         android:layout_below="@id/rlk"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="381dp" />
 
 </RelativeLayout>

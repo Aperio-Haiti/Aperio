@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.aprio.Models.Conversation;
 import com.example.aprio.Models.Message;
 import com.example.aprio.Models.Product;
+import com.example.aprio.Negociation;
 import com.example.aprio.R;
 import com.parse.ParseUser;
 
@@ -23,9 +25,9 @@ import java.util.List;
 public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mViewHolder> {
     
     private Context context;
-    private List<Message> list;
+    private List<Conversation> list;
 
-    public MyMessageAdapter(Context context, List<Message> list) {
+    public MyMessageAdapter(Context context, List<Conversation> list) {
         this.context = context;
         this.list = list;
     }
@@ -39,12 +41,10 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mVie
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
-        Message message = list.get(position);
+        Conversation conversation = list.get(position);
 
-
-
-        ParseUser user = message.getUser();
-        Product product = (Product) message.getProduct();
+        ParseUser user = conversation.getUser();
+        Product product = (Product) conversation.getProduct();
         String productName = product.get_Description();
 
         Glide.with(context)
@@ -56,8 +56,9 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mVie
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,MyMessageAdapter.class);
+                Intent intent = new Intent(context, Negociation.class);
                 intent.putExtra("Product",product.getObjectId());
+                intent.putExtra("Convo",conversation.getObjectId());
                 context.startActivity(intent);
             }
         });
@@ -68,7 +69,7 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mVie
         return list.size();
     }
 
-    public void AddAllToList(List<Message> mList){
+    public void AddAllToList(List<Conversation> mList){
         list.clear();
         list.addAll(mList);
         notifyDataSetChanged();

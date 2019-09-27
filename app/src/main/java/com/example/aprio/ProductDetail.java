@@ -14,10 +14,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Models.Category;
+import com.example.aprio.Models.Conversation;
 import com.example.aprio.Models.Product;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,9 +78,34 @@ public class ProductDetail extends AppCompatActivity {
         tvSeller.setText(product.get_User().getUsername());
         btnCantactSeller.setOnClickListener(view -> {
             //todo: Intent to message activity
-            Intent intent = new Intent(ProductDetail.this,Negociation.class);
-            intent.putExtra("Product",product.getObjectId());
-            startActivity(intent);
+            ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+            query.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
+            query.whereEqualTo(Conversation.KEY_USER, ParseUser.getCurrentUser());
+            query.whereEqualTo(Conversation.KEY_PRODUCT,product);
+            query.findInBackground(new FindCallback<Conversation>() {
+                @Override
+                public void done(List<Conversation> objects, ParseException e) {
+                    if(e!=null){
+                        Log.d("ProductDetail","Erreur :"+e.getMessage());
+                        e.printStackTrace();
+                        return;
+                    }
+                    if(objects.size()!=0){
+                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                        intent.putExtra("Product",product.getObjectId());
+                        intent.putExtra("Convo",objects.get(0).getObjectId());
+                        Log.d("ProductDetail","Id: "+objects.get(0).getObjectId());
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                        intent.putExtra("Product",product.getObjectId());
+                        intent.putExtra("Convo","");
+                        Log.d("ProductDetail","Id: nothing");
+                        startActivity(intent);
+                    }
+                }
+            });
+
         });
     }
 

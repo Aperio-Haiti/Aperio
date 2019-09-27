@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.aprio.Adapters.MyMessageAdapter;
+import com.example.aprio.Models.Conversation;
 import com.example.aprio.Models.Message;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -30,7 +31,7 @@ public class ViewMessage extends AppCompatActivity {
     Toolbar toolbar;
 
     MyMessageAdapter adapter;
-    List<Message> list;
+    List<Conversation> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,27 +39,34 @@ public class ViewMessage extends AppCompatActivity {
         setContentView(R.layout.activity_view_message);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         list = new ArrayList<>();
         adapter = new MyMessageAdapter(this,list);
         rvMessage.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         rvMessage.setAdapter(adapter);
 
-        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-        query.include(Message.KEY_USER);
-        query.include(Message.KEY_PRODUCT);
-        query.whereEqualTo(Message.KEY_VENDOR, ParseUser.getCurrentUser());
-        query.orderByDescending(Message.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Message>() {
+        ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+        query.include(Conversation.KEY_USER);
+        query.include(Conversation.KEY_PRODUCT);
+        query.whereEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Conversation>() {
             @Override
-            public void done(List<Message> objects, ParseException e) {
+            public void done(List<Conversation> objects, ParseException e) {
                 if(e!=null){
-                    Log.d("ViewMessage","Erreur:"+e.getMessage());
+                    Log.d("ViewMessage","Erreur :"+e.getMessage());
                     e.printStackTrace();
                     return;
                 }
                 adapter.AddAllToList(objects);
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
     }
 }

@@ -95,7 +95,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void bindMyMessages(meViewHolder holder, int position) {
         Message message = messageList.get(position);
         Glide.with(mContext)
-                .load(message.getVendor().getParseFile("ProfileImg").getUrl())
+                .load(message.getUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().error(R.drawable.error).override(50,50))
                 .into(holder.ivMyAvatar);
         holder.tvMessage.setText(message.getMessage());
