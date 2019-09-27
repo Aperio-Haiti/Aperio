@@ -481,7 +481,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 //                    if(currentUser.)
 
                     } catch (IOException ex) {
-                        e.printStackTrace();
+                        ex.printStackTrace();
                     }
                     //moveCamera(new LatLng(list.get(i).));
 

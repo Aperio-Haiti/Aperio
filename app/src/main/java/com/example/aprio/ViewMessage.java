@@ -40,14 +40,15 @@ public class ViewMessage extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        setTitle("Messages");
 
         list = new ArrayList<>();
         adapter = new MyMessageAdapter(this,list);
         rvMessage.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
         rvMessage.setAdapter(adapter);
 
-        ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+        /*ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
         query.include(Conversation.KEY_USER);
         query.include(Conversation.KEY_PRODUCT);
         query.whereEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
@@ -61,7 +62,34 @@ public class ViewMessage extends AppCompatActivity {
                 }
                 adapter.AddAllToList(objects);
             }
+        });*/
+        ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+        query.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
+
+        ParseQuery<Conversation> query1 = ParseQuery.getQuery(Conversation.class);
+        query.whereEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
+
+        List<ParseQuery<Conversation>> queries = new ArrayList<ParseQuery<Conversation>>();
+        queries.add(query);
+        queries.add(query1);
+
+        ParseQuery<Conversation> mainQuery = ParseQuery.or(queries);
+        mainQuery.include(Conversation.KEY_VENDOR);
+        mainQuery.include(Conversation.KEY_USER);
+        mainQuery.include(Conversation.KEY_PRODUCT);
+        mainQuery.findInBackground(new FindCallback<Conversation>() {
+            @Override
+            public void done(List<Conversation> objects, ParseException e) {
+                if(e!=null){
+                    Log.d("ViewMessage","Erreur: "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                Log.d("ViewMessage","Count: "+objects.size());
+                adapter.AddAllToList(objects);
+            }
         });
+
     }
 
     @Override

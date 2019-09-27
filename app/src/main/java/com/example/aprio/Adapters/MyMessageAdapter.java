@@ -26,6 +26,8 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mVie
     
     private Context context;
     private List<Conversation> list;
+    public static final int USER_SENDER = 1;
+    public static final int VENDOR_SENDER = 0;
 
     public MyMessageAdapter(Context context, List<Conversation> list) {
         this.context = context;
@@ -43,25 +45,49 @@ public class MyMessageAdapter extends RecyclerView.Adapter<MyMessageAdapter.mVie
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
         Conversation conversation = list.get(position);
 
-        ParseUser user = conversation.getUser();
-        Product product = (Product) conversation.getProduct();
-        String productName = product.get_Description();
+        if(conversation.getUser().getObjectId().contentEquals(ParseUser.getCurrentUser().getObjectId())){
+            //the current user is the message user
+            //we want to show the vendor image and name
+            ParseUser user = conversation.getVendor();
+            Product product = (Product) conversation.getProduct();
+            String productName = product.get_Description();
+            Glide.with(context)
+                    .load(user.getParseFile("ProfileImg").getUrl())
+                    .into(holder.imageView);
+            holder.textViewName.setText(user.getUsername());
+            holder.textViewProductname.setText(productName);
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, Negociation.class);
+                    intent.putExtra("Product",product.getObjectId());
+                    intent.putExtra("Convo",conversation.getObjectId());
+                    context.startActivity(intent);
+                }
+            });
+        }else{
+            //the current user is the message vendor
+            //we want to show the user image, and name
+            ParseUser user = conversation.getUser();
+            Product product = (Product) conversation.getProduct();
+            String productName = product.get_Description();
+            Glide.with(context)
+                    .load(user.getParseFile("ProfileImg").getUrl())
+                    .into(holder.imageView);
+            holder.textViewName.setText(user.getUsername());
+            holder.textViewProductname.setText(productName);
+            holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, Negociation.class);
+                    intent.putExtra("Product",product.getObjectId());
+                    intent.putExtra("Convo",conversation.getObjectId());
+                    context.startActivity(intent);
+                }
+            });
+        }
 
-        Glide.with(context)
-                .load(user.getParseFile("ProfileImg").getUrl())
-                .into(holder.imageView);
-        
-        holder.textViewName.setText(user.getUsername());
-        holder.textViewProductname.setText(productName);
-        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, Negociation.class);
-                intent.putExtra("Product",product.getObjectId());
-                intent.putExtra("Convo",conversation.getObjectId());
-                context.startActivity(intent);
-            }
-        });
+
     }
 
     @Override

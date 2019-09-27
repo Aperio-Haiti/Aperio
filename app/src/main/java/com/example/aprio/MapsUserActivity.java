@@ -113,31 +113,32 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(imageView);*/
 
-        drawerLayout = findViewById(R.id.drawer);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(MapsUserActivity.this,drawerLayout,R.string.Open,R.string.Close);
-
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        actionBarDrawerToggle.syncState();
-
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-
-        //img on click to open drawer
-        imageView.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
-
         //navigationview
         NavigationView navigationView = findViewById(R.id.user_navigation_view);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.nav_message:
+                        Intent i = new Intent(MapsUserActivity.this,ViewMessage.class);
+                        startActivity(i);
+                        break;
+                }
+                return true;
+            }
+        });
+
         View headerLayout = navigationView.getHeaderView(0);
 
         CircleImageView ivHeaderPhoto = headerLayout.findViewById(R.id.ivUser);
         ivHeaderPhoto.setBorderColor(Color.WHITE);
         ivHeaderPhoto.setBorderWidth(10);
 
- /*
-  Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
                 .into(ivHeaderPhoto);
 
-                 // */
 
         TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
         tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
@@ -160,6 +161,18 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 }
             });
         });
+
+        drawerLayout = findViewById(R.id.drawer);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(MapsUserActivity.this,drawerLayout,R.string.Open,R.string.Close);
+
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
+        //img on click to open drawer
+        imageView.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
+
 
         fab = findViewById(R.id.fabLocateUser);
         myCoordinates = new LatLng(18.534275,-72.324748);
