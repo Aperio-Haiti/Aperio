@@ -132,9 +132,12 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         ivHeaderPhoto.setBorderColor(Color.WHITE);
         ivHeaderPhoto.setBorderWidth(10);
 
-/*        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+ /*
+  Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
-                .into(ivHeaderPhoto); */
+                .into(ivHeaderPhoto);
+
+                 // */
 
         TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
         tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
@@ -244,10 +247,13 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
 
-        /*MarkerOptions options = new MarkerOptions();
+        /*
+        MarkerOptions options = new MarkerOptions();
         options.position(coordinates).title(user.getUsername())
                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
-        mMap.addMarker(options);*/
+        mMap.addMarker(options);
+
+        */
 
         @SuppressLint("InflateParams") View marker = ((LayoutInflater) Objects.requireNonNull(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))).inflate(R.layout.custom_marker_layout, null);
         Log.d("MAP_FETCH","Marker : "+img.getUrl());

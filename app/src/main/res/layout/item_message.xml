@@ -20,6 +20,7 @@
         android:paddingBottom="8dp"
         android:textAlignment="textEnd"
         android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
         tools:text="This a sample message. Lets try to make it longer with some texts." />
 
     <de.hdodenhof.circleimageview.CircleImageView
