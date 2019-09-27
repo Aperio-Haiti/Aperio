@@ -19,7 +19,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorToolbarIcons"
         android:textSize="18sp"
         tools:text="This a sample message. Lets try to make it longer with some texts." />
 
