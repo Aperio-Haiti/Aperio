@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/artbgo"
+    android:background="@color/colorAccent"
     tools:context=".Negociation">
 
     <RelativeLayout
@@ -27,7 +27,8 @@
             android:textColor="@android:color/white"
             android:textColorHighlight="@color/colorAccent"
             android:textColorHint="@android:color/white"
-            android:textColorLink="@color/colorAccent" />
+            android:textColorLink="@color/colorAccent"
+            tools:ignore="Autofill" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSend"
@@ -53,7 +54,7 @@
         android:background="#EBEBEB"
         android:padding="6dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgSelectedProductImg"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -110,7 +111,9 @@
         android:layout_above="@id/rl"
         android:layout_below="@id/rlk"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+         />
 
 </RelativeLayout>

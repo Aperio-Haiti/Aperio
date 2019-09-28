@@ -35,21 +35,21 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
         setContentView(R.layout.activity_home_seller);
 
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
-        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+       /* Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
-                .into(imageView);
+                .into(imageView); */
 
         //navigationview
         NavigationView navigationView = findViewById(R.id.vendor_navigation_view);
         View headerLayout = navigationView.getHeaderView(0);
 
-        CircleImageView ivHeaderPhoto = (CircleImageView) headerLayout.findViewById(R.id.ivUser);
+        CircleImageView ivHeaderPhoto = headerLayout.findViewById(R.id.ivUser);
         ivHeaderPhoto.setBorderColor(Color.WHITE);
         ivHeaderPhoto.setBorderWidth(10);
 
-        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
+/*        Glide.with(this).load(ParseUser.getCurrentUser().getParseFile("ProfileImg").getUrl())
                 .apply(new RequestOptions().placeholder(R.drawable.error).error(R.drawable.error))
-                .into(ivHeaderPhoto);
+                .into(ivHeaderPhoto); */
 
         TextView tvHeaderName = headerLayout.findViewById(R.id.tvUserName);
         tvHeaderName.setText(ParseUser.getCurrentUser().getUsername());
@@ -58,35 +58,29 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
         tvHeaderEmail.setText(ParseUser.getCurrentUser().getEmail());
 
         TextView tvLogout = headerLayout.findViewById(R.id.tvLogout);
-        tvLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ParseUser.logOutInBackground(new LogOutCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e!=null){
-                            e.printStackTrace();
-                            return;
-                        }
-                        Intent intent = new Intent(getApplicationContext(),Login.class);
-                        startActivity(intent);
-                        finish();
+        tvLogout.setOnClickListener(view -> {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                        return;
                     }
-                });
-            }
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         });
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.ic_drawer_message:
-                        Intent i = new Intent(MapSellerActivity.this,ViewMessage.class);
-                        startActivity(i);
-                        break;
-                }
-                return true;
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()){
+                case R.id.ic_drawer_message:
+                    Intent i = new Intent(MapSellerActivity.this,ViewMessage.class);
+                    startActivity(i);
+                    break;
             }
+            return true;
         });
 
         drawerLayout= findViewById(R.id.drawer1);
@@ -97,12 +91,7 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
 
         //img on click to open drawer
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        imageView.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LoadFragment(new FragmentMapSeller());
