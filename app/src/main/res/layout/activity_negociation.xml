@@ -1,42 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/artbgo"
     tools:context=".Negociation">
 
-    <EditText
-        android:id="@+id/etMessage"
-        android:layout_width="330dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:hint="@string/what_s_on_your_mind"
-        android:inputType="textAutoCorrect"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.988"
-        tools:ignore="Autofill" />
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent50">
 
-    <ImageButton
-        android:id="@+id/btSend"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@id/fabSend"
+            android:background="@android:color/transparent"
+            android:hint="@string/what_s_on_your_mind"
+            android:inputType="textAutoCorrect"
+            android:textColor="@android:color/white"
+            android:textColorHighlight="@color/colorAccent"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@color/colorAccent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            app:elevation="0dp"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_send_black_24dp"
+            android:focusable="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarNegociation"
+        android:background="#EBEBEB"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/imgSelectedProductImg"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            tools:srcCompat="@tools:sample/avatars[0]" />
+
+        <TextView
+            android:id="@+id/tvSelectedProductCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/colorPrimary"
+            tools:text="@string/painting" />
+
+        <TextView
+            android:id="@+id/tvSelectedProductDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSelectedProductCategory"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            tools:text="@string/le_marche_a_port_au_prince" />
+
+        <TextView
+            android:id="@+id/tvSelectedProductVendor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSelectedProductDescription"
+            android:layout_toEndOf="@id/imgSelectedProductImg"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            tools:text="@string/atelier_macaya" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarNegociation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ToolbarTheme" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rl"
+        android:layout_below="@id/rlk"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/rond"
-        android:src="@drawable/ic_send_black_24dp"
-        android:text="@string/send"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/etMessage"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.988"
-        tools:ignore="ContentDescription" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginEnd="8dp" />
+
+</RelativeLayout>

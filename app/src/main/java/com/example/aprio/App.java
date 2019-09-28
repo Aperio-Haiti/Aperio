@@ -3,6 +3,8 @@ package com.example.aprio;
 import android.app.Application;
 
 import com.example.aprio.Models.Category;
+import com.example.aprio.Models.Conversation;
+import com.example.aprio.Models.Message;
 import com.example.aprio.Models.Product;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -14,6 +16,10 @@ public class App extends Application {
 
         ParseObject.registerSubclass(Product.class);
         ParseObject.registerSubclass(Category.class);
+        ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Conversation.class);
+
+
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.app_id))

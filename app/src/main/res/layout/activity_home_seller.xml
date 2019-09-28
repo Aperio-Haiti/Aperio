@@ -14,16 +14,16 @@
         android:id="@+id/mapvendortoolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorAccent25"
-        android:elevation="5dp">
+        android:background="@color/colorPrimary"
+        android:elevation="5dp"
+        android:minHeight="?attr/actionBarSize">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivUserAvatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/avatar"
-            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp" />
 
     </androidx.appcompat.widget.Toolbar>

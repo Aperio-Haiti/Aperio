@@ -76,6 +76,19 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
             }
         });
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.ic_drawer_message:
+                        Intent i = new Intent(MapSellerActivity.this,ViewMessage.class);
+                        startActivity(i);
+                        break;
+                }
+                return true;
+            }
+        });
+
         drawerLayout= findViewById(R.id.drawer1);
         actionBarDrawerToggle=new ActionBarDrawerToggle(MapSellerActivity.this,drawerLayout,R.string.Open,R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -142,6 +155,4 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
         return super.onOptionsItemSelected(item);
 
     }
-
-
 }

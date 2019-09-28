@@ -3,6 +3,7 @@ package com.example.aprio;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +14,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Models.Category;
+import com.example.aprio.Models.Conversation;
 import com.example.aprio.Models.Product;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,20 +55,17 @@ public class ProductDetail extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         objectId = getIntent().getStringExtra("Product");
-        ParseQuery<Product> query = new ParseQuery<Product>(Product.class);
+        ParseQuery<Product> query = new ParseQuery<>(Product.class);
         query.include(Product.KEY_USER);
         query.include(Product.KEY_CATEGORY);
-        query.getInBackground(objectId, new GetCallback<Product>() {
-            @Override
-            public void done(Product object, ParseException e) {
-                if(e!=null){
-                    Log.d("ProductDetail","Erreur : "+e.getMessage());
-                    e.printStackTrace();
-                    return;
-                }
-                product = object;
-                init();
+        query.getInBackground(objectId, (object, e) -> {
+            if(e!=null){
+                Log.d("ProductDetail","Erreur : "+e.getMessage());
+                e.printStackTrace();
+                return;
             }
+            product = object;
+            init();
         });
 
     }
@@ -73,11 +76,36 @@ public class ProductDetail extends AppCompatActivity {
         tvCategory.setText(product.get_Category().getString(Category.KEY_CATEGORY));
         tvDescription.setText(product.get_Description());
         tvSeller.setText(product.get_User().getUsername());
-        btnCantactSeller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: Intent to message activity
-            }
+        btnCantactSeller.setOnClickListener(view -> {
+            //todo: Intent to message activity
+            ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
+            query.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
+            query.whereEqualTo(Conversation.KEY_USER, ParseUser.getCurrentUser());
+            query.whereEqualTo(Conversation.KEY_PRODUCT,product);
+            query.findInBackground(new FindCallback<Conversation>() {
+                @Override
+                public void done(List<Conversation> objects, ParseException e) {
+                    if(e!=null){
+                        Log.d("ProductDetail","Erreur :"+e.getMessage());
+                        e.printStackTrace();
+                        return;
+                    }
+                    if(objects.size()!=0){
+                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                        intent.putExtra("Product",product.getObjectId());
+                        intent.putExtra("Convo",objects.get(0).getObjectId());
+                        Log.d("ProductDetail","Id: "+objects.get(0).getObjectId());
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                        intent.putExtra("Product",product.getObjectId());
+                        intent.putExtra("Convo","");
+                        Log.d("ProductDetail","Id: nothing");
+                        startActivity(intent);
+                    }
+                }
+            });
+
         });
     }
 
@@ -85,5 +113,9 @@ public class ProductDetail extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    public void Contact(View view) {
+        startActivity(new Intent(ProductDetail.this,Negociation.class));
     }
 }

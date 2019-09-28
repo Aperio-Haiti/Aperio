@@ -4,7 +4,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="170dp"
-    android:background="@color/colorPrimary50"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="15dp">
 
@@ -21,7 +21,7 @@
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorToolbarIcons"
             android:textSize="18sp"
             android:textStyle="bold"
             tool:text="Jane Doe" />
@@ -30,7 +30,7 @@
             android:id="@+id/tvUserEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorToolbarIcons"
             tool:text="placide@gmail.com" />
     </LinearLayout>
 
@@ -42,8 +42,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="false"
         android:text="@string/logout"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp" />
+        android:textColor="@color/colorToolbarIcons"
+        android:textSize="15sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivUser"
