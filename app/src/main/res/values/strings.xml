@@ -69,5 +69,6 @@ By accepting to share your location with Aperio you agree our terms and conditio
     <string name="_2">2</string>
     <string name="search_vendor">Search Vendor</string>
     <string name="vendor_name">Vendor Name</string>
+    <string name="listView">ListView</string>
 
 </resources>
