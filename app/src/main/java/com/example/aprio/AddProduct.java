@@ -131,6 +131,7 @@ public class AddProduct extends AppCompatActivity {
                 
                 if(photoFile != null) {
                     saveProduct(description, user, category, photoFile);
+                    finish();
                 }
                 else{
                     Log.e(TAG, "onClick: no photo submit");
