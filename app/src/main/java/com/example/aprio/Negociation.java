@@ -68,7 +68,8 @@ public class Negociation extends AppCompatActivity {
     String convo;
     ParseUser sender;
     ParseUser reciever;
-    Conversation conversation = null;
+    Conversation conversation;
+    Boolean hasConvo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +104,12 @@ public class Negociation extends AppCompatActivity {
                     if(ParseUser.getCurrentUser().getObjectId().contentEquals(object.getVendor().getObjectId())){
                         sender = object.getVendor();
                         reciever = object.getUser();
+                        hasConvo = true;
                         refreshMessages();
                     }else{
                         sender = object.getUser();
                         reciever = object.getVendor();
+                        hasConvo = true;
                         refreshMessages();
                     }
                     Log.d("Negociation","Sender is: "+sender.getObjectId()+" "+", Reciever is: "+reciever.getObjectId());
@@ -114,11 +117,11 @@ public class Negociation extends AppCompatActivity {
                 }
             });
         }else{
-            conversation = null;
+            //conversation = new Conversation();
             sender = ParseUser.getCurrentUser();
             reciever = product.get_User();
+            hasConvo = false;
             Log.d("Negociation","Sender is: "+sender.getObjectId()+" "+", Reciever is: "+reciever.getObjectId());
-            //refreshMessages();
         }
     }
 
@@ -137,8 +140,6 @@ public class Negociation extends AppCompatActivity {
                 }
 
                 product = object;
-
-
 
                 Glide.with(Negociation.this)
                         .load(product.get_Image_Product().getUrl())
@@ -263,14 +264,16 @@ public class Negociation extends AppCompatActivity {
                     }
                 });*/
 
-                if(conversation.isDataAvailable()){
+                if(hasConvo){
+                    Log.d("Negociation","Has Convo");
+                    Log.d("Negociation","Convo ID: "+conversation.getObjectId());
                     Message message = new Message();
                     message.setUser(sender);
                     message.setVendor(reciever);
                     message.setProduct(product);
                     message.setMessage(etMess);
                     message.setConversation(conversation);
-                    message.saveEventually(new SaveCallback() {
+                    message.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if(e!=null){
@@ -284,11 +287,12 @@ public class Negociation extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Conversation conversation = new Conversation();
-                    conversation.setProduct(product);
-                    conversation.setUser(sender);
-                    conversation.setVendor(reciever);
-                    conversation.saveInBackground(new SaveCallback() {
+                    Log.d("Negociation","Has no Convo");
+                    Conversation conversation1 = new Conversation();
+                    conversation1.setProduct(product);
+                    conversation1.setUser(sender);
+                    conversation1.setVendor(reciever);
+                    conversation1.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
@@ -299,15 +303,19 @@ public class Negociation extends AppCompatActivity {
                                 @Override
                                 public void done(Conversation object, ParseException e) {
                                     if(e!=null){
+                                        Log.d("Negociation","Erreur: "+e.getMessage());
                                         e.printStackTrace();
                                         return;
                                     }
+                                    conversation = object;
+                                    hasConvo = true;
+                                    Log.d("Negociation","Has Convo: Convo Fetched!");
                                     Message message = new Message();
                                     message.setUser(sender);
                                     message.setVendor(reciever);
                                     message.setProduct(product);
                                     message.setMessage(etMess);
-                                    message.setConversation(object);
+                                    message.setConversation(conversation);
                                     message.saveEventually(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -316,6 +324,7 @@ public class Negociation extends AppCompatActivity {
                                                 e.printStackTrace();
                                                 return;
                                             }
+                                            Log.d("Negociation","Message saved!");
                                             refreshMessages();
                                         }
                                     });
@@ -372,23 +381,24 @@ public class Negociation extends AppCompatActivity {
                 }
             }
         });*/
-        if(conversation.isDataAvailable()){
-            ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-            query.include(Message.KEY_VENDOR);
-            query.include(Message.KEY_USER);
-            query.whereEqualTo(Message.KEY_CONVERSATION,conversation);
-            query.findInBackground(new FindCallback<Message>() {
-                @Override
-                public void done(List<Message> objects, ParseException e) {
-                    if(e!=null){
-                        Log.d("Negociation","Erreur: "+e.getMessage());
-                        e.printStackTrace();
-                        return;
-                    }
+
+        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
+        query.include(Message.KEY_VENDOR);
+        query.include(Message.KEY_USER);
+        query.whereEqualTo(Message.KEY_CONVERSATION, conversation);
+        query.findInBackground(new FindCallback<Message>() {
+            @Override
+            public void done(List<Message> objects, ParseException e) {
+                if(e!=null){
+                    Log.d("Negociation","Erreur: "+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                if(objects.size()!=0){
                     adapter.AddAllToList(objects);
                 }
-            });
-        }
+            }
+        });
 
     }
 
