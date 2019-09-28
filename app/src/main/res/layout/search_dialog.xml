@@ -12,7 +12,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@color/design_default_color_primary"
+        android:background="@color/colorPrimaryDark"
         android:elevation="10dp"
         tools:ignore="UselessParent">
 
