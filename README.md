@@ -42,7 +42,7 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 - [ ] User can pay for product via external payment providers.
 - [x] User can signup/login to app
 - [x] User stay connect after leaving the app(session)
-- [ ] User can save favorited items
+- [x] User can save favorited items
 
 
 ### 2. Screen Archetypes
