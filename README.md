@@ -36,7 +36,7 @@ Aperio is the place you go to buy any local paintings or craftsmanship made with
 **Optional Nice-to-have Stories**
 
 - [ ] User can search by category or region
-- [ ] User can search for a specific vendor
+- [x] User can search for a specific vendor
 - [ ] User can add product to cart
 - [ ] User can see cart contents
 - [ ] User can pay for product via external payment providers.
