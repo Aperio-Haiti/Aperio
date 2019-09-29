@@ -65,9 +65,11 @@ public class ViewMessage extends AppCompatActivity {
         });*/
         ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
         query.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
+        query.whereNotEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
 
         ParseQuery<Conversation> query1 = ParseQuery.getQuery(Conversation.class);
-        query.whereEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
+        query1.whereEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
+        query1.whereNotEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
 
         List<ParseQuery<Conversation>> queries = new ArrayList<ParseQuery<Conversation>>();
         queries.add(query);
@@ -87,6 +89,9 @@ public class ViewMessage extends AppCompatActivity {
                 }
                 Log.d("ViewMessage","Count: "+objects.size());
                 adapter.AddAllToList(objects);
+                /*for(int i=0;i<objects.size();i++){
+                    Log.d("ViewMessage","Sender: "+objects.get(i).getUser().getUsername()+" Reciever: "+objects.get(i).getVendor().getUsername());
+                }*/
             }
         });
 

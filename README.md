@@ -142,7 +142,7 @@ Model: User
 | --------  | -------- | --------------------------            |
 | ObjectId  | String   | Unique id for User account            |
 | createdAt | DateTime | date created user (default field)     |
-|updatedAt 	| DateTime | date last updated user (default field)|
+| updatedAt 	| DateTime | date last updated user (default field)|
 | UserName | String   | name of the user                |
 | Email     | String   | Email account of the user             |
 | Password  | String   | Password of the user                  |
@@ -150,7 +150,7 @@ Model: User
 | Category  | Boolean   | To determine the type of user                      |
 | ProfileImg   | File     | The Profile picture of the user       |
 | Address    | String   | Address of the user                  |
-|Longitude | Number | the current longitude of the current user |
+| Longitude | Number | the current longitude of the current user |
 | Latitude | Number | The current latitude of the current user |
 
 Model: Product
@@ -161,7 +161,7 @@ Model: Product
 | createdAt | DateTime | date created user (default field)     |
 | updatedAt | DateTime | date last updated user (default field)|
 | Product   | File     | Picture of the product                |
-| Description| String   | Description of the Product            |
+| Description | String   | Description of the Product            |
 | Category  | Pointer   | pointer to category product                      |
 | Vendor | Pointer | To determine who's selling
 
@@ -174,6 +174,7 @@ Model: Message
 | updateAt | Datetime | date last updated (default field) |
 | user | Pointer | Pointer of the current user |
 | vendor | Pointer | Pointer of the vendor |
+| product | Pointer | Pointer of the product |
 | message | String | The message sent |
 
 Model : Category

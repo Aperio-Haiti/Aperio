@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,12 +29,14 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -66,6 +69,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.loopj.android.http.AsyncHttpRequest;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -196,6 +200,8 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         // Pass any configuration change to the drawer toggles
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+
 
     /*public static Bitmap createCustomMarker(Context context, ParseFile img, String _name){
 
@@ -433,12 +439,61 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         }
         switch (item.getItemId()){
             case R.id.app_bar_search:
+                    Search();
+
                 return true;
             case R.id.app_bar_list:
                 return true;
                 default:
                     return false;
         }
+    }
+
+    public void Search(){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
+
+        TextView inputSearch = mView.findViewById(R.id.input_search);
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    String searchString = inputSearch.getText().toString();
+                    SearchVendor(searchString,dialog);
+                }
+                return false;
+            }
+        });
+    }
+
+    public void SearchVendor(String vendor_name, AlertDialog dialog){
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username",vendor_name);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if(object!=null){
+                    Toast.makeText(getApplicationContext(),vendor_name,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
+                    intent.putExtra("Title",vendor_name);
+                    startActivity(intent);
+                    dialog.hide();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Vendor not found",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 
     @Override

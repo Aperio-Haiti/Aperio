@@ -306,44 +306,44 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-    private void moveCameraVendor(ParseUser user) {
-        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
-        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
-        if(user.getParseFile("ProfileImg")!=null) {
-            File profileImg = null;
-
-            try {
-                profileImg = user.getParseFile("ProfileImg").getFile();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
-
-            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
-
-            if (!user.getUsername().equals("my Location")) {
-
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(coordinates)
-                        .title(user.getUsername())
-                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
-                map.addMarker(markerOptions);
-            }
-        }
-        else {
-            if (!user.getUsername().equals("my Location")) {
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(coordinates)
-                        .title(user.getUsername())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
-                map.addMarker(markerOptions);
-            }
-        }
-
-        hideSoftKeyboard();
-    }
+//    private void moveCameraVendor(ParseUser user) {
+//        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
+//        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
+//        if(user.getParseFile("ProfileImg")!=null) {
+//            File profileImg = null;
+//
+//            try {
+//                profileImg = user.getParseFile("ProfileImg").getFile();
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
+//
+//            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
+//
+//            if (!user.getUsername().equals("my Location")) {
+//
+//                MarkerOptions markerOptions = new MarkerOptions()
+//                        .position(coordinates)
+//                        .title(user.getUsername())
+//                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
+//                map.addMarker(markerOptions);
+//            }
+//        }
+//        else {
+//            if (!user.getUsername().equals("my Location")) {
+//                MarkerOptions markerOptions = new MarkerOptions()
+//                        .position(coordinates)
+//                        .title(user.getUsername())
+//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
+//                map.addMarker(markerOptions);
+//            }
+//        }
+//
+//        hideSoftKeyboard();
+//    }
 
     private void moveCameraNearbyVendor(ParseUser user) {
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
@@ -417,7 +417,8 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                 for (int i=0; i <list.size(); i++){
                     Log.d(TAG,list.get(i).getUsername());
 //                    moveCamera(new LatLng(list.get(i).));
-                    moveCameraVendor(list.get(i));
+//                    moveCameraVendor(list.get(i));
+                    moveCameraNearbyVendor(list.get(i));
                 }
             }
         });
