@@ -43,9 +43,7 @@ public class Login extends AppCompatActivity {
         //Session
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            //todo: Check the category of user
             GoToSpecificPage(currentUser);
-            //todo: intent map activity
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -82,9 +80,7 @@ public class Login extends AppCompatActivity {
                                         e.printStackTrace();
                                         return;
                                     }
-                                    //todo: Check the category of user
                                     GoToSpecificPage(user);
-                                    //todo: intent map distinct activity
                                 }
                             });
                         }

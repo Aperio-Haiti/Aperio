@@ -68,7 +68,6 @@ public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervi
         holder.tvContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: Intent to message activity with product objectID
                 ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
                 query.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
                 query.whereEqualTo(Conversation.KEY_USER, ParseUser.getCurrentUser());
@@ -102,7 +101,6 @@ public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervi
         holder.ivBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo: Check if we already saved this product.
                 ParseQuery<Favorites> query = ParseQuery.getQuery(Favorites.class);
                 query.whereEqualTo(Favorites.KEY_USER,ParseUser.getCurrentUser());
                 query.whereEqualTo(Favorites.KEY_PRODUCT,product);
@@ -118,7 +116,6 @@ public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervi
                             //we already save this one!
                             Snackbar.make(view,"This product has been already saved in favorites!",Snackbar.LENGTH_SHORT).show();
                         }else {
-                            //todo: Code to save this product to favorites.
                             Favorites favorites = new Favorites();
                             favorites.setUser(ParseUser.getCurrentUser());
                             favorites.setProduct(product);

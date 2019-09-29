@@ -63,7 +63,6 @@ By accepting to share your location with Aperio you agree our terms and conditio
     <string name="profile_other">profile_other</string>
     <string name="profile_me">profile_me</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_conversation">Conversation</string>
     <string name="_2">2</string>

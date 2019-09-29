@@ -169,100 +169,6 @@ public class Negociation extends AppCompatActivity {
                     Snackbar.make(view,"Please write message.",Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                /*
-                ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
-                queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
-                queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
-                queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
-                queryCount.findInBackground(new FindCallback<Conversation>() {
-                    @Override
-                    public void done(List<Conversation> objects, ParseException e) {
-                        if(e!=null){
-                            Log.d("Negociation","Erreur :"+e.getMessage());
-                            e.printStackTrace();
-                            return;
-                        }
-                        if(objects.size()!=0){
-                            //if the list is not empty, we fetch the convo id
-                            Conversation conversation = objects.get(0);
-                            //and we send the message with the id
-                            Message message = new Message();
-                            message.setUser(ParseUser.getCurrentUser());
-                            message.setVendor(product.get_User());
-                            message.setProduct(product);
-                            message.setMessage(etMess);
-                            message.setConversation(conversation);
-                            message.saveEventually(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e!=null){
-                                        Log.d("Negociation","Erreur :"+e.getMessage());
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    etMessage.setText("");
-                                    //todo:refresh RecyclerView
-                                    refreshMessages();
-                                }
-                            });
-                        }else{
-                            //there's no conversation, so we create one
-                            Conversation conversation = new Conversation();
-                            conversation.setProduct(product);
-                            conversation.setUser(ParseUser.getCurrentUser());
-                            conversation.setVendor(product.get_User());
-                            conversation.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e!=null){
-                                        Log.d("Negociation","Erreur :"+e.getMessage());
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
-                                    queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
-                                    queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
-                                    queryCount.whereEqualTo(Conversation.KEY_PRODUCT,product);
-                                    queryCount.findInBackground(new FindCallback<Conversation>() {
-                                        @Override
-                                        public void done(List<Conversation> objects, ParseException e) {
-                                            if(e!=null){
-                                                Log.d("Negociation","Erreur :"+e.getMessage());
-                                                e.printStackTrace();
-                                                return;
-                                            }
-                                            if(objects.size()!=0){
-                                                //if the list is not empty, we fetch the convo id
-                                                //when creation is done we send message with the convo id
-                                                Conversation conversation = objects.get(0);
-                                                //and we send the message with the id
-                                                Message message = new Message();
-                                                message.setUser(ParseUser.getCurrentUser());
-                                                message.setVendor(product.get_User());
-                                                message.setProduct(product);
-                                                message.setMessage(etMess);
-                                                message.setConversation(conversation);
-                                                message.saveEventually(new SaveCallback() {
-                                                    @Override
-                                                    public void done(ParseException e) {
-                                                        if(e!=null){
-                                                            Log.d("Negociation","Erreur :"+e.getMessage());
-                                                            e.printStackTrace();
-                                                            return;
-                                                        }
-                                                        etMessage.setText("");
-                                                        //todo:refresh RecyclerView
-                                                        refreshMessages();
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }
-                });*/
 
                 if(hasConvo){
                     Log.d("Negociation","Has Convo");
@@ -282,7 +188,6 @@ public class Negociation extends AppCompatActivity {
                                 return;
                             }
                             etMessage.setText("");
-                            //todo:refresh RecyclerView
                             refreshMessages();
                         }
                     });
@@ -325,6 +230,7 @@ public class Negociation extends AppCompatActivity {
                                                 return;
                                             }
                                             Log.d("Negociation","Message saved!");
+                                            etMessage.setText("");
                                             refreshMessages();
                                         }
                                     });

@@ -80,7 +80,6 @@ public class ProductDetail extends AppCompatActivity {
         tvDescription.setText(product.get_Description());
         tvSeller.setText(product.get_User().getUsername());
         btnCantactSeller.setOnClickListener(view -> {
-            //todo: Intent to message activity
             ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
             query.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
             query.whereEqualTo(Conversation.KEY_USER, ParseUser.getCurrentUser());
@@ -128,7 +127,6 @@ public class ProductDetail extends AppCompatActivity {
                             //we already save this one!
                             Snackbar.make(view,"This product has been already saved in favorites!",Snackbar.LENGTH_SHORT).show();
                         }else {
-                            //todo: Code to save this product to favorites.
                             Favorites favorites = new Favorites();
                             favorites.setUser(ParseUser.getCurrentUser());
                             favorites.setProduct(product);
