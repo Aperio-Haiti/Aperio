@@ -7,6 +7,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -61,9 +62,15 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
         tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = new ProgressDialog(MapSellerActivity.this);
+                progressDialog.setTitle("Logging out...");
+                progressDialog.setMessage("Please wait.");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
                     public void done(ParseException e) {
+                        progressDialog.dismiss();
                         if(e!=null){
                             e.printStackTrace();
                             return;

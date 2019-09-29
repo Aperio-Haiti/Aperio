@@ -14,6 +14,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -151,10 +152,19 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         tvHeaderEmail.setText(ParseUser.getCurrentUser().getEmail());
 
         TextView tvLogout = headerLayout.findViewById(R.id.tvLogout);
+
         tvLogout.setOnClickListener(view -> {
+
+            ProgressDialog progressDialog = new ProgressDialog(MapsUserActivity.this);
+            progressDialog.setTitle("Logging out...");
+            progressDialog.setMessage("Please wait.");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
             ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
+                    progressDialog.dismiss();
                     if (e != null) {
                         e.printStackTrace();
                         return;

@@ -1,5 +1,6 @@
 package com.example.aprio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -170,9 +171,15 @@ public class AddProduct extends AppCompatActivity {
         tvLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressDialog progressDialog = new ProgressDialog(AddProduct.this);
+                progressDialog.setTitle("Logging out...");
+                progressDialog.setMessage("Please wait.");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 ParseUser.logOutInBackground(new LogOutCallback() {
                     @Override
                     public void done(ParseException e) {
+                        progressDialog.dismiss();
                         if(e!=null){
                             e.printStackTrace();
                             return;
