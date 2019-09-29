@@ -47,7 +47,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/form"
-            android:layout_width="wrap_content"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/slogan"
             android:layout_alignParentStart="false"
@@ -91,7 +91,9 @@
                     android:text="@string/login_text"
                     android:textAppearance="@style/e44162"
                     android:textColor="#fff"
-                    android:textSize="20sp" />
+                    android:textSize="20sp">
+
+                </Button>
 
                 <TextView
                     android:id="@+id/forgot_pass"

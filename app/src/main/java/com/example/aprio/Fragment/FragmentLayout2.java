@@ -1,5 +1,6 @@
 package com.example.aprio.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -121,6 +122,12 @@ public class FragmentLayout2 extends Fragment {
         user.put("Latitude", Lat);
         user.put("Longitude",Lng);
 
+        ProgressDialog pd = new ProgressDialog(getActivity());
+        pd.setTitle("Creating account...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.show();
+
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -130,7 +137,9 @@ public class FragmentLayout2 extends Fragment {
                     user1.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
+                            pd.dismiss();
                             if(e!=null){
+
                                 e.printStackTrace();
                                 return;
                             }
@@ -141,6 +150,7 @@ public class FragmentLayout2 extends Fragment {
                     });
 
                 } else {
+                    pd.dismiss();
                     ParseUser.logOut();
                     Log.e(TAG,e.getMessage());
                 }

@@ -1,5 +1,6 @@
 package com.example.aprio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,13 +54,20 @@ public class Login extends AppCompatActivity {
                 String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
 
+                ProgressDialog pd = new ProgressDialog(Login.this);
+                pd.setTitle("Logging in...");
+                pd.setMessage("Please wait.");
+                pd.setCancelable(false);
+
                 Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
                 if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
+                    pd.show();
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     query.whereEqualTo("email",mEmail);
                     query.getFirstInBackground(new GetCallback<ParseUser>() {
                         @Override
                         public void done(ParseUser object, ParseException e) {
+                            pd.dismiss();
                             if(e!=null){
                                 Toast.makeText(getApplicationContext(),"Erreur :"+e.getMessage(),Toast.LENGTH_LONG).show();
                                 return;

@@ -1,5 +1,6 @@
 package com.example.aprio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -81,6 +82,12 @@ public class SignUser extends AppCompatActivity {
 
     public void Sign_user(String username, String password,String email)
     {
+
+        ProgressDialog pd = new ProgressDialog(SignUser.this);
+        pd.setTitle("Creating account...");
+        pd.setMessage("Please wait.");
+        pd.setCancelable(false);
+        pd.show();
         ParseUser user = new ParseUser();
 
         user.setUsername(username);
@@ -96,6 +103,7 @@ public class SignUser extends AppCompatActivity {
                     user1.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
+                            pd.dismiss();
                             if(e!=null){
                                 e.printStackTrace();
                                 return;
@@ -104,9 +112,9 @@ public class SignUser extends AppCompatActivity {
                             startActivity(i);
                         }
                     });
-
                 }
                 else{
+                    pd.dismiss();
                     ParseUser.logOut();
                     Log.e(TAG,e.getMessage());
                 }
