@@ -386,6 +386,7 @@ public class Negociation extends AppCompatActivity {
         query.include(Message.KEY_VENDOR);
         query.include(Message.KEY_USER);
         query.whereEqualTo(Message.KEY_CONVERSATION, conversation);
+        query.orderByAscending(Conversation.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Message>() {
             @Override
             public void done(List<Message> objects, ParseException e) {
