@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
+
+    <ImageView
+        android:id="@+id/ivFavProdImg"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@tools:sample/avatars[11]" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_toStartOf="@id/fabFavProdClose"
+        android:layout_toEndOf="@id/ivFavProdImg"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvFavProdName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:singleLine="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            tools:text="@string/le_marche_a_port_au_prince" />
+
+        <TextView
+            android:id="@+id/tvFavProdVendor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto"
+            android:singleLine="true"
+            tools:text="@string/atelier_macaya" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFavProdClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@android:color/white"
+        android:clickable="true"
+        android:elevation="1dp"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_close_black_24dp" />
+
+</RelativeLayout>

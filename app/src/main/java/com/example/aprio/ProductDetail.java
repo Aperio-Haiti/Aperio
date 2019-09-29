@@ -15,12 +15,15 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.aprio.Models.Category;
 import com.example.aprio.Models.Conversation;
+import com.example.aprio.Models.Favorites;
 import com.example.aprio.Models.Product;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -106,6 +109,44 @@ public class ProductDetail extends AppCompatActivity {
                 }
             });
 
+        });
+        ivBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseQuery<Favorites> query = ParseQuery.getQuery(Favorites.class);
+                query.whereEqualTo(Favorites.KEY_USER,ParseUser.getCurrentUser());
+                query.whereEqualTo(Favorites.KEY_PRODUCT,product);
+                query.findInBackground(new FindCallback<Favorites>() {
+                    @Override
+                    public void done(List<Favorites> objects, ParseException e) {
+                        if (e!=null){
+                            Log.d("Adapter","Erreur:"+e.getMessage());
+                            e.printStackTrace();
+                            return;
+                        }
+                        if(objects.size()!=0){
+                            //we already save this one!
+                            Snackbar.make(view,"This product has been already saved in favorites!",Snackbar.LENGTH_SHORT).show();
+                        }else {
+                            //todo: Code to save this product to favorites.
+                            Favorites favorites = new Favorites();
+                            favorites.setUser(ParseUser.getCurrentUser());
+                            favorites.setProduct(product);
+                            favorites.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e!=null){
+                                        Log.d("Adapter","Erreur:"+e.getMessage());
+                                        e.printStackTrace();
+                                        return;
+                                    }
+                                    Snackbar.make(view,"This product is saved in favorites!",Snackbar.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         });
     }
 

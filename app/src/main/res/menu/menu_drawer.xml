@@ -2,16 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_perm_identity_black_24dp"
-        android:title="Account" />
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/account" />
     <item
         android:id="@+id/ic_drawer_message"
         android:icon="@drawable/ic_chat_black_24dp"
-        android:title="Messages" />
+        android:title="@string/message" />
     <item
-        android:icon="@drawable/ic_turned_in_blackt24dp"
-        android:title="Favorites" />
+        android:id="@+id/ic_drawer_favorite"
+        android:icon="@drawable/ic_turned_in_black_24dp"
+        android:title="@string/favorites" />
     <item
-        android:icon="@drawable/ic_build_black_24dp"
-        android:title="Settings" />
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings" />
 </menu>

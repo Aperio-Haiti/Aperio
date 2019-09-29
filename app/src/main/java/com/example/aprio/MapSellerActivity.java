@@ -91,6 +91,9 @@ public class MapSellerActivity extends AppCompatActivity implements BottomNaviga
                         Intent i = new Intent(MapSellerActivity.this,ViewMessage.class);
                         startActivity(i);
                         break;
+                    case R.id.ic_drawer_favorite:
+                        Intent intent = new Intent(MapSellerActivity.this,ViewFavorites.class);
+                        startActivity(intent);
                 }
                 return true;
             }

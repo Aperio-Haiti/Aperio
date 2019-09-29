@@ -129,6 +129,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                         Intent i = new Intent(MapsUserActivity.this,ViewMessage.class);
                         startActivity(i);
                         break;
+                    case R.id.nav_favorite:
+                        Intent intent = new Intent(MapsUserActivity.this,ViewFavorites.class);
+                        startActivity(intent);
+                        break;
                 }
                 return true;
             }
