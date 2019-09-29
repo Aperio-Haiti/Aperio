@@ -100,11 +100,9 @@ public class Login extends AppCompatActivity {
             Intent intent = new Intent(Login.this, MapSellerActivity.class);
             startActivity(intent);
             finish();
-            //Toast.makeText(Login.this,"I'm a vendor",Toast.LENGTH_LONG).show();
         } else {
             //User
             Log.d("APP_MESS", "I'm a user");
-            //Toast.makeText(Login.this,"I'm a user",Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Login.this,MapsUserActivity.class);
             startActivity(intent);
             finish();
