@@ -23,6 +23,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +52,7 @@ public class ProductDetail extends AppCompatActivity {
         setContentView(R.layout.activity_product_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         objectId = getIntent().getStringExtra("Product");
@@ -77,32 +78,28 @@ public class ProductDetail extends AppCompatActivity {
         tvDescription.setText(product.get_Description());
         tvSeller.setText(product.get_User().getUsername());
         btnCantactSeller.setOnClickListener(view -> {
-            //todo: Intent to message activity
             ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
             query.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
             query.whereEqualTo(Conversation.KEY_USER, ParseUser.getCurrentUser());
             query.whereEqualTo(Conversation.KEY_PRODUCT,product);
-            query.findInBackground(new FindCallback<Conversation>() {
-                @Override
-                public void done(List<Conversation> objects, ParseException e) {
-                    if(e!=null){
-                        Log.d("ProductDetail","Erreur :"+e.getMessage());
-                        e.printStackTrace();
-                        return;
-                    }
-                    if(objects.size()!=0){
-                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
-                        intent.putExtra("Product",product.getObjectId());
-                        intent.putExtra("Convo",objects.get(0).getObjectId());
-                        Log.d("ProductDetail","Id: "+objects.get(0).getObjectId());
-                        startActivity(intent);
-                    }else{
-                        Intent intent = new Intent(ProductDetail.this,Negociation.class);
-                        intent.putExtra("Product",product.getObjectId());
-                        intent.putExtra("Convo","");
-                        Log.d("ProductDetail","Id: nothing");
-                        startActivity(intent);
-                    }
+            query.findInBackground((objects, e) -> {
+                if(e!=null){
+                    Log.d("ProductDetail","Erreur :"+e.getMessage());
+                    e.printStackTrace();
+                    return;
+                }
+                if(objects.size()!=0){
+                    Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                    intent.putExtra("Product",product.getObjectId());
+                    intent.putExtra("Convo",objects.get(0).getObjectId());
+                    Log.d("ProductDetail","Id: "+objects.get(0).getObjectId());
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(ProductDetail.this,Negociation.class);
+                    intent.putExtra("Product",product.getObjectId());
+                    intent.putExtra("Convo","");
+                    Log.d("ProductDetail","Id: nothing");
+                    startActivity(intent);
                 }
             });
 

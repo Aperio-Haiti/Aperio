@@ -43,77 +43,54 @@ public class Login extends AppCompatActivity {
         //Session
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            //todo: Check the category of user
             GoToSpecificPage(currentUser);
-            //todo: intent map activity
         }
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String mEmail = email.getText().toString();
-                String mPassword = password.getText().toString();
+        btnLogin.setOnClickListener(view -> {
+            String mEmail = email.getText().toString();
+            String mPassword = password.getText().toString();
 
-                ProgressDialog pd = new ProgressDialog(Login.this);
-                pd.setTitle("Logging in...");
-                pd.setMessage("Please wait.");
-                pd.setCancelable(false);
+            ProgressDialog pd = new ProgressDialog(Login.this);
+            pd.setTitle("Logging in...");
+            pd.setMessage("Please wait.");
+            pd.setCancelable(false);
 
-                Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
-                if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
-                    pd.show();
-                    ParseQuery<ParseUser> query = ParseUser.getQuery();
-                    query.whereEqualTo("email",mEmail);
-                    query.getFirstInBackground(new GetCallback<ParseUser>() {
-                        @Override
-                        public void done(ParseUser object, ParseException e) {
-                            pd.dismiss();
-                            if(e!=null){
-                                Toast.makeText(getApplicationContext(),"Erreur :"+e.getMessage(),Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            String username = object.getUsername();
-                            //maintenant on login
-                            ParseUser.logInInBackground(username, mPassword, new LogInCallback() {
-                                @Override
-                                public void done(ParseUser user, ParseException e) {
-                                    if (e != null) {
-                                        Toast.makeText(Login.this, "Erreur : " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                        e.printStackTrace();
-                                        return;
-                                    }
-                                    //todo: Check the category of user
-                                    GoToSpecificPage(user);
-                                    //todo: intent map distinct activity
-                                }
-                            });
+            Log.d("APP_MESS", "You clicked ! " + mEmail + " " + mPassword);
+            if(!mEmail.contentEquals("") && !mPassword.contentEquals("")){
+                pd.show();
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("email",mEmail);
+                query.getFirstInBackground((object, e) -> {
+                    pd.dismiss();
+                    if(e!=null){
+                        Toast.makeText(getApplicationContext(),"Erreur :"+e.getMessage(),Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    String username = object.getUsername();
+                    //maintenant on login
+                    ParseUser.logInInBackground(username, mPassword, (user, e1) -> {
+                        if (e1 != null) {
+                            Toast.makeText(Login.this, "Erreur : " + e1.getMessage(), Toast.LENGTH_LONG).show();
+                            e1.printStackTrace();
+                            return;
                         }
+                        GoToSpecificPage(user);
                     });
-                }else {
-                    if(mEmail.contentEquals("") && !mPassword.contentEquals(""))
-                        Toast.makeText(Login.this,"Please enter email",Toast.LENGTH_LONG).show();
-                    if (!mEmail.contentEquals("") && mPassword.contentEquals(""))
-                        Toast.makeText(Login.this,"Please enter password",Toast.LENGTH_LONG).show();
-                    if (mEmail.contentEquals("") && mPassword.contentEquals(""))
-                        Toast.makeText(Login.this,"Please enter credentials",Toast.LENGTH_LONG).show();
-                }
-
+                });
+            }else {
+                if(mEmail.contentEquals("") && !mPassword.contentEquals(""))
+                    Toast.makeText(Login.this,"Please enter email",Toast.LENGTH_LONG).show();
+                if (!mEmail.contentEquals("") && mPassword.contentEquals(""))
+                    Toast.makeText(Login.this,"Please enter password",Toast.LENGTH_LONG).show();
+                if (mEmail.contentEquals("") && mPassword.contentEquals(""))
+                    Toast.makeText(Login.this,"Please enter credentials",Toast.LENGTH_LONG).show();
             }
+
         });
 
-        tvSaS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Login.this, Signup_as_vendor.class));
-            }
-        });
+        tvSaS.setOnClickListener(view -> startActivity(new Intent(Login.this, Signup_as_vendor.class)));
 
-        tvSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Login.this,SignUser.class));
-            }
-        });
+        tvSignup.setOnClickListener(view -> startActivity(new Intent(Login.this,SignUser.class)));
     }
 
     private void GoToSpecificPage(ParseUser user) {

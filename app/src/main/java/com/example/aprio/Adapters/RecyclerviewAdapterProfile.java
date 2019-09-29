@@ -22,8 +22,8 @@ import java.util.List;
 
 public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<RecyclerviewAdapterProfile.mViewHolder> {
 
-    Context context;
-    List<Product> myProducts;
+    private Context context;
+    private List<Product> myProducts;
 
     public RecyclerviewAdapterProfile(Context context, List<Product> myProducts) {
         this.context = context;
@@ -44,27 +44,16 @@ public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervi
         Glide.with(context).load(product.get_Image_Product().getUrl())
                 .apply(new RequestOptions().centerCrop().placeholder(R.drawable.error).placeholder(R.drawable.error))
                 .into(holder.imgPoster);
-        holder.imgPoster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ProductDetail.class);
-                intent.putExtra("Product",product.getObjectId());
-                context.startActivity(intent);
-            }
+        holder.imgPoster.setOnClickListener(view -> {
+            Intent intent = new Intent(context, ProductDetail.class);
+            intent.putExtra("Product",product.getObjectId());
+            context.startActivity(intent);
         });
         //Contact Seller
-        holder.tvContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: Intent to message activity with product objectID
-            }
+        holder.tvContact.setOnClickListener(view -> {
         });
         //Bookmark
-        holder.ivBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //todo: Code to save this product to favorites.
-            }
+        holder.ivBookmark.setOnClickListener(view -> {
         });
     }
 
@@ -73,13 +62,13 @@ public class  RecyclerviewAdapterProfile extends RecyclerView.Adapter<Recyclervi
         return myProducts.size();
     }
 
-    public class mViewHolder extends RecyclerView.ViewHolder{
+    class mViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imgPoster;
         TextView tvContact;
         ImageView ivBookmark;
 
-        public mViewHolder(@NonNull View itemView) {
+        mViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPoster = itemView.findViewById(R.id.imgMyproduct);
             tvContact = itemView.findViewById(R.id.tvMyproductname);
