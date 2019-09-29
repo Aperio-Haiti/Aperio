@@ -1,7 +1,5 @@
 package com.example.aprio.Fragment;
 
-//ok
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -79,10 +77,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
     List<ParseUser> list;
 
     private static final String TAG = "FragmentMapSeller";
-    /*@BindView(R.id.ic_magnify)
-    ImageView icMagnify;
-    @BindView(R.id.input_search)
-    EditText inputSearch;*/
     @BindView(R.id.fabLocateSeller)
     FloatingActionButton icGps;
 
@@ -135,7 +129,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
             init();
 
-            //getAllVendors();
             getAllNearbyVendors();
         }
     }
@@ -229,18 +222,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
     private void init() {
         Log.d(TAG, "init: initializing");
-//        inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-//                if (actionId == EditorInfo.IME_ACTION_SEARCH
-//                        || actionId == EditorInfo.IME_ACTION_DONE
-//                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-//                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-//                    geoLocate();
-//                }
-//                return false;
-//            }
-//        });
         icGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,29 +231,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         });
         hideSoftKeyboard();
     }
-
-//    private void geoLocate() {
-//        Log.d(TAG, "geoLocate: geoLocating");
-//
-//        String searchString = inputSearch.getText().toString();
-//
-//        Geocoder geocoder = new Geocoder(getContext());
-//        List<Address> list = new ArrayList<>();
-//
-//        try {
-//            list = geocoder.getFromLocationName(searchString, 1);
-//        } catch (IOException e) {
-//            Log.d(TAG, "geoLocate: IOException " + e.getMessage());
-//        }
-//
-//        if (list.size() > 0) {
-//            Address address = list.get(0);
-//
-//            Log.d(TAG, "geoLocate: found a location " + address.toString());
-//
-//            moveCameraToMyLocationDevice(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-//        }
-//    }
 
     public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
 
@@ -306,67 +264,13 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-//    private void moveCameraVendor(ParseUser user) {
-//        LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
-//        Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
-//        if(user.getParseFile("ProfileImg")!=null) {
-//            File profileImg = null;
-//
-//            try {
-//                profileImg = user.getParseFile("ProfileImg").getFile();
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//
-//            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
-//
-//            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);
-//
-//            if (!user.getUsername().equals("my Location")) {
-//
-//                MarkerOptions markerOptions = new MarkerOptions()
-//                        .position(coordinates)
-//                        .title(user.getUsername())
-//                        .icon(BitmapDescriptorFactory.fromBitmap(profileImgBitmap));
-//                map.addMarker(markerOptions);
-//            }
-//        }
-//        else {
-//            if (!user.getUsername().equals("my Location")) {
-//                MarkerOptions markerOptions = new MarkerOptions()
-//                        .position(coordinates)
-//                        .title(user.getUsername())
-//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_personne));
-//                map.addMarker(markerOptions);
-//            }
-//        }
-//
-//        hideSoftKeyboard();
-//    }
-
     private void moveCameraNearbyVendor(ParseUser user) {
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
         Log.d(TAG, "moveCamera : move the camera to : lat: " + user.getDouble("Latitude") + ",lng: " + user.getDouble("Longitude"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, DEFAULT_ZOOM));
         if(user.getParseFile("ProfileImg")!=null) {
-
-            /*File profileImg = null;
-            try {
-                profileImg = user.getParseFile("ProfileImg").getFile();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Bitmap profileImgBitmap = BitmapFactory.decodeFile(profileImg.getAbsolutePath());
-            profileImgBitmap = scaleBitmap(profileImgBitmap, 100, 100);*/
-
             ParseFile profileImgBitmap = user.getParseFile("ProfileImg");
             if (!user.getUsername().equals("my Location")) {
-                /*MarkerOptions markerOptions = new MarkerOptions()
-                        .position(coordinates)
-                        .title(user.getUsername())
-                        .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,user.getUsername())));
-                map.addMarker(markerOptions);*/
                 putAllMarkersOnMap(user,profileImgBitmap,coordinates);
             }
         }
@@ -393,12 +297,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         return output;
     }
 
-//    init();
-//        // Add a marker in Sydney, Australia, and move the camera.
-//        getAllVendors();
-//    }
-//
-
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("Category",true);
@@ -416,8 +314,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
                 for (int i=0; i <list.size(); i++){
                     Log.d(TAG,list.get(i).getUsername());
-//                    moveCamera(new LatLng(list.get(i).));
-//                    moveCameraVendor(list.get(i));
                     moveCameraNearbyVendor(list.get(i));
                 }
             }
@@ -448,7 +344,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
                 try {
                     addressescurrentuser = geocoder.getFromLocation(currentUser.getDouble("Latitude"), currentUser.getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//
                     city_currentuser = addressescurrentuser.get(0).getLocality();
                 }
                 catch (IOException ex) {
@@ -461,7 +356,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                     try {
                         Log.d(TAG, "done: Lat:"+list.get(i).getDouble("Latitude"));
                         addresses = geocoder.getFromLocation(list.get(i).getDouble("Latitude"), list.get(i).getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-//                        addresses = geocoder.getFromLocation(user.getDouble("Latitude"), user.getDouble("Longitude"), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
                        if(city_currentuser.equals(addresses.get(0).getLocality())){
                            Log.d(TAG, "done: current : "+addresses.get(0).getLocality()+" user : "+city_currentuser);
                            moveCameraNearbyVendor(list.get(i));
@@ -471,21 +366,11 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
                         LatLng coordinates = new LatLng(mUser.getDouble("Latitude"),mUser.getDouble("Longitude"));
                         ParseFile profileImgBitmap = mUser.getParseFile("ProfileImg");
 
-                        /*MarkerOptions markerOptions = new MarkerOptions()
-                                .position(coordinates)
-                                .title(mUser.getUsername())
-                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(getActivity(),profileImgBitmap,mUser.getUsername())));
-                        map.addMarker(markerOptions);*/
-
                         putAllMarkersOnMap(mUser,profileImgBitmap,coordinates);
-
-//                    if(currentUser.)
 
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                    //moveCamera(new LatLng(list.get(i).));
-
                 }
             }
         });
@@ -493,12 +378,7 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
 
     public void putAllMarkersOnMap(ParseUser user,ParseFile img,LatLng coordinates){
         Context context = (Context) getActivity();
-        String _name = "Lol";
-
-        /*MarkerOptions options = new MarkerOptions();
-        options.position(coordinates).title(user.getUsername())
-                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
-        mMap.addMarker(options);*/
+        String _name = "";
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
         Log.d("MAP_FETCH","Marker : "+img.getUrl());
