@@ -339,6 +339,7 @@ public class Negociation extends AppCompatActivity {
     }
 
     private void refreshMessages(){
+
         /*ParseQuery<Conversation> queryCount = ParseQuery.getQuery(Conversation.class);
         queryCount.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
         queryCount.whereEqualTo(Conversation.KEY_VENDOR,product.get_User());
@@ -391,7 +392,7 @@ public class Negociation extends AppCompatActivity {
             @Override
             public void done(List<Message> objects, ParseException e) {
                 if(e!=null){
-                    Log.d("Negociation","Erreur: "+e.getMessage());
+                    Log.d("Negociation","Erreur:"+e.getMessage());
                     e.printStackTrace();
                     return;
                 }
