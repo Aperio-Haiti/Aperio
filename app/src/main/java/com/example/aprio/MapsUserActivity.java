@@ -1,14 +1,14 @@
 package com.example.aprio;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,39 +20,31 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
-import android.widget.SearchView;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
+import com.example.aprio.Adapters.SearchAdapter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,11 +60,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.loopj.android.http.AsyncHttpRequest;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -80,11 +72,6 @@ import com.parse.ParseUser;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -421,7 +408,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void Search(){
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
+        /*AlertDialog.Builder mBuilder = new AlertDialog.Builder(MapsUserActivity.this);
         View mView = getLayoutInflater().inflate(R.layout.search_dialog,null);
 
         TextView inputSearch = mView.findViewById(R.id.input_search);
@@ -442,10 +429,76 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 }
                 return false;
             }
+        });*/
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsUserActivity.this);
+        AlertDialog alertDialog = builder.create();
+        View view = LayoutInflater.from(MapsUserActivity.this).inflate(R.layout.search_dialog,null);
+        ProgressBar progressBar = view.findViewById(R.id.progressBarSearch);
+        progressBar.setVisibility(View.INVISIBLE);
+
+        List<ParseUser> userList = new ArrayList<>();
+        RecyclerView rvSearch = view.findViewById(R.id.rvSearch);
+        SearchAdapter adapter = new SearchAdapter(MapsUserActivity.this,userList);
+        rvSearch.setLayoutManager(new LinearLayoutManager(MapsUserActivity.this,RecyclerView.VERTICAL,false));
+        rvSearch.setAdapter(adapter);
+
+        TextInputLayout inputLayout = view.findViewById(R.id.TextInput);
+        TextInputEditText etSearch = view.findViewById(R.id.etSearch);
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        inputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(query.isRunning()){
+                    query.cancel();
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.toString().contentEquals("")){
+                    progressBar.setVisibility(View.VISIBLE);
+                    query.whereContains("username",charSequence.toString());
+                    query.whereEqualTo("Category",true);
+                    query.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> objects, ParseException e) {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            Log.d("Search","Res: "+objects.size());
+                            if(e!=null){
+                                Log.d("Search","Erreur: "+e.getMessage());
+                                e.printStackTrace();
+                                return;
+                            }
+                            adapter.AddAllToList(objects);
+                        }
+                    });
+                }else{
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
+
+        ImageButton ibClose = view.findViewById(R.id.ibDialogClose);
+        ibClose.setOnClickListener(view1 -> alertDialog.dismiss());
+
+        alertDialog.setView(view);
+        alertDialog.show();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+
+        // Copy the alert dialog window attributes to new layout parameter instance
+        layoutParams.copyFrom(alertDialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        alertDialog.getWindow().setLayout(layoutParams.width, layoutParams.height);
     }
 
-    public void SearchVendor(String vendor_name, AlertDialog dialog){
+    /*public void SearchVendor(String vendor_name, AlertDialog dialog){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("username",vendor_name);
         query.getFirstInBackground(new GetCallback<ParseUser>() {
@@ -465,7 +518,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
         });
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
