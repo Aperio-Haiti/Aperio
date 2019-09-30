@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aprio.Fragment.FragmentLayout1;
 import com.example.aprio.Fragment.FragmentLayout2;
@@ -44,14 +47,23 @@ public class Signup_as_vendor extends AppCompatActivity implements FragmentLayou
 
     public void Fragment2(View view) {
         Fragment fm;
+        EditText name;
+        name =findViewById(R.id.etSignupName);
         if(view == findViewById(R.id.btnPost))
         {
-            fm = new FragmentLayout2();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.slideViewPager, fm,"Frag2")
-                    .addToBackStack("frag2").hide(f1).commit();
+            String n=name.getText().toString();
+            if(n.contentEquals("")) {
 
+                Toast.makeText(this, "Empty field", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                fm = new FragmentLayout2();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.slideViewPager, fm, "Frag2")
+                        .addToBackStack("frag2").hide(f1).commit();
+            }
         }
     }
 

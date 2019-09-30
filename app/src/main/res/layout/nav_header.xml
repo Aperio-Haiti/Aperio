@@ -53,17 +53,6 @@
         android:contentDescription="@null"
         tool:src="@drawable/shape_circle" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/ivUser"
-        android:fontFamily="@font/pacifico"
-        android:paddingTop="0dp"
-        android:text="@string/aperio_titre"
-        android:textAlignment="viewEnd"
-        android:textColor="@android:color/white"
-        android:textSize="36sp" />
+
 
 </RelativeLayout>
