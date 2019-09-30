@@ -63,6 +63,7 @@ public class ViewMessage extends AppCompatActivity {
                 adapter.AddAllToList(objects);
             }
         });*/
+
         ParseQuery<Conversation> query = ParseQuery.getQuery(Conversation.class);
         query.whereEqualTo(Conversation.KEY_USER,ParseUser.getCurrentUser());
         query.whereNotEqualTo(Conversation.KEY_VENDOR,ParseUser.getCurrentUser());
@@ -94,7 +95,6 @@ public class ViewMessage extends AppCompatActivity {
                 }*/
             }
         });
-
     }
 
     @Override
