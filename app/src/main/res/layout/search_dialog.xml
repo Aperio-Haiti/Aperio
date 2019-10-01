@@ -11,17 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar3"
-        android:elevation="5dp">
+        android:background="#2AB6B6B9"
+        android:padding="5dp"
+        app:errorEnabled="false"
+        app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/white"
             android:drawableStart="@drawable/ic_search_black_24dp"
             android:drawablePadding="8dp"
             android:drawableTint="@color/colorPrimary"
-            android:hint="hint"
+            android:elevation="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/search"
             android:padding="8dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

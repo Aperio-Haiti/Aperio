@@ -68,6 +68,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.mViewholde
         }
     }
 
+    public void clear(){
+        userList.clear();
+        notifyDataSetChanged();
+    }
+
     public void AddAllToList(List<ParseUser> list){
         userList.clear();
         userList.addAll(list);

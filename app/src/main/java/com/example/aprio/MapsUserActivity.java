@@ -387,6 +387,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.user_menu,menu);
+        menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
     }
 
@@ -398,10 +399,9 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         switch (item.getItemId()){
             case R.id.app_bar_search:
                     Search();
-
                 return true;
-            case R.id.app_bar_list:
-                return true;
+            /*case R.id.app_bar_list:
+                return true;*/
                 default:
                     return false;
         }
@@ -473,14 +473,14 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                         }
                     });
                 }else{
-                    list.clear();
-                    adapter.notifyDataSetChanged();
+                    adapter.clear();
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if(editable.toString().contentEquals(""))
+                    adapter.clear();
             }
         });
 
@@ -497,28 +497,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         alertDialog.getWindow().setLayout(layoutParams.width, layoutParams.height);
     }
-
-    /*public void SearchVendor(String vendor_name, AlertDialog dialog){
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username",vendor_name);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if(object!=null){
-                    Toast.makeText(getApplicationContext(),vendor_name,Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MapsUserActivity.this, ProfileDetail.class);
-                    intent.putExtra("Title",vendor_name);
-                    startActivity(intent);
-                    dialog.hide();
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Vendor not found",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
-        });
-    }*/
 
     @Override
     public void onBackPressed() {
