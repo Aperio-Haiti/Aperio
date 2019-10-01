@@ -17,7 +17,10 @@
         android:background="@color/colorPrimary"
         android:elevation="5dp"
         android:minHeight="?attr/actionBarSize">
-
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivUserAvatar"
             android:layout_width="45dp"
@@ -26,6 +29,18 @@
             app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:fontFamily="@font/pacifico"
+            android:text="@string/aperio_titre"
+            android:textColor="@color/colorToolbarIcons"
+            android:textSize="25sp"
+            android:gravity="center"
+            tools:ignore="RtlCompat" />
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
