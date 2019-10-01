@@ -17,6 +17,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -53,7 +54,15 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,8 +73,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.loopj.android.http.AsyncHttpRequest;
@@ -112,7 +123,18 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         setActionBar(toolbar);
         Objects.requireNonNull(getActionBar()).setDisplayShowTitleEnabled(false);
 
+        init();
 
+        fab = findViewById(R.id.fabLocateUser);
+        myCoordinates = new LatLng(18.534275,-72.324748);
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
+    public void init(){
         CircleImageView imageView = findViewById(R.id.ivUserAvatar);
 
         //navigationview
@@ -183,15 +205,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         //img on click to open drawer
         imageView.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
-
-
-        fab = findViewById(R.id.fabLocateUser);
-        myCoordinates = new LatLng(18.534275,-72.324748);
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -208,6 +221,55 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    private void CheckGPSAvailability(){
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10);
+        mLocationRequest.setSmallestDisplacement(10);
+        mLocationRequest.setFastestInterval(10);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+
+        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    // All location settings are satisfied. The client can initialize location
+                    // requests here.
+                    if(response.getLocationSettingsStates().isGpsUsable())
+                        Log.d("MapUserActivity","GPS : "+response.getLocationSettingsStates().isGpsUsable());
+                        getLastKnownLocation();
+
+                } catch (ApiException exception) {
+                    switch (exception.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            // Location settings are not satisfied. But could be fixed by showing the
+                            // user a dialog.
+                            try {
+                                // Cast to a resolvable exception.
+                                ResolvableApiException resolvable = (ResolvableApiException) exception;
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                resolvable.startResolutionForResult(MapsUserActivity.this, 101);
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            } catch (ClassCastException e) {
+                                // Ignore, should be an impossible error.
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            // Location settings are not satisfied. However, we have no way to fix the
+                            // settings so we won't show the dialog.
+                            break;
+                    }
+                }
+            }
+        });
+    }
 
     public void getAllVendors(){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -340,7 +402,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         if(checkPermissions()) {
             googleMap.setMyLocationEnabled(true);
-            getLastKnownLocation();
+            CheckGPSAvailability();
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -348,7 +410,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
             public void onClick(View view) {
                 if(checkPermissions()) {
                     googleMap.setMyLocationEnabled(true);
-                    getLastKnownLocation();
+                    CheckGPSAvailability();
                 }
             }
         });
@@ -466,6 +528,31 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        switch (requestCode) {
+            case 101:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        // All required changes were successfully made
+                        Toast.makeText(MapsUserActivity.this, states.isLocationPresent() + "", Toast.LENGTH_SHORT).show();
+                        getLastKnownLocation();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        // The user was asked to change settings, but chose not to
+                        Toast.makeText(MapsUserActivity.this, "Canceled "+states.isGpsUsable(), Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
+    }
+
+
 
     @Override
     public void onBackPressed() {
