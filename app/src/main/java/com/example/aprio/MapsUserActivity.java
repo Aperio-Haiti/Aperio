@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -107,6 +108,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 public class MapsUserActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private static final int REQUEST_FINE_LOCATION = 1234;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 134;
     private GoogleMap mMap;
     List<ParseUser> list;
     FloatingActionButton fab;
@@ -346,6 +348,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void getLastKnownLocation(){
+        mMap.setMyLocationEnabled(true);
         // Get last known recent location using new Google Play Services SDK (v11+)
         FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
         locationClient.getLastLocation()
@@ -400,18 +403,12 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if(checkPermissions()) {
-            googleMap.setMyLocationEnabled(true);
-            CheckGPSAvailability();
-        }
+        checkPermissions();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkPermissions()) {
-                    googleMap.setMyLocationEnabled(true);
-                    CheckGPSAvailability();
-                }
+                checkPermissions();
             }
         });
 
@@ -443,20 +440,74 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         return false;
     }
 
-    private boolean checkPermissions() {
+    private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Permission is not granted
+            //should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                showMessageOKCancel("Aperio works with Google Maps, location services is needed for a better user experience. \n Do you want to allow Aperio to access your location ?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ActivityCompat.requestPermissions(MapsUserActivity.this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                    }
+                });
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_ACCESS_LOCATION is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+
         } else {
-            requestPermissions();
-            return false;
+            //Permission has already been granted.
+            CheckGPSAvailability();
         }
     }
 
-    private void requestPermissions() {
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MapsUserActivity.this)
+                .setMessage(message)
+                .setPositiveButton("Allow", okListener)
+                .setNegativeButton("Deny", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION:{
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    CheckGPSAvailability();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+
+            }
+        }
+    }
+
+    /*private void requestPermissions() {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_FINE_LOCATION);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
