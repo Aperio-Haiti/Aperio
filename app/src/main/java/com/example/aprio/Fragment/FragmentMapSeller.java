@@ -232,33 +232,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         hideSoftKeyboard();
     }
 
-    public static Bitmap createCustomMarker(Context context, ParseFile img, String _name) {
-
-        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-
-        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
-        Glide.with(context).load(img.getUrl()).apply(new RequestOptions().placeholder(R.drawable.avatar).error(R.drawable.avatar)).into(markerImage);
-        markerImage.setBorderWidth(3);
-        markerImage.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
-
-
-
-        TextView txt_name = (TextView)marker.findViewById(R.id.name);
-        txt_name.setText(_name);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
-        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.buildDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        marker.draw(canvas);
-
-        return bitmap;
-    }
-
     private void hideSoftKeyboard() {
         Window window = getActivity().getWindow();
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -285,39 +258,6 @@ public class FragmentMapSeller extends Fragment implements OnMapReadyCallback, G
         }
 
         hideSoftKeyboard();
-    }
-
-    public static Bitmap scaleBitmap(Bitmap bitmap, int wantedWidth, int wantedHeight) {
-        Bitmap output = Bitmap.createBitmap(wantedWidth, wantedHeight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        Matrix m = new Matrix();
-        m.setScale((float) wantedWidth / bitmap.getWidth(), (float) wantedHeight / bitmap.getHeight());
-        canvas.drawBitmap(bitmap, m, new Paint());
-
-        return output;
-    }
-
-    public void getAllVendors(){
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("Category",true);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> objects, ParseException e) {
-                if(e!=null){
-                    Log.d(TAG,e.toString());
-                    e.printStackTrace();
-                    return;
-                }
-                list.clear();
-                list.addAll(objects);
-                Log.d(TAG,String.valueOf(list.size()));
-
-                for (int i=0; i <list.size(); i++){
-                    Log.d(TAG,list.get(i).getUsername());
-                    moveCameraNearbyVendor(list.get(i));
-                }
-            }
-        });
     }
 
     public void getAllNearbyVendors(){
