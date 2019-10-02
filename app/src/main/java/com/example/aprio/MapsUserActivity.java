@@ -329,15 +329,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(MapsUserActivity.this)
                 .setMessage(message)
@@ -366,10 +357,10 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                     LocationSettingsResponse response = task.getResult(ApiException.class);
                     // All location settings are satisfied. The client can initialize location
                     // requests here.
-                    if(response.getLocationSettingsStates().isGpsUsable())
+                    if(response.getLocationSettingsStates().isGpsUsable()){
                         Log.d("MapUserActivity","GPS : "+response.getLocationSettingsStates().isGpsUsable());
-                    getLastKnownLocation();
-
+                        getLastKnownLocation();
+                    }
                 } catch (ApiException exception) {
                     switch (exception.getStatusCode()) {
                         case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
