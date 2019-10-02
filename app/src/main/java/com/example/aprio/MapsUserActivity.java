@@ -16,7 +16,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -53,7 +55,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -64,8 +73,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.loopj.android.http.AsyncHttpRequest;
@@ -102,6 +113,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     LatLng myCoordinates;
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 134;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,14 +249,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
 
         LatLng coordinates = new LatLng(user.getDouble("Latitude"),user.getDouble("Longitude"));
 
-        /*
-        MarkerOptions options = new MarkerOptions();
-        options.position(coordinates).title(user.getUsername())
-                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarker(this,user.getParseFile("ProfileImg"),user.getUsername())));
-        mMap.addMarker(options);
-
-        */
-
         @SuppressLint("InflateParams") View marker = ((LayoutInflater) Objects.requireNonNull(context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))).inflate(R.layout.custom_marker_layout, null);
         Log.d("MAP_FETCH","Marker : "+img.getUrl());
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
@@ -284,6 +288,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void getLastKnownLocation(){
+        mMap.setMyLocationEnabled(true);
         // Get last known recent location using new Google Play Services SDK (v11+)
         FusedLocationProviderClient locationClient = getFusedLocationProviderClient(this);
         locationClient.getLastLocation()
@@ -299,7 +304,7 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
+                        Log.d("MapsUserActivity", "Error trying to get last GPS location");
                         e.printStackTrace();
                     }
                 });
@@ -333,23 +338,75 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MapsUserActivity.this)
+                .setMessage(message)
+                .setPositiveButton("Allow", okListener)
+                .setNegativeButton("Deny", null)
+                .create()
+                .show();
+    }
+
+    private void CheckGPSAvailability(){
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10);
+        mLocationRequest.setSmallestDisplacement(10);
+        mLocationRequest.setFastestInterval(10);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());
+
+        task.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    // All location settings are satisfied. The client can initialize location
+                    // requests here.
+                    if(response.getLocationSettingsStates().isGpsUsable())
+                        Log.d("MapUserActivity","GPS : "+response.getLocationSettingsStates().isGpsUsable());
+                    getLastKnownLocation();
+
+                } catch (ApiException exception) {
+                    switch (exception.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            // Location settings are not satisfied. But could be fixed by showing the
+                            // user a dialog.
+                            try {
+                                // Cast to a resolvable exception.
+                                ResolvableApiException resolvable = (ResolvableApiException) exception;
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                resolvable.startResolutionForResult(MapsUserActivity.this, 101);
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            } catch (ClassCastException e) {
+                                // Ignore, should be an impossible error.
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            // Location settings are not satisfied. However, we have no way to fix the
+                            // settings so we won't show the dialog.
+                            break;
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if(checkPermissions()) {
-            googleMap.setMyLocationEnabled(true);
-            getLastKnownLocation();
-        }
+        checkPermissions();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkPermissions()) {
-                    googleMap.setMyLocationEnabled(true);
-                    getLastKnownLocation();
-                }
+                checkPermissions();
             }
         });
 
@@ -364,12 +421,6 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         settings.setMapToolbarEnabled(false);
         settings.setMyLocationButtonEnabled(false);
 
-        /*Test coordinates on Parse
-        * 18.534275,-72.323027
-        * 18.533444,-72.324748
-        * 18.534899,-72.325964
-        * */
-
     }
 
     @Override
@@ -381,19 +432,59 @@ public class MapsUserActivity extends FragmentActivity implements OnMapReadyCall
         return false;
     }
 
-    private boolean checkPermissions() {
+    private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return true;
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Permission is not granted
+            //should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                showMessageOKCancel("Aperio works with Google Maps, location services is needed for a better user experience. \n Do you want to allow Aperio to access your location ?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ActivityCompat.requestPermissions(MapsUserActivity.this,
+                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                    }
+                });
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+
+                // MY_PERMISSIONS_REQUEST_ACCESS_LOCATION is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+
         } else {
-            requestPermissions();
-            return false;
+            //Permission has already been granted.
+            CheckGPSAvailability();
         }
     }
 
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_FINE_LOCATION);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION:{
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    CheckGPSAvailability();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+
+            }
+        }
     }
 
     @Override
