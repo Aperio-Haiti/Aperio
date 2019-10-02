@@ -106,7 +106,6 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 public class MapsUserActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private static final int REQUEST_FINE_LOCATION = 1234;
     private GoogleMap mMap;
     List<ParseUser> list;
     FloatingActionButton fab;
