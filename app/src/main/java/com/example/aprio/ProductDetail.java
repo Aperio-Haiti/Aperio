@@ -46,6 +46,8 @@ public class ProductDetail extends AppCompatActivity {
     Button btnCantactSeller;
     String objectId;
     Product product;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
