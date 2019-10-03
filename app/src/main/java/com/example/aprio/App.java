@@ -4,10 +4,12 @@ import android.app.Application;
 
 import com.example.aprio.Models.Category;
 import com.example.aprio.Models.Conversation;
+import com.example.aprio.Models.Favorites;
 import com.example.aprio.Models.Message;
 import com.example.aprio.Models.Product;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class App extends Application {
     @Override
@@ -18,6 +20,7 @@ public class App extends Application {
         ParseObject.registerSubclass(Category.class);
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(Conversation.class);
+        ParseObject.registerSubclass(Favorites.class);
 
 
 
