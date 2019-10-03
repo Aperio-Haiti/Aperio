@@ -25,6 +25,9 @@
             android:name=".ViewMessage"
             android:theme="@style/PrimaryTheme"/>
 
+        <activity android:name=".ViewFavorites"
+            android:theme="@style/PrimaryTheme"/>
+
         <activity
             android:name=".ProductDetail"
             android:theme="@style/PrimaryTheme" />

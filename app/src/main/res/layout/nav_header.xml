@@ -37,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_exit_to_app_black_24dp"
+            android:drawablePadding="5dp"
             android:text="@string/logout"
             android:textColor="@color/colorToolbarIcons"
             android:textSize="15sp" />
@@ -52,18 +54,5 @@
         android:layout_marginBottom="5dp"
         android:contentDescription="@null"
         tool:src="@drawable/shape_circle" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/ivUser"
-        android:fontFamily="@font/pacifico"
-        android:paddingTop="0dp"
-        android:text="@string/aperio_titre"
-        android:textAlignment="viewEnd"
-        android:textColor="@android:color/white"
-        android:textSize="36sp" />
 
 </RelativeLayout>
