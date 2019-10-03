@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +22,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.aprio.MapSellerActivity;
 import com.example.aprio.R;
+import com.example.aprio.SignUser;
+import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
@@ -110,52 +114,70 @@ public class FragmentLayout2 extends Fragment {
     }
 
     public void Sign_vendor(String username, String password, String email, String phone) {
-        ParseUser user = new ParseUser();
-        String address = etAddressSignupSeller.getText().toString().trim();
-        geoLocate();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.put("Address", address);
-        user.put("Category", true);
-        user.put("Phone",Integer.valueOf(phone));
-        user.put("Latitude", Lat);
-        user.put("Longitude",Lng);
 
-        ProgressDialog pd = new ProgressDialog(getActivity());
-        pd.setTitle("Creating account...");
-        pd.setMessage("Please wait.");
-        pd.setCancelable(false);
-        pd.show();
-
-        user.signUpInBackground(new SignUpCallback() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("email",email);
+        query.countInBackground(new CountCallback() {
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    ParseUser user1 = ParseUser.getCurrentUser();
-                    user1.put("ProfileImg",new ParseFile("avatar.jpg",DrawableToByteArray(R.drawable.avatar)));
-                    user1.saveInBackground(new SaveCallback() {
+            public void done(int count, ParseException e) {
+                if(e!=null){
+                    e.printStackTrace();
+                    return;
+                }
+                if(count!=0){
+                    Toast.makeText(getActivity(),"This email already bound to an account.\n Please choose another email.",Toast.LENGTH_LONG).show();
+                }else{
+                    ParseUser user = new ParseUser();
+                    String address = etAddressSignupSeller.getText().toString().trim();
+                    geoLocate();
+                    user.setUsername(username);
+                    user.setPassword(password);
+                    user.setEmail(email);
+                    user.put("Address", address);
+                    user.put("Category", true);
+                    user.put("Phone",Integer.valueOf(phone));
+                    user.put("Latitude", Lat);
+                    user.put("Longitude",Lng);
+
+                    ProgressDialog pd = new ProgressDialog(getActivity());
+                    pd.setTitle("Creating account...");
+                    pd.setMessage("Please wait.");
+                    pd.setCancelable(false);
+                    pd.show();
+
+                    user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
-                            pd.dismiss();
-                            if(e!=null){
+                            if (e == null) {
+                                ParseUser user1 = ParseUser.getCurrentUser();
+                                user1.put("ProfileImg",new ParseFile("avatar.jpg",DrawableToByteArray(R.drawable.avatar)));
+                                user1.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        pd.dismiss();
+                                        if(e!=null){
 
-                                e.printStackTrace();
-                                return;
+                                            e.printStackTrace();
+                                            return;
+                                        }
+                                        Intent i = new Intent(getContext(), MapSellerActivity.class);
+                                        startActivity(i);
+                                        getActivity().finish();
+                                    }
+                                });
+
+                            } else {
+                                pd.dismiss();
+                                ParseUser.logOut();
+                                Log.e(TAG,e.getMessage());
                             }
-                            Intent i = new Intent(getContext(), MapSellerActivity.class);
-                            startActivity(i);
-                            getActivity().finish();
                         }
                     });
-
-                } else {
-                    pd.dismiss();
-                    ParseUser.logOut();
-                    Log.e(TAG,e.getMessage());
                 }
             }
         });
+
+
     }
 
     @Override
